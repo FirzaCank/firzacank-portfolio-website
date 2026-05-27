@@ -1,0 +1,36 @@
+---
+title: "Nuclear Energy Policy Discourse Network Analysis"
+subtitle: "End-to-end pipeline scraping news and social media on Indonesia's nuclear and EBET debate, then running Gemini-powered actor, claim, stance, and sentiment extraction into a DNA + SNA dashboard."
+client: "Policy Research Initiative"
+role: "Data Engineer & AI Engineer"
+year: "2025"
+duration: "8 weeks"
+stack: ["Python", "Gemini API", "Web Scraping", "Sentiment Analysis", "pyvis", "Chart.js", "MongoDB"]
+liveUrl: "https://nuclear-dna.vercel.app/"
+liveLabel: "View live dashboard"
+---
+
+## Context
+
+A policy research initiative on Indonesia's nuclear and EBET (new and renewable energy) debate. The team had a research design in hand but no production grade pipeline to collect, parse, and visualize the discourse at scale. The deliverable was a proof of concept combining Discourse Network Analysis (DNA) with Social Network Analysis (SNA) and sentiment scoring across news media and social platforms.
+
+## Problem
+
+Classical content analysis would not scale to the data volume the team needed. Four concrete blockers:
+
+- Data lived across heterogenous sources. News articles and social media posts had to be scraped from multiple sites with their own structure, pagination, and rate limits.
+- Articles spanned Indonesian and English with code-mixed conventions, breaking off-the-shelf NLP.
+- Manual coding of actor, claim, stance, and sentiment was the bottleneck, not the data collection.
+- The team needed a defensible overview of where the public conversation actually stands, not just a dump of charts.
+
+## Approach
+
+1. Built scraping pipelines for both news search results (target keywords: nuclear, EBET, RUU EBET variants) and relevant social media posts, normalized into a single MongoDB schema with source provenance.
+2. Used the Gemini API as the parsing layer to extract actor, claim, stance, frame, and a sentiment score per item, with a prompt template tuned against a manually coded gold set so the LLM output stayed comparable to analyst coding.
+3. Constructed two network views: actor to claim (DNA) and actor to actor co-occurrence (SNA), persisted as edge lists and merged with sentiment so each edge carries a polarity signal.
+4. Rendered interactive networks with pyvis and Chart.js, plus sentiment timelines, exposed as a static HTML report bundle.
+5. Ran the pipeline on roughly 1,000 items across two snapshot windows to compare discourse shifts over time.
+
+## Outcome
+
+The proof of concept produced a working DNA + SNA + sentiment dashboard and an end-to-end pipeline the research team can rerun on new corpora. More importantly, it gave the team a clear overview of where Indonesia's nuclear policy conversation actually stands: two dominant coalition clusters, three recurring frames, and a sentiment skew that maps cleanly to which actor groups are driving the public conversation. The LLM extraction cut manual coding time by roughly an order of magnitude on the validation sample, and the live dashboard turned a one-off study into something the team can refresh and re-read as the policy debate evolves.

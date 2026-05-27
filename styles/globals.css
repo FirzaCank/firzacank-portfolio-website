@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #F5EFE4;
+  --color-ink: #1F2419;
+  --color-sage: #5A7058;
+  --color-terracotta: #B5552E;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Tabular, lining numerals for display headings and any element with .tabular */
+.font-display,
+.tabular {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+::selection {
+  background: #5A7058;
+  color: #FBF8F2;
+}
+
+/* Focus ring for accessibility */
+:focus-visible {
+  outline: 2px solid #B5552E;
+  outline-offset: 3px;
+  border-radius: 2px;
+}

@@ -1,0 +1,35 @@
+---
+title: "Google News Scraping + Gemini AI Aggregation"
+subtitle: "Always-on macro news scraping pipeline on Cloud Run, combining Google CSE and APIFY for retrieval with Gemini for structured aggregation into a research-ready store."
+client: "Macro research desk"
+role: "Data Engineer & AI Engineer"
+year: "2025"
+duration: "5 weeks"
+stack: ["Python", "Google CSE", "APIFY", "Gemini API", "Cloud Run", "Cloud Scheduler"]
+liveUrl: "https://github.com/FirzaCank/news-extraction"
+liveLabel: "View source on GitHub"
+---
+
+## Context
+
+A small research desk tracking monetary policy and FX needed continuous coverage of Bank Indonesia, inflation, and rupiah related news across Indonesian and English sources. Manual scanning was the bottleneck: by the time an analyst had read enough articles to brief the team, intraday signals were already stale.
+
+## Problem
+
+Three constraints shaped the build:
+
+- Coverage had to be intraday. A daily digest was not enough.
+- The Google Custom Search Engine (CSE) API caps results at 100 per query and deep paging at index 91, so a naive scheduler would either miss articles or burn quota.
+- Search results return only titles, snippets, and links. Article bodies had to be fetched separately, then parsed into structured fields the analysts could query.
+
+## Approach
+
+1. Built a single purpose scraper on Cloud Run that hits the Google CSE API on a fixed window (configurable 5 to 60 minutes), filters by `after:` date plus a strict in code timestamp check, and writes deduplicated records to monthly JSON files (`articles_YYYY-MM.json`) via a checkpoint store.
+2. Triggered the service from Cloud Scheduler so the cadence is decoupled from the application code. Queries and intervals are environment variables, so the team can tune coverage per topic without redeploying.
+3. Layered APIFY's Google Search Scraper actor on top for backfills and broader sweeps that exceed the CSE quota. Both sources write into the same normalized schema with a `source_kind` flag to mark which path produced each row.
+4. Routed article bodies through a Gemini parsing step that extracts actor, claim, stance, and a coarse sentiment tag per article, tuned against a small manually labeled gold set so the LLM output stayed comparable to analyst coding.
+5. Persisted everything as date partitioned JSON so analysts can pull a window directly into pandas or a notebook without an intermediate database.
+
+## Outcome
+
+The pipeline runs unattended and pushes structured news records into the research store at the chosen cadence. The desk swapped manual scanning for a queryable feed: rupiah, inflation, and BI policy queries all share the same parsing schema, so cross topic comparisons that used to take hours become a single filter. The Gemini layer cut manual coding on the validation sample by roughly an order of magnitude, and the modular split (CSE for live, APIFY for backfill, Gemini for parse) means each piece can be swapped without touching the rest.

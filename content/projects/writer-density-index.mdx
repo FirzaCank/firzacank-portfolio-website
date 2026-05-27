@@ -1,0 +1,35 @@
+---
+title: "Regional Writing Ecosystem Index (PCA)"
+subtitle: "PCA-based composite model explaining 68.2% of variance, ranking regional writing ecosystem strength across Indonesia for policy-ready insights."
+client: "Cultural Policy Think Tank"
+role: "Quantitative Analyst"
+year: "2024"
+duration: "5 weeks"
+stack: ["Python", "scikit-learn", "PCA", "Looker Studio", "Statistical Analysis"]
+liveUrl: "https://datastudio.google.com/reporting/b72379eb-e5d6-4837-825f-dd3d053f9a72"
+liveLabel: "View live dashboard"
+---
+
+## Context
+
+A cultural policy think tank needed a defensible way to compare regional writing ecosystems across Indonesia. The team had multiple raw indicators (certified writers, publishing activity, literacy proxies) but no single index that could rank provinces in a way policymakers would accept.
+
+## Problem
+
+Single indicators told contradictory stories. Three issues had to be solved:
+
+- Indicators were on different scales and units, so straight summation was meaningless.
+- Some variables were highly correlated, which would double count if left untreated.
+- The output had to be a single composite score that survived an academic review.
+
+## Approach
+
+1. Curated and cleaned the variable set across provinces, including LSP (certified writer and editor) counts at the regency level.
+2. Normalized variables with z scores, then ran a correlation audit to flag redundancy.
+3. Applied PCA, selected the first two components based on the scree plot and cumulative variance, and validated the loadings against domain expectation.
+4. Reconstructed a composite Writing Ecosystem Index from the component scores and ranked provinces.
+5. Packaged the methodology, the index, and the province ranking into a report and a slide narrative for the think tank's policy audience.
+
+## Outcome
+
+The first two principal components captured 68.2 percent of variance, with loadings that mapped cleanly to a production axis and a professionalization axis. The index ranked provinces in a way the team could defend, and the composite score plus the methodology section became the analytical core of the public facing report.

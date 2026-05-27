@@ -1,0 +1,33 @@
+---
+title: "Debt Collection Analytics & Agent Productivity"
+subtitle: "Ten months of monthly call center data unified into a Looker Studio dashboard and a narrative report on collection performance, agent productivity, and root cause findings."
+client: "Banking collections agency"
+role: "Data Analyst"
+year: "2025"
+duration: "6 weeks"
+stack: ["Python", "Pandas", "Excel", "Looker Studio", "Google Sheets"]
+---
+
+## Context
+
+A banking collections operation running on hundreds of agents and a multi trillion rupiah delinquent portfolio. Monthly daily reports were arriving as separate Excel files, with no unified view across agents, regions, or time. Management could not answer simple questions like "who are our consistent top performers" or "where is the recovery actually coming from" without rebuilding the analysis from scratch every month.
+
+## Problem
+
+- Ten monthly Excel workbooks (Feb to Nov 2025), each with its own quirks: header drift, merged cells, inconsistent agent name spellings.
+- Headline numbers looked alarming: 95.6% unconnected rate and 1.56% success rate against an industry benchmark of 15 to 25%. Leadership needed a defensible explanation, not just the metric.
+- One agent had clearly anomalous numbers (zero connected calls but the highest "paid count"), which would distort any naive ranking and undermine trust in the dashboard.
+
+## Approach
+
+1. Built a Python ETL that ingests each monthly workbook, normalizes the schema, harmonizes agent identifiers, and outputs two clean partitioned datasets per month for downstream use.
+2. Layered a data quality pass on top: flagged the anomalous agent for investigation rather than silently filtering, so the conversation with operations could happen on top of clean data instead of being blocked by it.
+3. Designed a Looker Studio dashboard with three lenses — overall portfolio health, agent productivity, and regional breakdown — so executives, team leads, and ops each land on the view that matches their decision.
+4. Wrote the analysis as a narrative report: each finding paired with a root cause hypothesis and a tiered recommendation (immediate, short term, long term), so the deliverable was not just numbers but a defensible plan.
+5. Benchmarked top vs bottom decile agents on contact rate, PTP conversion, and call duration to surface specific behaviors leadership could coach on, rather than a generic "improve performance" message.
+
+## Outcome
+
+The dashboard became the monthly review artifact: leadership, team leads, and the data team all worked off the same numbers. The narrative report reframed the 95.6% unconnected rate as a data quality problem rather than an agent skill problem, redirecting investment toward contact database validation and skip tracing. Top performer benchmarks (10 to 15 minute optimal call duration, 2 to 3 attempts per account, 15 to 20% PTP conversion on connected calls) gave the coaching program concrete targets instead of vague advice, and the tiered recommendations (immediate / short term / long term) turned a one-off audit into an action backlog the operations team could execute against.
+
+The live dashboard is kept private under the client's data confidentiality terms.

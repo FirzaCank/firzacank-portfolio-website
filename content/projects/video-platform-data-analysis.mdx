@@ -1,0 +1,42 @@
+---
+title: "Video Platform Data Analysis"
+subtitle: "Behavior and growth deep dive for an AI-powered gaming clip platform: surfacing the activation levers that move retention and clip output per creator."
+client: "AI gaming clip platform"
+role: "Data Analyst"
+year: "2025"
+duration: "6 weeks"
+stack: ["SQL", "Python", "Tableau", "Pitch Deck"]
+---
+
+## Context
+
+An AI assistant for gaming creators that turns long gameplay streams into highlight clips automatically. The product sits between the gameplay capture layer and social distribution (TikTok, YouTube Shorts, Reels), so every creator who finishes onboarding either becomes a recurring source of AI-generated clips or churns silently. Growth had plateaued and the founding team wanted to know whether the bottleneck was acquisition, activation, or content output per creator.
+
+## Problem
+
+Internal dashboards reported headline numbers but missed the cohort view. The team could not answer three questions with confidence:
+
+- Which onboarding step quietly bleeds the most users before they ever generate a clip?
+- Do power creators behave differently from the median in week one of using the AI clip generator?
+- Where does the funnel break for users who connect their gameplay capture but never publish a clip?
+
+Without that, every roadmap discussion turned into opinion.
+
+## Approach
+
+I scoped the analysis around the publish event (the AI-generated clip going live on a connected social account) as the activation proxy, then worked backward.
+
+1. Pulled a 90 day event extract via SQL, joined with subscription state and the AI clip generation log.
+2. Built a Python notebook for cohort retention, funnel decay, and AI feature usage per persona (auto-clip, manual edit, batch export).
+3. Stress tested three persona splits (casual streamer, semi-pro, agency / multi-channel) against publish rate, AI clip generation frequency, and session cadence.
+4. Wrapped the findings in a Tableau workbook plus a 12 slide pitch deck for the leadership read-out.
+
+## Outcome
+
+Three things changed after the read-out:
+
+- Onboarding step three (connecting the gameplay capture source) was identified as the largest drop-off and rewritten the following sprint.
+- Power creators showed a distinct day-one AI feature pattern that became the basis for a new activation checklist surfaced inside the product.
+- The team agreed on a single north star metric (creators publishing an AI-generated clip in week one) and retired four vanity charts.
+
+The deck became the working document for the next two quarterly planning rounds.

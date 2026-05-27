@@ -1,0 +1,33 @@
+---
+title: "Heavy Equipment Preventive Maintenance Dashboard"
+subtitle: "Looker Studio dashboard for excavator cylinder and hose lifecycle: stock vs demand per unit, midlife rehousing forecast, and parts readiness for mining-grade Komatsu fleets."
+client: "Mining contractor"
+role: "Data Analyst"
+year: "2025"
+duration: "4 weeks"
+stack: ["Looker Studio", "Google Sheets", "Excel", "Python"]
+liveUrl: "https://datastudio.google.com/reporting/a2d9a460-0ae0-4f6d-87ed-d51f65bfb72e"
+liveLabel: "View live dashboard"
+---
+
+## Context
+
+A mining contractor operating a fleet of large Komatsu excavators (PC2000, PC1250, PC850 class) needed forward visibility into cylinder and hose rehousing demand. Lifetime data lived in workbooks maintained by the maintenance planner, indexed by EGI (unit serial), section (boom, arm, bucket), and part number. Stock for overhaul (stock OVH) was tracked separately, and the only way to know whether the parts were ready when a cylinder hit its rehousing window was to manually cross check the two.
+
+## Problem
+
+- Cylinder and hose lifetime data sat across multiple sheets per excavator class, with serial number ranges (`20196-20453`, `20454-UP`) determining which part number applied. Manual lookups were error prone.
+- "Need per cylinder" vs "stock OVH" was a per row calculation in Excel, with no aggregated view to flag shortages before they impacted scheduling.
+- The planning meeting wanted a single screen showing which unit needs what part next, but the source data was structured for parts catalogs, not for time forward planning.
+
+## Approach
+
+1. Restructured the source workbooks into a clean tabular dataset: one row per unit + section + component + part number, with stock and need columns aligned and serial range logic flattened so it could be joined cleanly downstream.
+2. Built a parts demand model in Sheets that combines current lifetime status with the rehousing interval per cylinder type, producing a forward window of which units come due in the next month, quarter, and year.
+3. Designed a Looker Studio dashboard with three lenses — fleet level readiness (parts ready vs shortage), per unit timeline (when each EGI hits its next milestone), and part level (where stock is below need across the fleet).
+4. Added an exception view that surfaces the small subset of rows where stock OVH is zero against an upcoming need, so the planner can act on a shortlist instead of scanning the whole workbook.
+5. Documented the data refresh as a lightweight monthly process so the maintenance planner can update the source sheet and the dashboard stays in sync.
+
+## Outcome
+
+The dashboard replaced ad hoc spreadsheet lookups with a single planning view that the maintenance team uses in their monthly review. Forward visibility on parts demand let procurement order against an actual list of upcoming jobs instead of buffer stocking everything, and the exception view turned shortage detection from a periodic audit into a daily check.
