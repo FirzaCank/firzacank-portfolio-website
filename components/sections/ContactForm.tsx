@@ -114,11 +114,10 @@ export default function ContactForm({ to }: { to: string }) {
                 key={t}
                 type="button"
                 onClick={() => setTopic(t)}
-                className={`rounded-full border px-3.5 py-1.5 font-sans text-xs transition-colors ${
-                  topic === t
+                className={`rounded-full border px-3.5 py-1.5 font-sans text-xs transition-colors ${topic === t
                     ? "border-ink bg-ink text-beige-card"
                     : "border-ink/25 bg-beige-card text-ink hover:border-sage hover:text-sage"
-                }`}
+                  }`}
               >
                 {t}
               </button>
@@ -213,7 +212,7 @@ export default function ContactForm({ to }: { to: string }) {
           Alternative methods (Failsafe)
         </p>
         <p className="mt-2 font-sans text-xs text-ink-muted leading-relaxed">
-          If direct sending fails (e.g. before API configuration is complete) or if you prefer using your email client, you can use these options:
+          If direct sending fails or if you prefer using your email client, you can use these options:
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <button
