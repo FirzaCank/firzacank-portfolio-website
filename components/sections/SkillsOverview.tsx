@@ -17,7 +17,7 @@ export default function SkillsOverview() {
         <div className="mt-12 grid gap-x-12 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
           {SKILL_GROUPS.map((g) => (
             <div key={g.group}>
-              <p className="font-sans text-xs uppercase tracking-[0.2em] text-ink-muted">
+              <p className="font-sans text-sm font-bold uppercase tracking-[0.2em] text-sage underline underline-offset-4 decoration-sage/40">
                 {g.group}
               </p>
               <ul className="mt-3 flex flex-wrap gap-x-2 gap-y-1">

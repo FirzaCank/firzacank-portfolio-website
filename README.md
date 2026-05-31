@@ -1,4 +1,4 @@
-# Firza Chandra Sandjaya Putra — Portfolio
+# Firza Chandra Sandjaya Putra - Portfolio
 
 Personal portfolio showcasing fulltime data engineering work and freelance side projects across data analysis, dashboards, pitch decks, and AI engineering.
 

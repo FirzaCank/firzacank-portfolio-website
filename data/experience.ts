@@ -19,7 +19,7 @@ export const ROLES: Role[] = [
     id: "hypefast",
     company: "PT Hypefast Karya Nusantara",
     title: "Data Engineer",
-    period: "March 2025 — Present",
+    period: "March 2025 - Present",
     current: true,
     location: "Jakarta, Indonesia",
     summary:
@@ -53,7 +53,7 @@ export const ROLES: Role[] = [
     company: "PT IDstar Cipta Teknologi",
     placement: "Placement in PT XL Axiata Tbk.",
     title: "Data Engineer / ETL Developer",
-    period: "July 2022 — March 2025",
+    period: "July 2022 - March 2025",
     location: "Jakarta, Indonesia",
     summary:
       "Built telco-scale data platforms processing 1B+ daily records with Medallion architecture, plus partner-facing analytics products.",
@@ -79,7 +79,7 @@ export const ROLES: Role[] = [
     id: "telkom",
     company: "Telkom Indonesia",
     title: "Data Scientist Internship",
-    period: "February 2021 — August 2021",
+    period: "February 2021 - August 2021",
     internship: true,
     location: "Jakarta, Indonesia",
     summary:
@@ -94,7 +94,7 @@ export const ROLES: Role[] = [
     id: "arindo",
     company: "PT Arindo Cipta Perkasa",
     title: "Production Systems and Business Analyst Internship",
-    period: "November 2020 — April 2021",
+    period: "November 2020 - April 2021",
     internship: true,
     location: "Bogor Regency, Indonesia",
     summary:
@@ -109,7 +109,7 @@ export const ROLES: Role[] = [
     id: "banopolis",
     company: "Banopolis Inovasi Kendara",
     title: "Business Development Internship",
-    period: "June 2020 — August 2020",
+    period: "June 2020 - August 2020",
     internship: true,
     location: "Bandung, Indonesia",
     summary:

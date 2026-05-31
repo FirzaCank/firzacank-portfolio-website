@@ -34,6 +34,12 @@ export const DECKS: Record<string, DeckConfig> = {
     pdfLabel: "Download deck (PDF)",
     title: "From the deck",
   },
+  "commission-performance-review": {
+    slides: [1, 2, 3, 4, 5, 6],
+    pdfFile: "commission-deck.pdf",
+    pdfLabel: "Download deck (PDF)",
+    title: "From the deck",
+  },
 };
 
 // Map slug → folder name in /public/decks/
@@ -42,6 +48,7 @@ export const DECK_SLUG_TO_FOLDER: Record<string, string> = {
   "ecommerce-pitch-deck-valuation": "blibli",
   "nuclear-policy-dna-sna": "nuclear",
   "writer-density-index": "writer",
+  "commission-performance-review": "commission",
 };
 
 // Extra dashboard/screenshot galleries per project slug.

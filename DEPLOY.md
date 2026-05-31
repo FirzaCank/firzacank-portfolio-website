@@ -62,7 +62,7 @@ Then re-run the commit.
 
 1. Open https://github.com/new
 2. Repository name: `personal-website` (or `firzacank-portfolio`, your choice)
-3. Description: `Personal portfolio — Next.js 15 + Tailwind. firzacank.vercel.app`
+3. Description: `Personal portfolio - Next.js 15 + Tailwind. firzacank.vercel.app`
 4. Visibility: **Public**
 5. Do NOT check "Add a README", "Add .gitignore", or "Choose a license" (you already have these)
 6. Click **Create repository**

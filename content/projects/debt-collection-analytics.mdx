@@ -22,7 +22,7 @@ A banking collections operation running on hundreds of agents and a multi trilli
 
 1. Built a Python ETL that ingests each monthly workbook, normalizes the schema, harmonizes agent identifiers, and outputs two clean partitioned datasets per month for downstream use.
 2. Layered a data quality pass on top: flagged the anomalous agent for investigation rather than silently filtering, so the conversation with operations could happen on top of clean data instead of being blocked by it.
-3. Designed a Looker Studio dashboard with three lenses — overall portfolio health, agent productivity, and regional breakdown — so executives, team leads, and ops each land on the view that matches their decision.
+3. Designed a Looker Studio dashboard with three lenses (overall portfolio health, agent productivity, and regional breakdown) so executives, team leads, and ops each land on the view that matches their decision.
 4. Wrote the analysis as a narrative report: each finding paired with a root cause hypothesis and a tiered recommendation (immediate, short term, long term), so the deliverable was not just numbers but a defensible plan.
 5. Benchmarked top vs bottom decile agents on contact rate, PTP conversion, and call duration to surface specific behaviors leadership could coach on, rather than a generic "improve performance" message.
 

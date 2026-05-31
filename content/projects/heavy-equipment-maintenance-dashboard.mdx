@@ -24,7 +24,7 @@ A mining contractor operating a fleet of large Komatsu excavators (PC2000, PC125
 
 1. Restructured the source workbooks into a clean tabular dataset: one row per unit + section + component + part number, with stock and need columns aligned and serial range logic flattened so it could be joined cleanly downstream.
 2. Built a parts demand model in Sheets that combines current lifetime status with the rehousing interval per cylinder type, producing a forward window of which units come due in the next month, quarter, and year.
-3. Designed a Looker Studio dashboard with three lenses — fleet level readiness (parts ready vs shortage), per unit timeline (when each EGI hits its next milestone), and part level (where stock is below need across the fleet).
+3. Designed a Looker Studio dashboard with three lenses - fleet level readiness (parts ready vs shortage), per unit timeline (when each EGI hits its next milestone), and part level (where stock is below need across the fleet).
 4. Added an exception view that surfaces the small subset of rows where stock OVH is zero against an upcoming need, so the planner can act on a shortlist instead of scanning the whole workbook.
 5. Documented the data refresh as a lightweight monthly process so the maintenance planner can update the source sheet and the dashboard stays in sync.
 

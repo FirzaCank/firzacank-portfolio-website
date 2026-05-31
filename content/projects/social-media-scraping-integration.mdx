@@ -20,7 +20,7 @@ A marketing research team needed continuous profile and content data from five s
 
 ## Approach
 
-1. Designed a modular architecture with three layers — parsers (URL normalization), collectors (platform API calls), and models (canonical profile + content shape) — so adding a sixth platform later is a matter of dropping in three small classes, not refactoring the pipeline.
+1. Designed a modular architecture with three layers - parsers (URL normalization), collectors (platform API calls), and models (canonical profile + content shape) - so adding a sixth platform later is a matter of dropping in three small classes, not refactoring the pipeline.
 2. Built a unified `SocialMediaService` orchestrator that walks the input CSV, dispatches to the right collector per row, normalizes the response, and writes outputs to a consistent layout (profiles vs content, partitioned by platform).
 3. Containerized the service and deployed it two ways: a Cloud Run job for scheduled batches, and a Flask app for ad hoc HTTP triggers with `/health` and `/metrics` endpoints for observability.
 4. Added a `ProgressTracker` backed by Google Cloud Storage so runs are resumable. If a batch dies on row 4,200 of 8,000, the next invocation picks up where it left off instead of redoing the first half.

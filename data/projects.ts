@@ -47,6 +47,16 @@ export const PROJECTS: Project[] = [
     featured: true,
   },
   {
+    slug: "commission-performance-review",
+    title: "Affiliate Commission Performance Review & Recovery Plan",
+    subtitle:
+      "Root-cause analysis of a 34% commission revenue decline: funnel diagnosis, cohort retention, and a two-track recovery playbook for leadership.",
+    client: "E-commerce affiliate platform",
+    categories: ["data-analyst", "pitch-deck"],
+    stack: ["Python", "Excel", "PowerPoint", "Funnel Analysis", "Cohort Analysis"],
+    year: "2026",
+  },
+  {
     slug: "ecommerce-pitch-deck-valuation",
     title: "E-commerce Strategic Valuation & Growth Outlook",
     subtitle:

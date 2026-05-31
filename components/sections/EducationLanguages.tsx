@@ -35,7 +35,7 @@ export default function EducationLanguages() {
 
             <div className="mt-12 border-t border-ink/20 pt-8">
               <h3 className="font-display text-2xl text-ink tracking-tighter">
-                Continuing education
+                Course & Certification
               </h3>
               <p className="mt-1 font-sans text-sm text-ink-muted">
                 Self-directed courses and certifications.

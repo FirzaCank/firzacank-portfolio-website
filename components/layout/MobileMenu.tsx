@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { NAV_ITEMS, CV_URL } from "@/data/nav";
 import { cn } from "@/lib/utils";
 
@@ -10,11 +10,27 @@ export default function MobileMenu() {
   const [expanded, setExpanded] = useState<string | null>(null);
 
   // Lock body scroll when menu is open
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+  // useLayoutEffect ensures styles are applied before the browser paints,
+  // preventing a visual jump when the overlay transitions in.
+  useLayoutEffect(() => {
+    if (open) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.left = "";
+        document.body.style.right = "";
+        document.body.style.overflow = "";
+        // Use 'instant' to override CSS scroll-behavior:smooth
+        // so the page snaps back to the exact position without drifting.
+        window.scrollTo({ top: scrollY, behavior: "instant" });
+      };
+    }
   }, [open]);
 
   // Close on Escape

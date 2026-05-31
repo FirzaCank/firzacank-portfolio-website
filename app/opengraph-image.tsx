@@ -1,8 +1,8 @@
 import { ImageResponse } from "next/og";
 import { SITE_NAME, SITE_TAGLINE } from "@/lib/site";
 
-export const runtime = "edge";
-export const alt = `${SITE_NAME} — ${SITE_TAGLINE}`;
+export const runtime = "nodejs";
+export const alt = `${SITE_NAME} - ${SITE_TAGLINE}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -65,7 +65,7 @@ export default async function Image() {
               lineHeight: 1.4,
             }}
           >
-            Data pipelines, MLOps, dashboards, and AI engineering — fulltime
+            Data pipelines, MLOps, dashboards, and AI engineering - fulltime
             and freelance.
           </div>
         </div>
