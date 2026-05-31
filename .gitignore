@@ -32,3 +32,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# python virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# raw presentation/assets (keep git clean of large binaries)
+*.pptx
+*.ppt
+*.xlsx
+*.xls
+
