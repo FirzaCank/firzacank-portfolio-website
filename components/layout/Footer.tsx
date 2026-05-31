@@ -51,6 +51,16 @@ export default function Footer() {
               </li>
               <li>
                 <a
+                  href={SOCIAL_LINKS.lynk}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-sans text-sm text-ink hover:text-sage transition-colors"
+                >
+                  Lynk.id
+                </a>
+              </li>
+              <li>
+                <a
                   href={SOCIAL_LINKS.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"

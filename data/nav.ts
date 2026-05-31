@@ -18,6 +18,7 @@ export const CV_URL_JA = "/firza-cv-ja.xlsx"; // Japanese resume (履歴書・�
 
 export const SOCIAL_LINKS = {
   email: "firzasandjaya@gmail.com",
+  lynk: "https://lynk.id/firzacank",
   linkedin: "https://linkedin.com/in/firzaputra/",
   github: "https://github.com/FirzaCank",
   hackerrank: "https://hackerrank.com/profile/firzasandjaya",

@@ -84,6 +84,7 @@ export default function ContactPage() {
                   Profiles
                 </p>
                 <ul className="mt-4 space-y-2">
+                  <SocialRow label="Lynk.id" href={SOCIAL_LINKS.lynk} />
                   <SocialRow label="LinkedIn" href={SOCIAL_LINKS.linkedin} />
                   <SocialRow label="GitHub" href={SOCIAL_LINKS.github} />
                   <SocialRow

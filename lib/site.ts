@@ -10,4 +10,4 @@ export const SITE_NAME = "Firza Chandra Sandjaya Putra";
 export const SITE_TAGLINE = "Data & AI Engineer";
 
 export const SITE_DESCRIPTION =
-  "Data Engineer and AI Engineer with 4+ years building end-to-end data pipelines, MLOps frameworks, dashboards, and freelance analytics work.";
+  "Data Engineer, AI Engineer, and ML Engineer with ~4 years of expertise building end-to-end data pipelines, MLOps frameworks, and scalable AI solutions.";

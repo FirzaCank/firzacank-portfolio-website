@@ -146,7 +146,7 @@ export const PROJECTS: Project[] = [
       "Reference catalog and ingestion layer mapping all 549 BPS office domains for a coordinating ministry.",
     client: "Indonesian coordinating ministry",
     categories: ["data-engineer"],
-    stack: ["Python", "BPS Web API", "CSV", "JSON"],
+    stack: ["Python", "BPS Web API", "Javascript", "CSV", "JSON"],
     year: "2025",
   },
   {
