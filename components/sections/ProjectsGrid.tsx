@@ -23,10 +23,14 @@ const CATEGORY_ORDER: ProjectCategory[] = [
 export default function ProjectsGrid() {
   const [filter, setFilter] = useState<Filter>("all");
 
+  const sortedProjects = useMemo(() => {
+    return [...PROJECTS].sort((a, b) => Number(b.year) - Number(a.year));
+  }, []);
+
   const filtered = useMemo(() => {
-    if (filter === "all") return PROJECTS;
-    return PROJECTS.filter((p) => p.categories.includes(filter));
-  }, [filter]);
+    if (filter === "all") return sortedProjects;
+    return sortedProjects.filter((p) => p.categories.includes(filter));
+  }, [filter, sortedProjects]);
 
   const counts = useMemo(() => {
     const c: Record<string, number> = { all: PROJECTS.length };

@@ -24,11 +24,11 @@ export default function CTA() {
               </p>
             </div>
             <h2 className="mt-6 font-display text-4xl md:text-5xl font-extrabold text-beige-card tracking-tighter">
-              Need to build scalable big data pipelines and unlock AI-driven insights?
+              Need to streamline workflows with automated pipelines or unlock data-driven insights that win your next pitch deck?
             </h2>
             <p className="mt-4 max-w-lg font-sans text-base text-beige-card/80">
               Open for consulting work in data engineering,
-              analytics (pitch deck or dashboard), data science, machine learning, and AI engineering.
+              analytics (pitch deck/dashboard/Excel/Sheets), data science, machine learning, MLOps, and AI engineering.
             </p>
           </div>
 
