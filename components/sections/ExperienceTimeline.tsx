@@ -68,7 +68,7 @@ export default function ExperienceTimeline() {
               {role.location}
             </p>
 
-            <p className="mt-5 max-w-prose font-sans text-base text-ink-muted leading-relaxed">
+            <p className="mt-5 max-w-none font-sans text-base text-ink-muted leading-relaxed">
               {role.summary}
             </p>
 

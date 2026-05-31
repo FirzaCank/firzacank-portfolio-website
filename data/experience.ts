@@ -90,4 +90,36 @@ export const ROLES: Role[] = [
     ],
     stack: ["Python", "Pandas", "Business Modeling"],
   },
+  {
+    id: "arindo",
+    company: "PT Arindo Cipta Perkasa",
+    title: "Production Systems and Business Analyst Internship",
+    period: "November 2020 - April 2021",
+    internship: true,
+    location: "Bogor Regency, Indonesia",
+    summary:
+      "Production operations analysis and scheduling optimization for manufacturing operations.",
+    highlights: [
+      "Analyzed data and identified root causes of potential problems to recommend improvements in production operations.",
+      "Recommended solution ideas to minimize total time on production scheduling optimization by heuristic algorithm based on analysis data to management, reducing total time by 10.84% (996 minutes) using the NEH Nawaz, Enscore, and Ham algorithm.",
+    ],
+    stack: ["Production Scheduling", "Heuristic Algorithm", "Manufacturing", "Data Analysis"],
+  },
+  {
+    id: "banopolis",
+    company: "Banopolis Inovasi Kendara",
+    title: "Business Development Internship",
+    period: "June 2020 - August 2020",
+    internship: true,
+    location: "Bandung, Indonesia",
+    summary:
+      "Business development for GETBIKE ride sharing product. Proposed B2B and B2B2G models, designed partnership scheme with PT Telkom Indonesia.",
+    highlights: [
+      "Proposed a new business model of GETBIKE B2B and B2B2G ride sharing using 3 tools (Business Model Canvas, Value Proposition Canvas, Lean Canvas). Management implemented the ideas for the product within 1 month.",
+      "Ideated solutions using How Might We Question method for every element in the Business Model Canvas in 2 weeks.",
+      "Designed the partnership model scheme with PT Telkom Indonesia in 2 weeks.",
+      "Devised application of agile methods in 2 critical business processes related to the Covid-19 pandemic situation in 1 month.",
+    ],
+    stack: ["Business Model Canvas", "Value Proposition Canvas", "Lean Canvas", "Agile"],
+  },
 ];

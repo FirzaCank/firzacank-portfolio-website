@@ -12,14 +12,14 @@ export default function ExperienceIntro() {
         <div className="flex items-center gap-3">
           <span className="h-px w-10 bg-sage" />
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-sage">
-            Experience
+            Work Experience
           </p>
         </div>
 
         <h1 className="mt-6 max-w-4xl font-display text-5xl md:text-7xl font-extrabold tracking-tightest text-ink leading-[1.05]">
           Real Production
           <br />
-          data systems.
+          Professional Work Experience.
         </h1>
 
         <p className="mt-8 max-w-prose font-sans text-lg text-ink-muted leading-[1.75]">
