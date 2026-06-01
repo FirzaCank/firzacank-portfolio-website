@@ -50,13 +50,6 @@ export default function ContactForm({ to }: { to: string }) {
     }
   };
 
-  const handleMailto = () => {
-    const subject = encodeURIComponent(`[${topic}] from ${name || "website visitor"}`);
-    const body = encodeURIComponent(
-      `${message || "(No message)"}\n\n---\nFrom: ${name || "(No name)"}\nReply to: ${email || "(No email)"}`,
-    );
-    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
-  };
 
   const handleCopyDraft = () => {
     const subjectLine = `[${topic}] from ${name || "website visitor"}`;
@@ -212,30 +205,10 @@ export default function ContactForm({ to }: { to: string }) {
           Alternative methods (Failsafe)
         </p>
         <p className="mt-2 font-sans text-xs text-ink-muted leading-relaxed">
-          If direct sending fails or if you prefer using your email client, you can use these options:
+          If direct sending fails or if you prefer to send it manually, you can copy the draft message:
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-3">
-          <button
-            type="button"
-            onClick={handleMailto}
-            className="inline-flex items-center gap-2 rounded-full border border-ink/25 bg-beige-card px-4 py-2.5 font-sans text-xs text-ink transition-colors hover:border-sage hover:text-sage"
-          >
-            Open in email client
-            <svg
-              className="h-3 w-3"
-              viewBox="0 0 14 14"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+
           <button
             type="button"
             onClick={handleCopyDraft}

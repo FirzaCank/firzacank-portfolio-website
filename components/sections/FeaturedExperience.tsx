@@ -4,7 +4,7 @@ import { ROLES } from "@/data/experience";
 export default function FeaturedExperience() {
   return (
     <section className="mx-auto max-w-container px-6 md:px-10 py-20 md:py-section">
-      <div className="grid gap-12 md:grid-cols-[1fr_2fr] md:gap-16">
+      <div className="grid gap-12 md:grid-cols-[1fr_2.5fr] md:gap-16">
         {/* Left: section heading */}
         <div className="md:sticky md:top-28 md:self-start">
           <div className="flex items-center gap-3">
@@ -47,7 +47,7 @@ export default function FeaturedExperience() {
           {ROLES.map((role) => (
             <li
               key={role.id}
-              className="group border-t border-ink/25 last:border-b py-6 transition-colors hover:bg-beige-card"
+              className="group border-t border-ink/25 last:border-b px-4 md:px-6 py-6 transition-all hover:bg-beige-card hover:rounded-xl"
             >
               <Link
                 href={`/experience#${role.id}`}

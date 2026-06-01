@@ -63,8 +63,7 @@ export default function ContactPage() {
                 Send a message.
               </h2>
               <p className="mt-3 max-w-prose font-sans text-sm text-ink-muted">
-                The form opens your email client with the message pre-filled, so
-                there is no third-party form service in between.
+                Send a secure message directly to Firza&rsquo;s inbox. If direct sending fails, you can use the failsafe option to copy your draft.
               </p>
 
               <ContactForm to={SOCIAL_LINKS.email} />
