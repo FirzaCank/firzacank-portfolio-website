@@ -27,18 +27,13 @@ WCAG AA/AAA verified palette:
 | `ink` | `#1F2419` | Body text, AAA |
 | `ink-muted` | `#4A5145` | Secondary text, AAA |
 
-## Development
+## Documentation
 
-```bash
-npm install
-npm run dev
-```
+For technical guides on working with this project, refer to the following documents:
 
-Open http://localhost:3000.
-
-## Deployment
-
-See [DEPLOY.md](./DEPLOY.md) for step-by-step push to GitHub and connect to Vercel.
+- **[Development Guide](./DEVELOPMENT.md)**: Setup instructions, local running instructions, and package scripts.
+- **[Deployment Guide](./DEPLOY.md)**: Steps to push to GitHub and deploy to production on Vercel.
+- **[Project Structure](./STRUCTURE.md)**: Architecture details, directory outline, and coding conventions.
 
 ## License
 
