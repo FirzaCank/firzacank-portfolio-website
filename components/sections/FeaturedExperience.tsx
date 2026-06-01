@@ -55,7 +55,7 @@ export default function FeaturedExperience() {
                 aria-label={`${role.title} at ${role.company}`}
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-                  <div className="flex flex-wrap items-baseline gap-3">
+                  <div className="flex flex-wrap items-center gap-3">
                     <h3 className="font-display text-2xl md:text-3xl text-ink tracking-tighter">
                       {role.company}
                     </h3>
@@ -99,7 +99,7 @@ function Pill({
       : "bg-ink/10 text-ink-muted";
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-[10px] font-medium uppercase tracking-widest ${cls}`}
+      className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-[10px] font-medium uppercase tracking-widest relative -translate-y-[1px] md:-translate-y-[2px] ${cls}`}
     >
       {children}
     </span>

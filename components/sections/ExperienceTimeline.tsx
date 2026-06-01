@@ -130,7 +130,7 @@ function Pill({
       : "bg-ink/10 text-ink-muted";
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-[10px] font-medium uppercase tracking-widest ${cls}`}
+      className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-[10px] font-medium uppercase tracking-widest relative -translate-y-[1px] md:-translate-y-[2px] ${cls}`}
     >
       {children}
     </span>
