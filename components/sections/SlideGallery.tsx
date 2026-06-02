@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 export type SlideGalleryProps = {
   /** Slug used to locate slides under /public/decks/{slug}/slide-XX.png */
@@ -33,9 +33,11 @@ export default function SlideGallery({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const lightboxRef = useRef<HTMLDivElement | null>(null);
 
-  const items: number[] = images
-    ? images.map((_, i) => i + 1)
-    : slides ?? [];
+  const items = useMemo(() => {
+    return images
+      ? images.map((_, i) => i + 1)
+      : slides ?? [];
+  }, [images, slides]);
   const basePath = slug ? `/decks/${slug}` : "";
 
   const slidePath = (n: number) =>
