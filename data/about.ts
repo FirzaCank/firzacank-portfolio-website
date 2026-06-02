@@ -9,16 +9,19 @@ export const BIO_PARAGRAPHS = [
 export type EducationItem = {
   institution: string;
   degree: string;
+  faculty: string;
   detail?: string;
   period?: string;
 };
 
 export const EDUCATION: EducationItem[] = [
   {
-    institution: "Bandung Institute of Technology (ITB)",
-    degree: "Bachelor's Degree, Industrial Engineering",
+    institution: "Bandung Institute of Technology (ITB), Indonesia",
+    degree: "Bachelor's Degree",
+    faculty: "Faculty of Industrial Technology, Industrial Engineering",
     detail:
-      "Paid assistant at Production System Laboratory (LSP), Faculty of Industrial Technology",
+      "Contributed at paid assistant at Production System Laboratory (LSP), Faculty of Industrial Technology",
+    period: "August 2017 - July 2021",
   },
 ];
 
@@ -78,6 +81,25 @@ export const LEADERSHIP: LeadershipItem[] = [
       "Performed the Social Mapping project for MTI 2018 students to identify the 10 best group combinations.",
       "Produced appreciation cards for every member at the end of the management period, with 100% staff coverage.",
     ],
+  },
+];
+
+export type AchievementItem = {
+  title: string;
+  context: string;
+  issuer: string;
+};
+
+export const ACHIEVEMENTS: AchievementItem[] = [
+  {
+    title: "Top Finalist",
+    context: "Java Business Case National Competition 2019",
+    issuer: "Telkom University",
+  },
+  {
+    title: "Scholarship Awardee",
+    context: "Rumah Sahabat Muda Salman 2.0 ITB Scholarship 2017-2018",
+    issuer: "Salman Mosque in Bandung Institute of Technology (ITB)",
   },
 ];
 
