@@ -57,6 +57,16 @@ export const PROJECTS: Project[] = [
     year: "2026",
   },
   {
+    slug: "content-strategy-revenue-deck",
+    title: "Content Strategy & Revenue Projection Pitch Deck",
+    subtitle:
+      "Market gap analysis, podcast-to-workshop funnel strategy, and 3-month financial projection for a social media influencer's relationship content platform.",
+    client: "Company X",
+    categories: ["pitch-deck", "data-analyst", "financial-analyst"],
+    stack: ["PowerPoint", "Excel", "Python", "Market Analysis", "Financial Modeling"],
+    year: "2026",
+  },
+  {
     slug: "ecommerce-pitch-deck-valuation",
     title: "E-commerce Strategic Valuation & Growth Outlook",
     subtitle:
