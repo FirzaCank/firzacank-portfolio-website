@@ -89,6 +89,36 @@ export default function Footer() {
                   HackerRank
                 </a>
               </li>
+              <li>
+                <a
+                  href={SOCIAL_LINKS.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-sans text-sm text-ink hover:text-sage transition-colors"
+                >
+                  YouTube
+                </a>
+              </li>
+              <li>
+                <a
+                  href={SOCIAL_LINKS.fastwork}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-sans text-sm text-ink hover:text-sage transition-colors"
+                >
+                  Fastwork
+                </a>
+              </li>
+              <li>
+                <a
+                  href={SOCIAL_LINKS.projectsCoId}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-sans text-sm text-ink hover:text-sage transition-colors"
+                >
+                  Projects.co.id
+                </a>
+              </li>
             </ul>
           </div>
         </div>

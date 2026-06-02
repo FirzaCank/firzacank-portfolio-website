@@ -22,4 +22,8 @@ export const SOCIAL_LINKS = {
   linkedin: "https://linkedin.com/in/firzaputra/",
   github: "https://github.com/FirzaCank",
   hackerrank: "https://hackerrank.com/profile/firzasandjaya",
+  youtube: "https://www.youtube.com/@firzachandra4169",
+  fastwork: "https://fastwork.id/user/firzachan/data-analysis-18839765",
+  projectsCoId: "https://projects.co.id/public/browse_users/view/62a95c/cankcimen12",
 };
+
