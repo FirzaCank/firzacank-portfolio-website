@@ -11,7 +11,7 @@ export default function SkillsOverview() {
           </p>
         </div>
         <h2 className="mt-6 max-w-2xl font-display text-4xl md:text-5xl font-extrabold text-ink tracking-tighter">
-          The tools I reach for.
+          My engineering stack.
         </h2>
 
         <div className="mt-12 grid gap-x-12 gap-y-10 md:grid-cols-2 lg:grid-cols-3">

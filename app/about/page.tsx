@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import AboutIntro from "@/components/sections/AboutIntro";
 import EducationLanguages from "@/components/sections/EducationLanguages";
 import Leadership from "@/components/sections/Leadership";
+import Achievements from "@/components/sections/Achievements";
 import SkillsOverview from "@/components/sections/SkillsOverview";
 import CTA from "@/components/sections/CTA";
 
@@ -17,6 +18,7 @@ export default function AboutPage() {
       <AboutIntro />
       <EducationLanguages />
       <Leadership />
+      <Achievements />
       <SkillsOverview />
       <CTA />
     </>
