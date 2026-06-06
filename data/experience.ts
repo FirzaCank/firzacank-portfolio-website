@@ -17,7 +17,7 @@ export type Role = {
 export const ROLES: Role[] = [
   {
     id: "hypefast",
-    company: "PT Hypefast Karya Nusantara",
+    company: "Hypefast",
     title: "Data Engineer",
     period: "March 2025 - Present",
     current: true,
@@ -50,7 +50,7 @@ export const ROLES: Role[] = [
   },
   {
     id: "idstar",
-    company: "PT IDstar Cipta Teknologi",
+    company: "IDstar Cipta Teknologi",
     placement: "Placement in PT XL Axiata Tbk.",
     title: "Data Engineer and Analytics / ETL Developer",
     period: "July 2022 - March 2025",
