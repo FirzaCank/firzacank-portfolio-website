@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SOCIAL_LINKS } from "@/data/nav";
+import CopyEmailButton from "@/components/ui/CopyEmailButton";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -42,12 +43,7 @@ export default function Footer() {
             </p>
             <ul className="mt-4 space-y-2">
               <li>
-                <a
-                  href={`mailto:${SOCIAL_LINKS.email}`}
-                  className="font-sans text-sm text-ink hover:text-sage transition-colors"
-                >
-                  Email
-                </a>
+                <CopyEmailButton variant="link" label="Email" />
               </li>
               <li>
                 <a

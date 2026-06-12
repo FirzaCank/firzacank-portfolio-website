@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SOCIAL_LINKS } from "@/data/nav";
+import CopyEmailButton from "@/components/ui/CopyEmailButton";
 
 export default function CTA() {
   return (
@@ -23,7 +24,7 @@ export default function CTA() {
                 Let&rsquo;s talk
               </p>
             </div>
-            <h2 className="mt-6 font-display text-4xl md:text-5xl font-extrabold text-beige-card tracking-tighter">
+            <h2 className="mt-6 font-satoshi text-4xl md:text-5xl font-extrabold text-beige-card tracking-tighter">
               Need to streamline workflows with automated pipelines or unlock data-driven insights that win your next pitch deck?
             </h2>
             <p className="mt-4 max-w-lg font-sans text-base text-beige-card/80">
@@ -53,12 +54,7 @@ export default function CTA() {
                 />
               </svg>
             </Link>
-            <a
-              href={`mailto:${SOCIAL_LINKS.email}`}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-beige-card/30 px-6 py-3 font-sans text-sm font-medium text-beige-card transition-colors hover:bg-beige-card/10"
-            >
-              {SOCIAL_LINKS.email}
-            </a>
+            <CopyEmailButton variant="cta-dark" />
           </div>
         </div>
       </div>

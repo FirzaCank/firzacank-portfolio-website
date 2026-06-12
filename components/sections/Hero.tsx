@@ -172,78 +172,49 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.5 }}
               className="mt-10 flex flex-wrap items-center gap-6"
             >
-              <a
-                href={SOCIAL_LINKS.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="text-ink-muted hover:text-sage transition-all duration-300 transform hover:scale-110"
-              >
+              <SocialIcon label="LinkedIn" href={SOCIAL_LINKS.linkedin}>
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
                   <rect x="2" y="9" width="4" height="12" />
                   <circle cx="4" cy="4" r="2" />
                 </svg>
-              </a>
-              <a
-                href={`mailto:${SOCIAL_LINKS.email}`}
-                aria-label="Gmail"
-                className="text-ink-muted hover:text-sage transition-all duration-300 transform hover:scale-110"
-              >
+              </SocialIcon>
+
+              <SocialIcon label="Email" copyEmail>
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="4" width="20" height="16" rx="2" />
                   <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                 </svg>
-              </a>
-              <a
-                href={SOCIAL_LINKS.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="YouTube"
-                className="text-ink-muted hover:text-sage transition-all duration-300 transform hover:scale-110"
-              >
+              </SocialIcon>
+
+              <SocialIcon label="YouTube" href={SOCIAL_LINKS.youtube}>
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
                   <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" />
                 </svg>
-              </a>
-              <a
-                href={SOCIAL_LINKS.lynk}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Lynk.id"
-                className="text-ink-muted hover:text-sage transition-all duration-300 transform hover:scale-110"
-              >
+              </SocialIcon>
+
+              <SocialIcon label="Lynk.id" href={SOCIAL_LINKS.lynk}>
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                 </svg>
-              </a>
-              <a
-                href={SOCIAL_LINKS.fastwork}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Fastwork"
-                className="text-ink-muted hover:text-sage transition-all duration-300 transform hover:scale-110"
-              >
+              </SocialIcon>
+
+              <SocialIcon label="Fastwork" href={SOCIAL_LINKS.fastwork}>
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10" />
                   <path d="M14.5 8.5h-2a2 2 0 0 0-2 2v2H9.5m3 0v5M9.5 12.5h4" />
                 </svg>
-              </a>
-              <a
-                href={SOCIAL_LINKS.projectsCoId}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Projects.co.id"
-                className="text-ink-muted hover:text-sage transition-all duration-300 transform hover:scale-110"
-              >
+              </SocialIcon>
+
+              <SocialIcon label="Projects.co.id" href={SOCIAL_LINKS.projectsCoId}>
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10" />
                   <path d="M9.5 8.5h3.5a2.5 2.5 0 0 1 0 5H9.5v4" />
                   <path d="M9.5 13.5h3.5" />
                 </svg>
-              </a>
+              </SocialIcon>
             </motion.div>
           </div>
 
@@ -305,6 +276,56 @@ function Arrow() {
         strokeLinejoin="round"
       />
     </svg>
+  );
+}
+
+const EMAIL = "firzasandjaya@gmail.com";
+
+function SocialIcon({
+  label,
+  href,
+  copyEmail,
+  children,
+}: {
+  label: string;
+  href?: string;
+  copyEmail?: boolean;
+  children: React.ReactNode;
+}) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try { await navigator.clipboard.writeText(EMAIL); }
+    catch {
+      const el = document.createElement("input");
+      el.value = EMAIL;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  const iconCls = "text-ink-muted hover:text-sage transition-all duration-300 transform hover:scale-110";
+  const tooltipCls = "absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded px-2 py-0.5 font-sans text-[11px] text-beige-card bg-ink opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none";
+
+  return (
+    <div className="relative group flex flex-col items-center">
+      {copyEmail ? (
+        <button type="button" onClick={handleCopy} aria-label={label} className={iconCls}>
+          {children}
+        </button>
+      ) : (
+        <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className={iconCls}>
+          {children}
+        </a>
+      )}
+      <span className={tooltipCls}>
+        {copyEmail && copied ? "Copied!" : label}
+      </span>
+    </div>
   );
 }
 
