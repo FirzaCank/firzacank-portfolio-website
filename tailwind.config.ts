@@ -31,6 +31,7 @@ const config: Config = {
       fontFamily: {
         display: ["var(--font-bricolage)", "ui-sans-serif", "system-ui", "sans-serif"],
         sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
+        satoshi: ["var(--font-satoshi)", "sans-serif"],
       },
       fontSize: {
         // Modular scale 1.25

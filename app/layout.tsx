@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "@/styles/globals.css";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
@@ -17,6 +18,16 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
+});
+
+const satoshi = localFont({
+  src: [
+    { path: "../public/fonts/Satoshi-Variable.woff2" },
+    { path: "../public/fonts/Satoshi-Variable.woff" },
+  ],
+  variable: "--font-satoshi",
+  display: "swap",
+  weight: "300 900",
 });
 
 export const metadata: Metadata = {
@@ -51,7 +62,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${inter.variable}`}>
+    <html lang="en" className={`${bricolage.variable} ${inter.variable} ${satoshi.variable}`}>
       <body className="font-sans bg-beige text-ink antialiased" suppressHydrationWarning>
         <a
           href="#main"
