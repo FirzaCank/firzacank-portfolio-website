@@ -46,7 +46,7 @@ export default function ExperienceTimeline() {
             {/* Header row */}
             <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b-2 border-ink/40 pb-4">
               <div className="flex flex-wrap items-center gap-3">
-                <h2 className="font-display text-3xl md:text-4xl text-ink tracking-tighter">
+                <h2 className="font-satoshi text-3xl md:text-4xl text-ink tracking-tighter">
                   {role.company}
                 </h2>
                 {role.current && <Pill variant="sage">Current</Pill>}

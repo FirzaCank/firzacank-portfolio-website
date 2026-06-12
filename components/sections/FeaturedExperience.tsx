@@ -13,7 +13,7 @@ export default function FeaturedExperience() {
               Experience
             </p>
           </div>
-          <h2 className="mt-6 font-display text-4xl md:text-5xl font-extrabold text-ink tracking-tighter">
+          <h2 className="mt-6 font-satoshi text-4xl md:text-5xl font-extrabold text-ink tracking-tighter">
             Where I&rsquo;ve built.
           </h2>
           <p className="mt-4 max-w-sm font-sans text-base text-ink-muted">

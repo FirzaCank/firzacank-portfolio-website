@@ -112,7 +112,7 @@ export default function SlideGallery({
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-sage">
             {eyebrow}
           </p>
-          <h2 className="mt-2 font-display text-3xl md:text-4xl text-ink tracking-tighter">
+          <h2 className="mt-2 font-satoshi text-3xl md:text-4xl text-ink tracking-tighter">
             {title}
           </h2>
         </div>

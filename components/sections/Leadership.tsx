@@ -11,7 +11,7 @@ export default function Leadership() {
               Leadership
             </p>
           </div>
-          <h2 className="mt-6 font-display text-4xl md:text-5xl font-extrabold text-ink tracking-tighter">
+          <h2 className="mt-6 font-satoshi text-4xl md:text-5xl font-extrabold text-ink tracking-tighter">
             Beyond the code.
           </h2>
           <p className="mt-4 max-w-sm font-sans text-base text-ink-muted">

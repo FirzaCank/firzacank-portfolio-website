@@ -99,7 +99,7 @@ export default function ProjectsGrid() {
               </span>
             </div>
 
-            <h2 className="relative mt-5 font-display text-xl md:text-2xl text-ink tracking-tighter leading-tight">
+            <h2 className="relative mt-5 font-satoshi text-xl md:text-2xl text-ink tracking-tighter leading-tight">
               {p.title}
             </h2>
 

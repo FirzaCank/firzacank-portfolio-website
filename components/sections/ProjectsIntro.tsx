@@ -16,7 +16,7 @@ export default function ProjectsIntro() {
           </p>
         </div>
 
-        <h1 className="mt-6 max-w-4xl font-display text-5xl md:text-7xl font-extrabold tracking-tightest text-ink leading-[1.05]">
+        <h1 className="mt-6 max-w-4xl font-satoshi text-5xl md:text-7xl font-extrabold tracking-tightest text-ink leading-[1.05]">
           {PROJECTS.length} Project Highlights
         </h1>
 

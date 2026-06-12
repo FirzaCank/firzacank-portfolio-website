@@ -25,10 +25,8 @@ export default function ContactPage() {
             </p>
           </div>
 
-          <h1 className="mt-8 max-w-4xl font-display font-extrabold tracking-tightest text-ink text-4xl sm:text-5xl md:text-6xl leading-[1.1]">
-            <span className="text-ink-muted">&ldquo;</span>Ready to turn raw
-            data into scalable architecture and AI systems that drive revenue?
-            <span className="text-ink-muted">&rdquo;</span>
+          <h1 className="mt-8 max-w-4xl font-satoshi font-extrabold tracking-tightest text-ink text-4xl sm:text-5xl md:text-6xl leading-[1.1]">
+            Ready to turn raw data into scalable architecture and AI systems that drive revenue?
           </h1>
 
           <p className="mt-6 inline-flex items-center gap-3 font-display text-2xl md:text-3xl text-sage tracking-tighter">
@@ -59,7 +57,7 @@ export default function ContactPage() {
           <div className="grid gap-12 md:grid-cols-[1.3fr_1fr] md:gap-16">
             {/* Left: Form */}
             <div>
-              <h2 className="font-display text-3xl md:text-4xl text-ink tracking-tighter">
+              <h2 className="font-satoshi text-3xl md:text-4xl text-ink tracking-tighter">
                 Send a message.
               </h2>
               <p className="mt-3 max-w-prose font-sans text-sm text-ink-muted">

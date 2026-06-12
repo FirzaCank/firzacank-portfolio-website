@@ -17,7 +17,7 @@ export default function AboutIntro() {
           </p>
         </div>
 
-        <h1 className="mt-6 font-display text-5xl md:text-7xl font-extrabold tracking-tightest text-ink leading-[1.05]">
+        <h1 className="mt-6 font-satoshi text-5xl md:text-7xl font-extrabold tracking-tightest text-ink leading-[1.05]">
           Building data systems
           <br />
           that ship outcomes.

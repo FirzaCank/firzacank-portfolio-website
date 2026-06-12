@@ -12,7 +12,7 @@ export default function EducationLanguages() {
               Foundation
             </p>
           </div>
-          <h2 className="mt-6 font-display text-3xl md:text-4xl text-ink tracking-tighter">
+          <h2 className="mt-6 font-satoshi text-3xl md:text-4xl text-ink tracking-tighter">
             Education.
           </h2>
 
@@ -56,7 +56,7 @@ export default function EducationLanguages() {
                 Certification
               </p>
             </div>
-            <h2 className="mt-6 font-display text-3xl md:text-4xl text-ink tracking-tighter">
+            <h2 className="mt-6 font-satoshi text-3xl md:text-4xl text-ink tracking-tighter">
               Course &amp; Certification.
             </h2>
             <p className="mt-2 font-sans text-sm text-ink-muted">
@@ -88,7 +88,7 @@ export default function EducationLanguages() {
                 Languages
               </p>
             </div>
-            <h2 className="mt-6 font-display text-3xl md:text-4xl text-ink tracking-tighter">
+            <h2 className="mt-6 font-satoshi text-3xl md:text-4xl text-ink tracking-tighter">
               How I communicate.
             </h2>
 

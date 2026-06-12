@@ -10,7 +10,7 @@ export default function SkillsOverview() {
             Tech Stack
           </p>
         </div>
-        <h2 className="mt-6 max-w-2xl font-display text-4xl md:text-5xl font-extrabold text-ink tracking-tighter">
+        <h2 className="mt-6 max-w-2xl font-satoshi text-4xl md:text-5xl font-extrabold text-ink tracking-tighter">
           My engineering stack.
         </h2>
 

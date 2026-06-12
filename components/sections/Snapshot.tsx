@@ -33,7 +33,7 @@ export default function Snapshot() {
             Impact at a glance
           </p>
         </div>
-        <h2 className="mt-6 max-w-2xl font-display text-3xl md:text-4xl text-ink tracking-tighter">
+        <h2 className="mt-6 max-w-2xl font-satoshi text-3xl md:text-4xl text-ink tracking-tighter">
           Engineered for Production Impact.
         </h2>
 
