@@ -18,6 +18,7 @@ export type CaseStudyFrontmatter = {
   tags?: string[];
   liveUrl?: string;
   liveLabel?: string;
+  githubUrl?: string;
 };
 
 export type CaseStudy = {
