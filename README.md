@@ -8,10 +8,11 @@ Live: https://firzacank.vercel.app
 
 - Next.js 15 (App Router) + TypeScript
 - Tailwind CSS with custom design tokens
-- Bricolage Grotesque (display) + Inter (body) via `next/font`
+- Satoshi Variable (headings) + Bricolage Grotesque (display) + Inter (body) via `next/font` + `next/font/local`
 - Framer Motion for reveal animations
-- MDX-based project case studies
+- MDX-based project case studies with `githubUrl` frontmatter support
 - Dynamic OG images via `next/og`
+- Copy-to-clipboard email with toast notification (hero, footer, CTA, contact)
 
 ## Design tokens
 
@@ -51,6 +52,7 @@ app/                     # Next.js App Router routes
 components/
   layout/                # Nav, Footer, MobileMenu
   sections/              # Hero, FeaturedProjects, ContactForm, SlideGallery, etc.
+  ui/                    # Shared UI (CopyEmailButton, etc.)
   mdx-components.tsx     # MDX renderer overrides
 content/projects/        # 10 case studies (.mdx)
 data/                    # nav, projects, decks, about, experience
@@ -61,5 +63,6 @@ public/
   decks/                 # Anonymized slide thumbnails + PDFs
   screenshots/           # Dashboard screenshots
   images/                # Portrait
+  fonts/                 # Satoshi Variable (woff2/woff)
 styles/globals.css       # Tailwind entry + custom resets
 ```
