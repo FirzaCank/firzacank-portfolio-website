@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NAV_ITEMS, CV_URL, CV_URL_JA } from "@/data/nav";
 import { cn } from "@/lib/utils";
@@ -9,6 +10,10 @@ import MobileMenu from "./MobileMenu";
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const pathname = usePathname();
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -31,8 +36,14 @@ export default function Nav() {
           {/* Logo */}
           <Link
             href="/"
-            className="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/25 text-ink transition-all hover:border-sage hover:bg-sage hover:text-beige-card"
             aria-label="Home"
+            aria-current={isActive("/") ? "page" : undefined}
+            className={cn(
+              "group inline-flex h-10 w-10 items-center justify-center rounded-full border transition-all hover:border-sage hover:bg-sage hover:text-beige-card",
+              isActive("/")
+                ? "border-sage bg-sage text-beige-card"
+                : "border-ink/25 text-ink",
+            )}
           >
             <svg
               className="h-4 w-4"
@@ -58,6 +69,7 @@ export default function Nav() {
             {NAV_ITEMS.map((item) => {
               if (item.children) {
                 const isOpen = openDropdown === item.label;
+                const active = isActive(item.href);
                 return (
                   <div
                     key={item.label}
@@ -71,7 +83,13 @@ export default function Nav() {
                       }
                       aria-expanded={isOpen}
                       aria-haspopup="true"
-                      className="inline-flex items-center gap-1.5 px-4 py-2 font-sans text-sm text-ink hover:text-sage transition-colors"
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-sans text-sm transition-colors",
+                        active
+                          ? "bg-sage/15 font-semibold text-sage-deep"
+                          : "text-ink-muted hover:text-sage",
+                      )}
                     >
                       {item.label}
                       <svg
@@ -131,11 +149,18 @@ export default function Nav() {
                 );
               }
 
+              const active = isActive(item.href);
               return (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="px-4 py-2 font-sans text-sm text-ink hover:text-sage transition-colors"
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "rounded-full px-4 py-2 font-sans text-sm transition-colors",
+                    active
+                      ? "bg-sage/15 font-semibold text-sage-deep"
+                      : "text-ink-muted hover:text-sage",
+                  )}
                 >
                   {item.label}
                 </Link>

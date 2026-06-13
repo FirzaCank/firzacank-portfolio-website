@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { NAV_ITEMS, CV_URL } from "@/data/nav";
 import { cn } from "@/lib/utils";
@@ -8,6 +9,10 @@ import { cn } from "@/lib/utils";
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
+  const pathname = usePathname();
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   // Lock body scroll when menu is open
   // useLayoutEffect ensures styles are applied before the browser paints,
@@ -90,15 +95,22 @@ export default function MobileMenu() {
               {NAV_ITEMS.map((item) => {
                 if (item.children) {
                   const isExpanded = expanded === item.label;
+                  const active = isActive(item.href);
                   return (
                     <li key={item.label} className="border-b border-ink/20">
                       <button
                         type="button"
                         aria-expanded={isExpanded}
+                        aria-current={active ? "page" : undefined}
                         onClick={() =>
                           setExpanded(isExpanded ? null : item.label)
                         }
-                        className="flex w-full items-center justify-between py-4 font-display text-3xl text-ink"
+                        className={cn(
+                          "flex w-full items-center justify-between py-4 font-display text-3xl transition-colors",
+                          active
+                            ? "-mx-3 rounded-xl bg-sage/15 px-3 text-sage-deep font-bold"
+                            : "text-ink-muted",
+                        )}
                       >
                         {item.label}
                         <svg
@@ -154,12 +166,19 @@ export default function MobileMenu() {
                   );
                 }
 
+                const active = isActive(item.href);
                 return (
                   <li key={item.label} className="border-b border-ink/20">
                     <Link
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className="block py-4 font-display text-3xl text-ink"
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "block py-4 font-display text-3xl transition-colors",
+                        active
+                          ? "-mx-3 rounded-xl bg-sage/15 px-3 text-sage-deep font-bold"
+                          : "text-ink-muted",
+                      )}
                     >
                       {item.label}
                     </Link>
