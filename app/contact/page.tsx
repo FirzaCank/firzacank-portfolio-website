@@ -100,6 +100,7 @@ export default function ContactPage() {
                   <SocialRow label="Lynk.id" href={SOCIAL_LINKS.lynk} />
                   <SocialRow label="LinkedIn" href={SOCIAL_LINKS.linkedin} />
                   <SocialRow label="GitHub" href={SOCIAL_LINKS.github} />
+                  <SocialRow label="Tableau Public" href={SOCIAL_LINKS.tableau} />
                   <SocialRow
                     label="HackerRank"
                     href={SOCIAL_LINKS.hackerrank}
@@ -197,6 +198,12 @@ function getSocialIcon(label: string) {
         <svg className={css} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="10" />
           <path d="M8 8v8M16 8v8M8 12h8" />
+        </svg>
+      );
+    case "tableau public":
+      return (
+        <svg className={css} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 3v18M3 12h18M7.5 7.5v9M16.5 7.5v9M3.5 12H7M17 12h3.5M12 4.5v3M12 16.5v3" />
         </svg>
       );
     case "youtube":

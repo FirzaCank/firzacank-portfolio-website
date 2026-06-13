@@ -21,6 +21,7 @@ export const SOCIAL_LINKS = {
   lynk: "https://lynk.id/firzacank",
   linkedin: "https://linkedin.com/in/firzaputra/",
   github: "https://github.com/FirzaCank",
+  tableau: "https://public.tableau.com/app/profile/firza.putra/vizzes",
   hackerrank: "https://hackerrank.com/profile/firzasandjaya",
   youtube: "https://www.youtube.com/@firzachandra4169",
   fastwork: "https://fastwork.id/user/firzachan/data-analysis-18839765",

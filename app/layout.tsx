@@ -82,6 +82,7 @@ export const metadata: Metadata = {
 const SAME_AS = [
   SOCIAL_LINKS.linkedin,
   SOCIAL_LINKS.github,
+  SOCIAL_LINKS.tableau,
   SOCIAL_LINKS.hackerrank,
   SOCIAL_LINKS.youtube,
   SOCIAL_LINKS.lynk,

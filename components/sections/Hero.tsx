@@ -194,6 +194,12 @@ export default function Hero() {
                 </svg>
               </SocialIcon>
 
+              <SocialIcon label="Tableau Public" href={SOCIAL_LINKS.tableau}>
+                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3v18M3 12h18M7.5 7.5v9M16.5 7.5v9M3.5 12H7M17 12h3.5M12 4.5v3M12 16.5v3" />
+                </svg>
+              </SocialIcon>
+
               <SocialIcon label="Lynk.id" href={SOCIAL_LINKS.lynk}>
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />

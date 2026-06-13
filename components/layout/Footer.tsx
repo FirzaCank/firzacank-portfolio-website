@@ -77,6 +77,16 @@ export default function Footer() {
               </li>
               <li>
                 <a
+                  href={SOCIAL_LINKS.tableau}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-sans text-sm text-ink hover:text-sage transition-colors"
+                >
+                  Tableau Public
+                </a>
+              </li>
+              <li>
+                <a
                   href={SOCIAL_LINKS.hackerrank}
                   target="_blank"
                   rel="noopener noreferrer"
