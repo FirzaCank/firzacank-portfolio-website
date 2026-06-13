@@ -12,6 +12,10 @@ export type EducationItem = {
   faculty: string;
   detail?: string;
   period?: string;
+  thesis?: {
+    title: string;
+    url: string;
+  };
 };
 
 export const EDUCATION: EducationItem[] = [
@@ -22,6 +26,11 @@ export const EDUCATION: EducationItem[] = [
     detail:
       "Contributed at paid assistant at Production System Laboratory (LSP), Faculty of Industrial Technology",
     period: "August 2017 - July 2021",
+    thesis: {
+      title:
+        "A Proposed Improvement to Flow Shop Production Scheduling for Makespan Minimization",
+      url: "https://digilib.itb.ac.id/gdl/view/79335/Firza-Chandra-Sandjaya-Putra",
+    },
   },
 ];
 

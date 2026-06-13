@@ -41,6 +41,26 @@ export default function EducationLanguages() {
                     </p>
                   </div>
                 )}
+                {e.thesis && (
+                  <div>
+                    <p className="font-sans text-xs uppercase tracking-[0.15em] text-sage">
+                      Final Thesis
+                    </p>
+                    <a
+                      href={e.thesis.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group mt-1 inline-flex items-baseline gap-1.5 font-sans text-sm text-ink-muted leading-relaxed transition-colors hover:text-sage"
+                    >
+                      <span className="italic underline decoration-sage/40 underline-offset-2 group-hover:decoration-sage">
+                        {e.thesis.title}
+                      </span>
+                      <span aria-hidden className="text-xs not-italic">
+                        &#8599;
+                      </span>
+                    </a>
+                  </div>
+                )}
               </div>
             ))}
           </div>
