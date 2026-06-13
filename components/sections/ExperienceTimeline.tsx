@@ -45,23 +45,20 @@ export default function ExperienceTimeline() {
 
             {/* Header row */}
             <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b-2 border-ink/40 pb-4">
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-end gap-3">
                 <h2 className="font-satoshi text-3xl md:text-4xl text-ink tracking-tighter">
                   {role.company}
+                  {role.placement && (
+                    <span className="font-satoshi text-xl md:text-2xl text-ink-muted font-bold tracking-tighter ml-2">({role.placement})</span>
+                  )}
                 </h2>
-                {role.current && <Pill variant="sage">Current</Pill>}
-                {role.internship && <Pill variant="muted">Internship</Pill>}
+                {role.current && <span className="mb-1"><Pill variant="sage">Current</Pill></span>}
+                {role.internship && <span className="mb-1"><Pill variant="muted">Internship</Pill></span>}
               </div>
               <p className="font-sans text-sm text-ink-muted tabular">
                 {role.period}
               </p>
             </div>
-
-            {role.placement && (
-              <p className="mt-3 font-sans text-sm text-ink-muted italic">
-                {role.placement}
-              </p>
-            )}
 
             <p className="mt-2 font-display text-xl text-ink">{role.title}</p>
             <p className="mt-1 font-sans text-xs uppercase tracking-[0.2em] text-ink-muted">

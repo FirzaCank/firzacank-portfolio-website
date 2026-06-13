@@ -55,22 +55,20 @@ export default function FeaturedExperience() {
                 aria-label={`${role.title} at ${role.company}`}
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-                  <div className="flex flex-wrap items-center gap-3">
+                  <div className="flex flex-wrap items-end gap-3">
                     <h3 className="font-display text-2xl md:text-3xl text-ink tracking-tighter">
                       {role.company}
+                      {role.placement && (
+                        <span className="font-display text-lg md:text-xl text-ink-muted font-bold tracking-tighter ml-2">({role.placement})</span>
+                      )}
                     </h3>
-                    {role.current && <Pill variant="sage">Current</Pill>}
-                    {role.internship && <Pill variant="muted">Internship</Pill>}
+                    {role.current && <span className="mb-1"><Pill variant="sage">Current</Pill></span>}
+                    {role.internship && <span className="mb-1"><Pill variant="muted">Internship</Pill></span>}
                   </div>
                   <p className="font-sans text-sm text-ink-muted">
                     {role.period}
                   </p>
                 </div>
-                {role.placement && (
-                  <p className="mt-1 font-sans text-sm text-ink-muted italic">
-                    {role.placement}
-                  </p>
-                )}
                 <p className="mt-2 font-sans text-base text-ink">
                   {role.title}
                 </p>
