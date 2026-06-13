@@ -21,7 +21,7 @@ export default function Hero() {
         className="pointer-events-none absolute top-1/3 -left-20 h-[280px] w-[280px] rounded-full bg-terracotta/10 blur-3xl"
       />
 
-      <div className="mx-auto max-w-container px-6 md:px-10 pt-12 md:pt-20 pb-16 md:pb-24">
+      <div className="mx-auto max-w-container px-6 md:px-10 pt-12 md:pt-20">
         {/* Eyebrow */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -35,9 +35,9 @@ export default function Hero() {
           </p>
         </motion.div>
 
-        <div className="mt-8 grid items-start gap-10 md:grid-cols-[1.1fr_1fr] md:gap-16">
+        <div className="mt-8 grid items-stretch gap-10 md:grid-cols-[1.1fr_1fr] md:gap-16">
           {/* Left: Display heading + intro */}
-          <div className="relative">
+          <div className="relative pb-16 md:pb-24">
             {/* Stats above heading like the reference */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
@@ -216,6 +216,17 @@ export default function Hero() {
                 </svg>
               </SocialIcon>
             </motion.div>
+
+            {/* Scroll cue */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="mt-16 flex items-center gap-3 font-sans text-xs uppercase tracking-widest text-ink-muted"
+            >
+              <span>Scroll</span>
+              <span className="h-px w-12 bg-ink-muted/40" />
+            </motion.div>
           </div>
 
           {/* Right: Portrait */}
@@ -223,32 +234,20 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative"
+            className="relative flex flex-col justify-end"
           >
-            <div className="relative aspect-[3/4] w-full">
+            <div className="relative w-full aspect-[3/4]">
               <Image
                 src="/images/firza-portrait.png"
                 alt="Firza Chandra portrait"
                 fill
                 priority
                 sizes="(min-width: 768px) 40vw, 100vw"
-                className="object-contain"
+                className="object-contain object-bottom"
               />
             </div>
-
           </motion.div>
         </div>
-
-        {/* Scroll cue */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-16 flex items-center gap-3 font-sans text-xs uppercase tracking-widest text-ink-muted"
-        >
-          <span>Scroll</span>
-          <span className="h-px w-12 bg-ink-muted/40" />
-        </motion.div>
       </div>
     </section>
   );
