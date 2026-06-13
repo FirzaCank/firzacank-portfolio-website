@@ -22,9 +22,22 @@ export async function generateMetadata({
   const { slug } = await params;
   const study = getCaseStudyBySlug(slug);
   if (!study) return {};
+  const { title, subtitle, stack } = study.frontmatter;
   return {
-    title: study.frontmatter.title,
-    description: study.frontmatter.subtitle,
+    title,
+    description: subtitle,
+    openGraph: {
+      title,
+      description: subtitle,
+      type: "article",
+      url: `/projects/${slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: subtitle,
+    },
+    keywords: stack,
   };
 }
 

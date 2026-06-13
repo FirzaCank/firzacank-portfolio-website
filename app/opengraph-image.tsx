@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { SITE_NAME, SITE_TAGLINE } from "@/lib/site";
+import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 
 export const runtime = "nodejs";
 export const alt = `${SITE_NAME} - ${SITE_TAGLINE}`;
@@ -88,7 +88,7 @@ export default async function Image() {
             <span>MLOps</span>
           </div>
           <div style={{ fontSize: 22, color: "#B5552E", fontWeight: 600 }}>
-            firzasandjaya.com
+            {SITE_URL.replace(/^https?:\/\//, "")}
           </div>
         </div>
       </div>

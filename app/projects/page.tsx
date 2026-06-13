@@ -6,7 +6,7 @@ import CTA from "@/components/sections/CTA";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "freelance and client projects across data analysis, dashboards, pitch decks, and AI engineering.",
+    "Freelance and client projects across data analysis, dashboards, pitch decks, and AI engineering.",
 };
 
 export default function ProjectsPage() {

@@ -54,6 +54,32 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
   },
   robots: { index: true, follow: true },
+  keywords: [
+    "data engineer",
+    "AI engineer",
+    "machine learning engineer",
+    "MLOps",
+    "data pipeline",
+    "dashboard",
+    "Jakarta",
+    "Indonesia",
+    "freelance data engineer",
+    "Firza Chandra",
+  ],
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Firza Chandra Sandjaya Putra",
+  url: SITE_URL,
+  jobTitle: "Data & AI Engineer",
+  worksFor: { "@type": "Organization", name: "Hypefast" },
+  address: { "@type": "PostalAddress", addressLocality: "Jakarta", addressCountry: "ID" },
+  sameAs: [
+    "https://linkedin.com/in/firzaputra/",
+    "https://github.com/FirzaCank",
+  ],
 };
 
 export default function RootLayout({
@@ -64,6 +90,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${bricolage.variable} ${inter.variable} ${satoshi.variable}`}>
       <body className="font-sans bg-beige text-ink antialiased" suppressHydrationWarning>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded focus:bg-ink focus:px-4 focus:py-2 focus:text-beige-card"
