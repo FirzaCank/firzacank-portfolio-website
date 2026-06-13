@@ -222,7 +222,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className="mt-16 flex items-center gap-3 font-sans text-xs uppercase tracking-widest text-ink-muted"
+              className="mt-32 flex items-center gap-3 font-sans text-xs uppercase tracking-widest text-ink-muted"
             >
               <span>Scroll</span>
               <span className="h-px w-12 bg-ink-muted/40" />
