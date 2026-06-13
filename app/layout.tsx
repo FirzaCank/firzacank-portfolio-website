@@ -5,6 +5,7 @@ import "@/styles/globals.css";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, SITE_TAGLINE } from "@/lib/site";
+import { SOCIAL_LINKS } from "@/data/nav";
 import { Analytics } from "@vercel/analytics/next";
 
 const bricolage = Bricolage_Grotesque({
@@ -58,28 +59,98 @@ export const metadata: Metadata = {
     "data engineer",
     "AI engineer",
     "machine learning engineer",
-    "MLOps",
+    "MLOps engineer",
     "data pipeline",
-    "dashboard",
+    "ETL developer",
+    "PySpark",
+    "data analyst",
+    "data scientist",
+    "dashboard developer",
+    "pitch deck designer",
+    "freelance data engineer",
+    "freelance data analyst",
+    "freelance AI engineer",
+    "hire data engineer Jakarta",
+    "data consultant Indonesia",
     "Jakarta",
     "Indonesia",
-    "freelance data engineer",
     "Firza Chandra",
+    "Firza Chandra Sandjaya Putra",
   ],
 };
 
-const jsonLd = {
+const SAME_AS = [
+  SOCIAL_LINKS.linkedin,
+  SOCIAL_LINKS.github,
+  SOCIAL_LINKS.hackerrank,
+  SOCIAL_LINKS.youtube,
+  SOCIAL_LINKS.lynk,
+  SOCIAL_LINKS.fastwork,
+  SOCIAL_LINKS.projectsCoId,
+];
+
+const SKILLS = [
+  "Data Engineering",
+  "AI Engineering",
+  "Machine Learning Engineering",
+  "MLOps",
+  "ETL Pipeline Development",
+  "PySpark",
+  "Apache Airflow",
+  "Snowflake",
+  "BigQuery",
+  "Data Analysis",
+  "Data Science",
+  "Dashboard Development",
+  "Pitch Deck Design",
+  "Recommendation Systems",
+  "Cloud Data Platforms (AWS, GCP)",
+];
+
+// Person: who Google should associate with branded + skill queries.
+const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "Firza Chandra Sandjaya Putra",
+  "@id": `${SITE_URL}/#person`,
+  name: SITE_NAME,
   url: SITE_URL,
   jobTitle: "Data & AI Engineer",
+  description: SITE_DESCRIPTION,
+  email: `mailto:${SOCIAL_LINKS.email}`,
+  image: `${SITE_URL}/opengraph-image`,
   worksFor: { "@type": "Organization", name: "Hypefast" },
-  address: { "@type": "PostalAddress", addressLocality: "Jakarta", addressCountry: "ID" },
-  sameAs: [
-    "https://linkedin.com/in/firzaputra/",
-    "https://github.com/FirzaCank",
-  ],
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "Bandung Institute of Technology (ITB)",
+  },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Jakarta",
+    addressCountry: "ID",
+  },
+  knowsAbout: SKILLS,
+  sameAs: SAME_AS,
+};
+
+// ProfessionalService: signals freelance/hire intent for commercial queries.
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${SITE_URL}/#service`,
+  name: `${SITE_NAME} — Freelance Data & AI Engineering`,
+  url: SITE_URL,
+  image: `${SITE_URL}/opengraph-image`,
+  description:
+    "Freelance data engineering, data analysis, dashboards, pitch decks, and AI/ML engineering for teams that need production-grade data and AI solutions.",
+  provider: { "@id": `${SITE_URL}/#person` },
+  areaServed: "Worldwide",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Jakarta",
+    addressCountry: "ID",
+  },
+  knowsAbout: SKILLS,
+  sameAs: SAME_AS,
 };
 
 export default function RootLayout({
@@ -92,7 +163,11 @@ export default function RootLayout({
       <body className="font-sans bg-beige text-ink antialiased" suppressHydrationWarning>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
         />
         <a
           href="#main"

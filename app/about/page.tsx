@@ -9,7 +9,23 @@ import CTA from "@/components/sections/CTA";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Firza Chandra Sandjaya Putra is a Data & AI Engineer based in Jakarta. Background in Industrial Engineering at ITB, with parallel freelance practice across analytics, dashboards, pitch decks, and AI.",
+    "Firza Chandra Sandjaya Putra is a Data & AI Engineer based in Jakarta. Industrial Engineering at ITB, with a parallel freelance practice across analytics, dashboards, pitch decks, and AI engineering.",
+  keywords: [
+    "Firza Chandra Sandjaya Putra",
+    "data engineer Jakarta",
+    "AI engineer Indonesia",
+    "ITB Industrial Engineering",
+    "freelance data and AI engineer",
+    "MLOps engineer",
+  ],
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About | Firza Chandra Sandjaya Putra",
+    description:
+      "Data & AI Engineer based in Jakarta with a freelance practice across analytics, dashboards, pitch decks, and AI.",
+    type: "profile",
+    url: "/about",
+  },
 };
 
 export default function AboutPage() {

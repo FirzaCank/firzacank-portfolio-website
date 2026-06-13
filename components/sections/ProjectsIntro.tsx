@@ -21,8 +21,8 @@ export default function ProjectsIntro() {
         </h1>
 
         <p className="mt-8 max-w-prose font-sans text-lg text-ink-muted leading-[1.75]">
-          Selected work across data analysis, dashboards, pitch decks, and AI
-          engineering.
+          Selected freelance and client work across data analysis, dashboards,
+          pitch decks, and AI engineering.
         </p>
 
         <div className="mt-6 flex items-center gap-2.5">

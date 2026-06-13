@@ -6,7 +6,23 @@ import { SOCIAL_LINKS } from "@/data/nav";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with Firza for freelance data, dashboard, and AI engineering work. Based in Jakarta (GMT+7).",
+    "Hire Firza for freelance data engineering, data analysis, dashboards, pitch decks, and AI/ML engineering. Based in Jakarta (GMT+7), available worldwide.",
+  keywords: [
+    "hire freelance data engineer",
+    "hire data analyst",
+    "freelance pitch deck designer",
+    "AI engineer for hire",
+    "data consultant Jakarta",
+    "contact Firza Chandra",
+  ],
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact | Firza Chandra Sandjaya Putra",
+    description:
+      "Available for freelance data, dashboard, pitch deck, and AI engineering work. Based in Jakarta (GMT+7).",
+    type: "website",
+    url: "/contact",
+  },
 };
 
 export default function ContactPage() {
