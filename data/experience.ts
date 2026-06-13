@@ -51,7 +51,7 @@ export const ROLES: Role[] = [
   {
     id: "idstar",
     company: "IDstar Cipta Teknologi",
-    placement: "Placement in PT XL Axiata Tbk.",
+    placement: "Placement in PT XL Axiata",
     title: "Data Engineer and Analytics / ETL Developer",
     period: "July 2022 - March 2025",
     location: "Jakarta, Indonesia",
