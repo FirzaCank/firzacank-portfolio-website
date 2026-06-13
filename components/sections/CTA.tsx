@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { SOCIAL_LINKS } from "@/data/nav";
 import CopyEmailButton from "@/components/ui/CopyEmailButton";
 
 export default function CTA() {
