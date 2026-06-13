@@ -176,6 +176,6 @@ export const SKILL_GROUPS = [
   },
   {
     group: "Languages",
-    items: ["Python", "SQL", "JavaScript", "Java"],
+    items: ["Python", "SQL", "JavaScript", "Shell Script"],
   },
 ];
