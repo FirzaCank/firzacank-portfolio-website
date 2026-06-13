@@ -61,7 +61,7 @@ export const PROJECTS: Project[] = [
     title: "Content Strategy & Revenue Projection Pitch Deck",
     subtitle:
       "Market gap analysis, podcast-to-workshop funnel strategy, and 3-month financial projection for a social media influencer's relationship content platform.",
-    client: "Company X",
+    client: "Agency X",
     categories: ["pitch-deck", "data-analyst", "financial-analyst"],
     stack: ["PowerPoint", "Excel", "Python", "Market Analysis", "Financial Modeling"],
     year: "2026",

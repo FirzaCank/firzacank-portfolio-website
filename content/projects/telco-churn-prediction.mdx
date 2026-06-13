@@ -12,57 +12,57 @@ liveLabel: "Open live Streamlit app"
 
 ## Context
 
-A self-initiated learning project to practice the full ML lifecycle on a single, well-known business problem: predicting subscriber churn for a telecom company. The dataset is dummy data published by DQLab for a fictional company called DQLab Telco, modeling customer state as of June 2020 with around 6,800 rows and 21 attributes covering demographics, services subscribed, contract type, and billing.
+A self-initiated project to practice the full ML lifecycle on a known business problem: predicting telecom subscriber churn. The dataset is DQLab's dummy data for a fictional "DQLab Telco" — customer state as of June 2020, ~6,800 rows, 21 attributes covering demographics, services, contract type, and billing.
 
-The goal was not just to fit a model. It was to make the analysis legible end-to-end: someone landing on the live app should be able to walk through cleansing, EDA, model comparison, and finally type in customer attributes and get a churn probability back.
+The goal wasn't just to fit a model, but to make the analysis legible end-to-end: a visitor to the live app can walk through cleansing, EDA, and model comparison, then type in customer attributes and get a churn probability back.
 
 ## Problem
 
-The business framing on the cover page sets it up: DQLab Telco wants to reduce the number of customers who churn by using machine learning to predict, ahead of time, who is likely to unsubscribe. From a modeling standpoint that translates into three concrete constraints:
+DQLab Telco wants to predict, ahead of time, who is likely to unsubscribe. From a modeling standpoint, three constraints:
 
-- The target class is imbalanced (around 26% churn, 74% non-churn), so accuracy alone is misleading.
-- Most predictors are categorical (gender, partner status, service flags, contract terms), which means encoding choices matter.
-- The output has to be usable. A score in a notebook does not help operations; a form that takes ten inputs and returns a churn probability does.
+- Imbalanced target (~26% churn, 74% non-churn), so accuracy alone misleads.
+- Most predictors are categorical (gender, partner status, service flags, contract terms), so encoding choices matter.
+- Output must be usable — a notebook score doesn't help ops; a ten-input form returning a churn probability does.
 
 ## Approach
 
 The Streamlit app is split into four navigable sections, each one mapping to a stage of the pipeline.
 
-**Data cleansing.** Drop the operational columns (customerID, UpdatedAt), handle missing TotalCharges, and standardize types. The cleaned dataset is exported to a separate CSV so EDA and modeling can both read from the same canonical source.
+**Data cleansing.** Drop operational columns (customerID, UpdatedAt), handle missing TotalCharges, standardize types. The cleaned dataset is exported to a separate CSV so EDA and modeling read from one canonical source.
 
-**Exploratory data analysis.** Bivariate plots against the Churn label for both numerical and categorical features. The numerical view uses overlaid histograms, the categorical view uses seaborn count plots, and the overall churn ratio is shown as a Plotly donut. Three findings shaped how I framed the model output later:
+**Exploratory data analysis.** Bivariate plots against the Churn label — overlaid histograms for numerical features, seaborn count plots for categorical, a Plotly donut for the overall churn ratio. Three findings shaped the model framing:
 
 - Higher monthly charges correlate with higher churn.
 - Longer tenure correlates with lower churn.
 - StreamingTV, InternetService, and PaperlessBilling users churn at higher rates than their counterparts, suggesting service quality or pricing friction in those segments.
 
-**Model building.** Label encode all non-numeric columns, split 70/30 with a fixed random state, then fit three baseline classifiers with default hyperparameters:
+**Model building.** Label-encode non-numeric columns, split 70/30 with a fixed random state, then fit three baseline classifiers at default hyperparameters:
 
 - Logistic Regression
 - Random Forest Classifier
 - Gradient Boosting Classifier
 
-Each model has its own classification report and confusion matrix surfaced in the app, with separate views for the training and testing splits so the over-fit pattern is visible.
+Each model surfaces its own classification report and confusion matrix in the app, with separate train/test views so the overfit pattern is visible.
 
-**Prediction.** A form takes ten attributes (gender, senior citizen, partner, tenure, phone, streaming TV, internet, paperless billing, monthly charges, total charges), encodes them the same way the training pipeline did, and pushes them through a pickled model loaded via joblib. The app returns the predicted class plus the probability for both outcomes.
+**Prediction.** A form takes ten attributes (gender, senior citizen, partner, tenure, phone, streaming TV, internet, paperless billing, monthly charges, total charges), encodes them as the training pipeline did, and runs them through a pickled model loaded via joblib. The app returns the predicted class plus probabilities for both outcomes.
 
 ## Results
 
-Test-set accuracy across the three baselines came out close, but the training accuracy told the real story:
+Test accuracy was close across baselines, but training accuracy told the real story:
 
-- **Logistic Regression: 80% train / 79% test.** Balanced and generalizes cleanly.
+- **Logistic Regression: 80% train / 79% test.** Balanced, generalizes cleanly.
 - **Random Forest: 100% train / 78% test.** Classic overfit signal.
-- **Gradient Boosting: 82% train / 79% test.** Slightly better train fit than Logistic Regression, no meaningful test gain.
+- **Gradient Boosting: 82% train / 79% test.** Slightly better train fit, no real test gain.
 
-I selected **Logistic Regression** as the production model precisely because the gap between train and test accuracy was the smallest. The confusion matrix on the test set shows the model is more conservative on positive predictions than on negatives, which is appropriate when the downstream action (retention offers, discount budget) has a cost per customer that you do not want to spray indiscriminately.
+I picked **Logistic Regression** for production precisely because its train–test gap was smallest. Its test confusion matrix is more conservative on positives than negatives — appropriate when the downstream action (retention offers, discount budget) carries a per-customer cost you don't want to spray indiscriminately.
 
-The takeaway I wrote into the Conclusion section of the app is the operational one: an ML score lets the company concentrate retention spend on the slice of customers actually predicted to churn, instead of running blanket promotions across the full base.
+The operational takeaway, written into the app's Conclusion: an ML score concentrates retention spend on customers actually predicted to churn, instead of blanket promotions across the full base.
 
 ## Stack notes
 
-- **Streamlit** for the entire UI. No Flask, no React layer. The same script that runs locally is what gets deployed to share.streamlit.io.
-- **scikit-learn** for all three models. Keeping the API uniform across LR, RF, and GBC made the side-by-side comparison straightforward.
-- **joblib** for model persistence inside the app, **pickle** for the saved artifact in the repo.
-- **Plotly + matplotlib + seaborn** mixed deliberately. Plotly handles the interactive churn donut, matplotlib renders the confusion matrices, seaborn does the categorical count plots.
+- **Streamlit** for the entire UI — no Flask, no React. The same script runs locally and deploys to share.streamlit.io.
+- **scikit-learn** for all three models; a uniform API across LR, RF, and GBC kept the side-by-side comparison simple.
+- **joblib** for in-app model persistence, **pickle** for the saved repo artifact.
+- **Plotly + matplotlib + seaborn** mixed deliberately: Plotly for the interactive churn donut, matplotlib for confusion matrices, seaborn for categorical count plots.
 
 The full source, including the cleansing, EDA, and ML modules as separate Python files, is on GitHub at [FirzaCank/Churn](https://github.com/FirzaCank/Churn).

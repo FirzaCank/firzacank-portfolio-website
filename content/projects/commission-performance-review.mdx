@@ -10,31 +10,40 @@ stack: ["Python", "Excel", "PowerPoint", "Funnel Analysis", "Cohort Analysis", "
 
 ## Context
 
-An e-commerce affiliate operation generating commission revenue through video content that drives marketplace transactions. Commission revenue had declined for four consecutive months, falling from Rp151M in January to Rp99.6M in April, a 34.2% drop totalling Rp51.8M in monthly lost revenue. Leadership needed a clear diagnosis and an actionable recovery plan before the trend became structural.
+An e-commerce affiliate operation earning commission through video content that drives marketplace transactions. Commission revenue had fallen four months straight — from Rp151M in January to Rp99.6M in April, a 34.2% drop (Rp51.8M monthly lost revenue). Leadership needed a clear diagnosis and recovery plan before the trend turned structural.
 
 ## Problem
 
-Three questions had to be answered before any fix could be scoped:
+Three questions before scoping any fix:
 
-- Where in the funnel (plays → impression → click → order) is the volume actually leaking?
+- Where in the funnel (plays → impression → click → order) is volume actually leaking?
 - Is the decline a rate problem (CVR/CTR falling) or a volume problem (fewer plays/impressions)?
-- Are there internal levers (commission mix, SKU sourcing, retention) that can recover revenue without depending on external brand subsidies?
+- Are there internal levers (commission mix, SKU sourcing, retention) to recover revenue without external brand subsidies?
+
+## Data & preparation
+
+The funnel (plays → impression → click → order), commission, and cohort data came from the platform's internal database exports. Before any analysis, I cleaned and reconciled the raw extracts:
+
+- Deduplicated transaction records and handled null/missing values across the funnel tables.
+- Reconciled funnel-stage counts whose sources didn't align (plays/impressions vs click/order systems), so each stage compared on a consistent base.
+- Normalized dates into consistent monthly cohorts (January–April).
+- Standardized commission rates and Rupiah amounts (direct vs indirect, standard ~2% vs extra ~4% tiers) into a single clean schema.
 
 ## Approach
 
-1. Built a full-funnel comparison (January baseline vs April current) across plays, impressions, clicks, and orders, isolating the conversion bottleneck at each stage.
-2. Decomposed commission revenue into direct vs indirect channels, identifying that indirect (users clicking one SKU but purchasing another) carried 97% of total revenue and 99% of the decline.
-3. Analyzed CTR and CVR trends independently: CTR was flat at ~1.7%, confirming the problem was purchase intent (CVR dropped 23% from 4.15% to 3.18%), not attention.
-4. Ran cohort retention analysis across January to March cohorts, surfacing a collapse from 23.5% to 9.8% month-1 retention, the most alarming structural signal.
-5. Identified the extra-commission mix lever: only 22% of orders earned the higher ~4% rate versus ~2% standard, meaning a mix-shift to 35% could recover ~Rp9M/month at existing volume.
-6. Packaged findings into a 10-slide executive deck with a two-track recovery plan (quick wins for 0–60 days, structural levers for 60–180 days) and three specific leadership asks.
+1. Built a full-funnel comparison (January baseline vs April) across plays, impressions, clicks, and orders, isolating the bottleneck at each stage.
+2. Decomposed commission into direct vs indirect channels — indirect (clicking one SKU but buying another) carried 97% of revenue and 99% of the decline.
+3. Analyzed CTR and CVR independently: CTR was flat at ~1.7%, confirming the problem was purchase intent (CVR dropped 23%, 4.15% → 3.18%), not attention.
+4. Ran cohort retention across Jan–Mar cohorts, surfacing a collapse from 23.5% to 9.8% month-1 retention — the most alarming structural signal.
+5. Found the commission-mix lever: only 22% of orders earned the higher ~4% rate vs ~2% standard, so a shift to 35% could recover ~Rp9M/month at existing volume.
+6. Packaged findings into a 10-slide executive deck with a two-track recovery plan (quick wins 0–60 days, structural levers 60–180 days) and three leadership asks.
 
 ## Outcome
 
-The deck was presented to leadership and became the working document for Q2 planning. Three decisions followed:
+The deck became the working document for Q2 planning. Three decisions followed:
 
-- **Immediate:** Product team approved a 3-day SKU refresh cycle (down from 7 days) to combat ad fatigue, and began testing personalized SKU recommendations to recover CVR.
-- **Short-term:** Business development prioritized targeted-affiliate negotiations with priority brands to unlock higher commission tiers.
-- **Structural:** Growth team scoped a retention program targeting the Jan–Mar cohorts before the active user base shrank further.
+- **Immediate:** Product approved a 3-day SKU refresh cycle (down from 7) to combat ad fatigue, and began testing personalized SKU recommendations to recover CVR.
+- **Short-term:** BD prioritized targeted-affiliate negotiations with priority brands to unlock higher commission tiers.
+- **Structural:** Growth scoped a retention program for the Jan–Mar cohorts before the active base shrank further.
 
-The projected recovery, if all three tracks execute, was estimated at 50–70% of the Rp51.8M monthly gap within two quarters.
+Projected recovery, if all three tracks execute: 50–70% of the Rp51.8M monthly gap within two quarters.

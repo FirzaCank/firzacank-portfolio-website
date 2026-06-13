@@ -10,22 +10,22 @@ stack: ["Python", "Cloud Run", "Google Cloud Storage", "APIFY", "Flask", "Docker
 
 ## Context
 
-A marketing research team needed continuous profile and content data from five social platforms to feed campaign benchmarking and influencer scoping. The existing setup was a patchwork of one off notebooks per platform. Each rerun required manual stitching, and any failure mid batch meant restarting from scratch.
+A marketing research team needed continuous profile and content data from five social platforms to feed campaign benchmarking and influencer scoping. The existing setup was a patchwork of one-off notebooks per platform — each rerun needed manual stitching, and any mid-batch failure meant starting from scratch.
 
 ## Problem
 
-- Five platforms with five different auth models, rate limits, and content schemas. Treating each as a separate script meant five separate failure modes for the ops team.
-- Batches over a few thousand accounts routinely failed somewhere in the middle. Without checkpointing, the entire run had to start over, burning quota and time.
-- Output was scattered across local CSV files with no consistent naming, making downstream analysis brittle.
+- Five platforms, five auth models, rate limits, and content schemas — a separate script each meant five failure modes for ops.
+- Batches over a few thousand accounts routinely failed mid-run; without checkpointing, the whole run restarted, burning quota and time.
+- Output scattered across local CSVs with no consistent naming made downstream analysis brittle.
 
 ## Approach
 
-1. Designed a modular architecture with three layers - parsers (URL normalization), collectors (platform API calls), and models (canonical profile + content shape) - so adding a sixth platform later is a matter of dropping in three small classes, not refactoring the pipeline.
-2. Built a unified `SocialMediaService` orchestrator that walks the input CSV, dispatches to the right collector per row, normalizes the response, and writes outputs to a consistent layout (profiles vs content, partitioned by platform).
-3. Containerized the service and deployed it two ways: a Cloud Run job for scheduled batches, and a Flask app for ad hoc HTTP triggers with `/health` and `/metrics` endpoints for observability.
-4. Added a `ProgressTracker` backed by Google Cloud Storage so runs are resumable. If a batch dies on row 4,200 of 8,000, the next invocation picks up where it left off instead of redoing the first half.
-5. Hardened the I/O layer with a `FileManager` plus `GCSHelper` abstraction, so the same code path writes locally during development and to a versioned GCS bucket in production.
+1. Designed a three-layer modular architecture — parsers (URL normalization), collectors (platform API calls), models (canonical profile + content shape) — so adding a sixth platform is three small classes, not a pipeline refactor.
+2. Built a unified `SocialMediaService` orchestrator that walks the input CSV, dispatches to the right collector per row, normalizes the response, and writes a consistent layout (profiles vs content, partitioned by platform).
+3. Containerized and deployed two ways: a Cloud Run job for scheduled batches, and a Flask app for ad-hoc HTTP triggers with `/health` and `/metrics` endpoints.
+4. Added a GCS-backed `ProgressTracker` for resumable runs — if a batch dies on row 4,200 of 8,000, the next invocation resumes there instead of redoing the first half.
+5. Hardened the I/O layer with a `FileManager` + `GCSHelper` abstraction, so the same code path writes locally in dev and to a versioned GCS bucket in production.
 
 ## Outcome
 
-The team replaced five fragile notebooks with one reproducible job. Batches that previously needed babysitting now run unattended, and the resumable progress tracker means partial failures cost minutes instead of hours. The shared output schema (one profiles file and one content file per platform) plugged straight into the agency's existing analysis notebooks without further glue code.
+The team replaced five fragile notebooks with one reproducible job. Batches that needed babysitting now run unattended, and the resumable tracker makes partial failures cost minutes instead of hours. The shared output schema (one profiles file, one content file per platform) plugged straight into the agency's existing notebooks without glue code.

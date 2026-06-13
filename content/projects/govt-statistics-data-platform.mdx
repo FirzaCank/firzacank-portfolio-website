@@ -10,22 +10,22 @@ stack: ["Python", "BPS Web API", "Javascript", "CSV", "JSON"]
 
 ## Context
 
-A coordinating ministry needed a clean, programmatically accessible catalog of statistical sources from Indonesia's central statistics agency (Badan Pusat Statistik / BPS) so analysts could pull regional and subject specific data without manually navigating dozens of provincial and regency websites. The engagement was scoped as a 28 working day implementation: deliver the platform end to end, document it, and hand over.
+A coordinating ministry needed a clean, programmatically accessible catalog of statistical sources from Indonesia's central statistics agency (Badan Pusat Statistik / BPS), so analysts could pull regional and subject-specific data without manually navigating dozens of provincial and regency websites. Scoped as a 28-working-day implementation: deliver end-to-end, document, hand over.
 
 ## Problem
 
-- BPS publishes data across 549 separate office domains (one central, 34 provincial, plus regency level offices). Without a unified reference, every internal analyst was bookmarking sites ad hoc.
-- The subject taxonomy is split into three top level categories (Demographic & Social, Economic, Environmental & Multi domain) with nested subcategories. Each office serves the same taxonomy but at different administrative levels.
-- The ministry needed this stood up inside a fixed budget and a tight calendar window, so the architecture had to favor lightweight, documented components over heavy infrastructure.
+- BPS publishes across 549 office domains (one central, 34 provincial, plus regency-level). Without a unified reference, every analyst bookmarked sites ad hoc.
+- The subject taxonomy splits into three top-level categories (Demographic & Social, Economic, Environmental & Multi-domain) with nested subcategories — each office serving the same taxonomy at a different administrative level.
+- It had to stand up inside a fixed budget and tight calendar, so the architecture favored lightweight, documented components over heavy infrastructure.
 
 ## Approach
 
-1. Built an ingestion script against the BPS web API that pulls the full domain reference (549 offices: `domain_id`, `domain_name`, `domain_url`) into a clean CSV the team can join against any downstream dataset.
-2. Pulled the subject taxonomy (CSAC subjects, subcategories) into parallel reference tables so analysts can filter by topic across offices without bespoke logic per region.
-3. Processed the BPS terms of use PDFs into structured records so the legal and compliance team has a single artifact to reference rather than re downloading per office.
-4. Wrote the whole platform in plain Python with `requests` and `csv`, deliberately avoiding heavy frameworks so the ministry's internal team can maintain and extend it after handover.
-5. Documented refresh procedures, source endpoints, and schema decisions so the next data engineer (internal or external) can pick it up without a knowledge transfer call.
+1. Built a BPS web API ingestion script pulling the full domain reference (549 offices: `domain_id`, `domain_name`, `domain_url`) into a clean CSV joinable against any downstream dataset.
+2. Pulled the subject taxonomy (CSAC subjects, subcategories) into parallel reference tables so analysts filter by topic across offices without per-region logic.
+3. Processed the BPS terms-of-use PDFs into structured records, giving legal/compliance a single artifact instead of re-downloading per office.
+4. Wrote the platform in plain Python (`requests`, `csv`), deliberately avoiding heavy frameworks so the ministry's internal team can maintain and extend it.
+5. Documented refresh procedures, source endpoints, and schema decisions so the next engineer can pick it up without a knowledge-transfer call.
 
 ## Outcome
 
-The ministry received a maintainable reference catalog covering every BPS office and subject area, plus the ingestion code, documentation, and processed terms of use. Internal analysts can now resolve "which BPS office publishes this for my region" in a single CSV lookup instead of manually clicking through provincial sites, and the lightweight stack means the platform stays maintainable past the implementation window.
+The ministry received a maintainable reference catalog covering every BPS office and subject area, plus ingestion code, documentation, and processed terms of use. Analysts now resolve "which BPS office publishes this for my region" in a single CSV lookup instead of clicking through provincial sites, and the lightweight stack keeps the platform maintainable past the implementation window.
