@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   PROJECTS,
   CATEGORY_LABEL,
   type ProjectCategory,
 } from "@/data/projects";
 import { cn } from "@/lib/utils";
+import SearchBar from "@/components/ui/SearchBar";
 
 type Filter = ProjectCategory | "all";
 
@@ -22,26 +23,64 @@ const CATEGORY_ORDER: ProjectCategory[] = [
 
 export default function ProjectsGrid() {
   const [filter, setFilter] = useState<Filter>("all");
+  const [query, setQuery] = useState("");
 
   const sortedProjects = useMemo(() => {
     return [...PROJECTS].sort((a, b) => Number(b.year) - Number(a.year));
   }, []);
 
-  const filtered = useMemo(() => {
-    if (filter === "all") return sortedProjects;
-    return sortedProjects.filter((p) => p.categories.includes(filter));
-  }, [filter, sortedProjects]);
+  // Projects matching the search query, before category filtering.
+  const searchMatched = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return sortedProjects;
+    return sortedProjects.filter((p) => {
+      const haystack = [
+        p.title,
+        p.subtitle,
+        p.client,
+        p.year,
+        ...p.stack,
+        ...p.categories.map((c) => CATEGORY_LABEL[c]),
+      ]
+        .join(" ")
+        .toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [query, sortedProjects]);
 
+  const filtered = useMemo(() => {
+    if (filter === "all") return searchMatched;
+    return searchMatched.filter((p) => p.categories.includes(filter));
+  }, [filter, searchMatched]);
+
+  // Counts reflect the current search, so chips show how many results each
+  // category would yield given the active query.
   const counts = useMemo(() => {
-    const c: Record<string, number> = { all: PROJECTS.length };
+    const c: Record<string, number> = { all: searchMatched.length };
     for (const cat of CATEGORY_ORDER) {
-      c[cat] = PROJECTS.filter((p) => p.categories.includes(cat)).length;
+      c[cat] = searchMatched.filter((p) => p.categories.includes(cat)).length;
     }
     return c;
-  }, []);
+  }, [searchMatched]);
+
+  // If the active category has no results under the current search, fall back
+  // to "all" so the user isn't stranded on an empty grid.
+  useEffect(() => {
+    if (filter !== "all" && counts[filter] === 0) {
+      setFilter("all");
+    }
+  }, [filter, counts]);
 
   return (
     <section className="mx-auto max-w-container px-6 md:px-10 pb-20 md:pb-section">
+      {/* Search */}
+      <SearchBar
+        value={query}
+        onChange={setQuery}
+        placeholder="Search projects, tech, clients…"
+        className="mb-6 max-w-md"
+      />
+
       {/* Filter chips */}
       <div
         role="tablist"
@@ -61,6 +100,7 @@ export default function ProjectsGrid() {
             onClick={() => setFilter(cat)}
             label={CATEGORY_LABEL[cat]}
             count={counts[cat]}
+            disabled={counts[cat] === 0 && filter !== cat}
           />
         ))}
       </div>
@@ -132,7 +172,9 @@ export default function ProjectsGrid() {
 
       {filtered.length === 0 && (
         <p className="mt-10 text-center font-sans text-sm text-ink-muted">
-          No projects in this category yet.
+          {query.trim()
+            ? `No projects match “${query.trim()}”.`
+            : "No projects in this category yet."}
         </p>
       )}
     </section>
@@ -144,11 +186,13 @@ function FilterChip({
   onClick,
   label,
   count,
+  disabled = false,
 }: {
   active: boolean;
   onClick: () => void;
   label: string;
   count: number;
+  disabled?: boolean;
 }) {
   return (
     <button
@@ -156,11 +200,14 @@ function FilterChip({
       role="tab"
       aria-selected={active}
       onClick={onClick}
+      disabled={disabled}
       className={cn(
         "inline-flex items-center gap-2 rounded-full border px-4 py-2 font-sans text-sm transition-colors",
         active
           ? "border-ink bg-ink text-beige-card"
           : "border-ink/25 bg-beige-card text-ink hover:border-sage hover:text-sage",
+        disabled &&
+          "cursor-not-allowed opacity-40 hover:border-ink/25 hover:text-ink",
       )}
     >
       {label}

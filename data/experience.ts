@@ -23,7 +23,7 @@ export const ROLES: Role[] = [
     current: true,
     location: "Jakarta, Indonesia",
     summary:
-      "Building data and ML infrastructure for a multi-brand consumer aggregator. Pipelines, recommendation systems, AI-driven automation across 11+ brands.",
+      "Building data and Machine Learning (ML) infrastructure for a multi-brand consumer aggregator. Pipelines, recommendation systems, AI-driven automation across 11+ brands.",
     highlights: [
       "Designed L0–L2 ETL pipelines ingesting order and customer data from 4 marketplace APIs & Google Sheets to BigQuery for 11+ brands, with Flask-based token management on Cloud Run and PostgreSQL for API authentication, enabling unified analytics and reporting.",
       "Optimized scalable product recommendation systems on Shopee Marketplace (NCF, Replenishment, and Baby Cloth) using TensorFlow/Keras, scikit-learn, and FastAPI on GCP (Vertex AI), driving approximately IDR 300M/month GMV.",

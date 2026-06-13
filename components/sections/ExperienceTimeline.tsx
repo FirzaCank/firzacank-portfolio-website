@@ -1,8 +1,45 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import { ROLES } from "@/data/experience";
+import SearchBar from "@/components/ui/SearchBar";
 
 export default function ExperienceTimeline() {
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return ROLES;
+    return ROLES.filter((role) => {
+      const haystack = [
+        role.company,
+        role.placement ?? "",
+        role.title,
+        role.period,
+        role.location,
+        role.summary,
+        ...role.highlights,
+        ...role.stack,
+      ]
+        .join(" ")
+        .toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [query]);
+
   return (
     <section className="mx-auto max-w-container px-6 md:px-10 pb-20 md:pb-section">
+      {/* Search */}
+      <SearchBar
+        value={query}
+        onChange={setQuery}
+        placeholder="Search roles, tech, companies…"
+        className="mb-6 max-w-md"
+      />
+      <p className="mb-2 font-sans text-xs uppercase tracking-[0.2em] text-ink-muted">
+        Showing {filtered.length} of {ROLES.length} roles
+      </p>
+
       <ol className="relative">
         {/* Vertical guide line */}
         <span
@@ -10,7 +47,7 @@ export default function ExperienceTimeline() {
           className="absolute left-[7px] top-3 bottom-3 hidden w-px bg-sage/40 md:block"
         />
 
-        {ROLES.map((role, idx) => (
+        {filtered.map((role, idx) => (
           <li
             key={role.id}
             id={role.id}
@@ -22,7 +59,7 @@ export default function ExperienceTimeline() {
               className="absolute top-0 left-0 right-0 h-0.5 bg-ink/40 md:left-12"
             />
             {/* Bottom divider on last item */}
-            {idx === ROLES.length - 1 && (
+            {idx === filtered.length - 1 && (
               <div
                 aria-hidden="true"
                 className="absolute bottom-0 left-0 right-0 h-0.5 bg-ink/40 md:left-12"
@@ -110,6 +147,12 @@ export default function ExperienceTimeline() {
           </li>
         ))}
       </ol>
+
+      {filtered.length === 0 && (
+        <p className="mt-10 text-center font-sans text-sm text-ink-muted">
+          No roles match &ldquo;{query.trim()}&rdquo;.
+        </p>
+      )}
     </section>
   );
 }
