@@ -9,7 +9,7 @@ const METRICS = [
   {
     value: "200x",
     label: "ROI per brand",
-    detail: "Smart voucher optimization via K-Means + LP",
+    detail: "Smart voucher optimization via K-Means + Linear Programming",
   },
   {
     value: "96x",
