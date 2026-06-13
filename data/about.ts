@@ -137,6 +137,8 @@ export const SKILL_GROUPS = [
       "pandas",
       "numpy",
       "PySpark",
+      "seaborn",
+      "matplotlib",
     ],
   },
   {
@@ -168,7 +170,7 @@ export const SKILL_GROUPS = [
   },
   {
     group: "BI & Visualization",
-    items: ["Metabase", "Looker Studio", "Power BI", "Tableau", "seaborn", "matplotlib"],
+    items: ["Metabase", "Looker Studio", "Power BI", "Tableau", "Google Sheets/Excel"],
   },
   {
     group: "Infra & DevOps",
