@@ -45,9 +45,11 @@ __pycache__/
 *.pyo
 *.pyd
 
-# raw presentation/assets (keep git clean of large binaries)
+# raw presentation/assets/docs (keep git clean of large binaries)
 *.pptx
 *.ppt
 *.xlsx
 *.xls
+*.docx
+*.docs
 
