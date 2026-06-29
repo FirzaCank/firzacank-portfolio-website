@@ -105,6 +105,7 @@ export default function ChatWidget() {
             <div className="border-b border-ink/10 px-5 py-4">
               <p className="font-display text-base font-semibold text-ink">Ask about Firza</p>
               <p className="font-sans text-xs text-ink-muted">Portfolio assistant · answers from this site</p>
+              <p className="font-sans text-[10px] text-ink-muted/60">AI-generated · may not be fully accurate</p>
             </div>
 
             {/* Messages */}
@@ -113,6 +114,10 @@ export default function ChatWidget() {
                 <div className="space-y-3">
                   <p className="font-sans text-sm text-ink-muted">
                     Hi! Ask me anything about Firza&rsquo;s work, experience, or projects.
+                  </p>
+                  <p className="font-sans text-xs text-ink-muted/70">
+                    Answers are AI-generated and may not be fully accurate. For detailed or specific information, reach out via the{" "}
+                    <a href="/contact" className="underline hover:text-sage">Contact</a> page.
                   </p>
                   <div className="flex flex-col gap-2">
                     {SUGGESTIONS.map((s) => (
