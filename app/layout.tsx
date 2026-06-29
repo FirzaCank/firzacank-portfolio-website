@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "@/styles/globals.css";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
+import ChatWidget from "@/components/ui/ChatWidget";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, SITE_TAGLINE } from "@/lib/site";
 import { SOCIAL_LINKS } from "@/data/nav";
 import { Analytics } from "@vercel/analytics/next";
@@ -181,6 +182,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <ChatWidget />
         <Analytics />
       </body>
     </html>

@@ -56,3 +56,7 @@ __pycache__/
 # notebook
 *.ipynb
 
+# memory
+claude.md
+handoff.md
+todo.md
