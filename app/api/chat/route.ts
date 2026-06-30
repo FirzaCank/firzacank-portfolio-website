@@ -5,7 +5,7 @@ export const runtime = "nodejs";
 const MODEL = "gemini-3.5-flash";
 const MAX_HISTORY = 12;
 const MAX_MSG_CHARS = 2000;
-const MAX_MSGS = 20;
+const MAX_MSGS = 40;
 
 // ponytail: in-memory counters, reset on cold start. Use Upstash/Redis if persistent limits needed.
 
