@@ -104,7 +104,7 @@ export default function ChatWidget() {
             {/* Header */}
             <div className="border-b border-ink/10 px-5 py-4">
               <p className="font-display text-base font-semibold text-ink">Ask about Firza</p>
-              <p className="font-sans text-[10px] text-ink-muted/60">AI-generated · may not be fully accurate. For detailed or specific information, reach out via the <a href="/contact" className="underline hover:text-sage">Contact</a> page.</p>
+              <p className="font-sans text-xs text-ink-muted/60">AI-generated · may not be fully accurate. For detailed or specific information, reach out via the <a href="/contact" className="underline hover:text-sage">Contact</a> page.</p>
             </div>
 
             {/* Messages */}
