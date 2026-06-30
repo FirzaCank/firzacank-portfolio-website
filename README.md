@@ -17,17 +17,9 @@ Live: https://firzacank.vercel.app
 
 ## RAG chat assistant
 
-A floating chat widget lets visitors ask about Firza's work. It uses retrieval-augmented generation (RAG):
+A floating "Ask me" button lets visitors ask anything about Firza's work. The assistant only answers from actual portfolio content, so it cannot make up facts. Answers are fast and grounded because only the relevant pieces of the site are sent to the model, not the whole thing.
 
-1. At build time, `npm run embeddings` chunks all portfolio content (about, experience, case studies), embeds each chunk with Gemini `gemini-embedding-001`, and writes the vectors to `data/embeddings.json`.
-2. At request time, the user's question is embedded, the most similar chunks are retrieved by cosine similarity, and only those chunks are sent to `gemini-3.5-flash` as context.
-3. The model answers strictly from that context, so it cannot make up facts about Firza.
-
-This keeps the prompt small (only the relevant few chunks, not the whole site), which makes replies fast and grounded.
-
-Re-run `npm run embeddings` whenever you add or edit content, then commit the updated `data/embeddings.json`.
-
-Requires a free Gemini API key from https://aistudio.google.com/apikey, set as `GEMINI_API_KEY` in `.env.local` (local) and in Vercel environment variables (production).
+Re-run `npm run embeddings` whenever you add or edit content, then commit the updated `data/embeddings.json`. See [RAG Chat Assistant](./docs/RAG.md) for setup and extension details.
 
 ## Design tokens
 
