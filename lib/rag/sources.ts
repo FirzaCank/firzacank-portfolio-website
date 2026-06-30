@@ -35,6 +35,15 @@ export function getDocs(): Doc[] {
     ].join("\n\n"),
   });
 
+  // Career timeline doc: all roles in chronological order for "first job", "career start", "all companies" queries.
+  docs.push({
+    source: "Career Timeline",
+    text: "Firza's complete career history in chronological order (earliest to latest):\n" +
+      [...ROLES].reverse().map((r, i) =>
+        `${i + 1}. ${r.title} at ${r.company}, ${r.period}${r.internship ? " (internship)" : ""}${r.current ? " (current)" : ""}.`
+      ).join("\n"),
+  });
+
   for (const r of ROLES) {
     const header = `${r.title} at ${r.company}${r.placement ? ` (${r.placement})` : ""}, ${r.period}${r.current ? " (current role)" : ""}. Location: ${r.location}.`;
     // One doc per highlight so retrieval can pinpoint a specific achievement.
