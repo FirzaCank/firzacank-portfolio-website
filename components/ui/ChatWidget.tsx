@@ -9,7 +9,7 @@ type Msg = { role: "user" | "assistant"; content: string };
 
 const SUGGESTIONS = [
   "What does Firza do?",
-  "Tell me about his AI/ML projects",
+  "Tell me about his Data Engineering projects",
   "What's his experience at Hypefast?",
 ];
 

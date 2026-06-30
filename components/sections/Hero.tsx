@@ -35,7 +35,7 @@ export default function Hero() {
           </p>
         </motion.div>
 
-        <div className="mt-8 grid items-stretch gap-10 md:grid-cols-[1.1fr_1fr] md:gap-16">
+        <div className="mt-8">
           {/* Left: Display heading + intro */}
           <div className="relative pb-16 md:pb-24">
             {/* Stats above heading like the reference */}
@@ -241,24 +241,6 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right: Portrait */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative flex flex-col justify-end"
-          >
-            <div className="relative w-full aspect-[3/4]">
-              <Image
-                src="/images/firza-portrait.png"
-                alt="Firza Chandra portrait"
-                fill
-                priority
-                sizes="(min-width: 768px) 40vw, 100vw"
-                className="object-contain object-bottom"
-              />
-            </div>
-          </motion.div>
         </div>
       </div>
     </section>
