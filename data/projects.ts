@@ -160,6 +160,16 @@ export const PROJECTS: Project[] = [
     year: "2025",
   },
   {
+    slug: "mobile-analytics-data-pipeline",
+    title: "Mobile App Analytics Data Pipeline",
+    subtitle:
+      "Multi-source ingestion pipeline unifying AppsFlyer, MoEngage, Google Play Console, and App Store Connect into BigQuery for a Looker Studio monitoring dashboard.",
+    client: "Digital financial services app",
+    categories: ["data-engineer"],
+    stack: ["Python", "dbt", "BigQuery", "Cloud Run Jobs", "Cloud Workflows", "Cloud Scheduler", "Cloud Build", "GCP Secret Manager", "Terraform", "Looker Studio"],
+    year: "2026",
+  },
+  {
     slug: "telco-churn-prediction",
     title: "Telco Customer Churn Prediction (Streamlit)",
     subtitle:

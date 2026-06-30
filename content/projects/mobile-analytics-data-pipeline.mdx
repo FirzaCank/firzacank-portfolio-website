@@ -1,0 +1,52 @@
+---
+title: "Mobile App Analytics Data Pipeline"
+subtitle: "Multi-source ingestion pipeline unifying AppsFlyer, MoEngage, Google Play Console, and App Store Connect into BigQuery for a Looker Studio monitoring dashboard."
+client: "Digital financial services app"
+role: "Data Engineer"
+year: "2026"
+duration: "2 months"
+stack: ["Python", "dbt", "BigQuery", "Cloud Run Jobs", "Cloud Workflows", "Cloud Scheduler", "Cloud Build", "GCP Secret Manager", "Terraform", "Looker Studio"]
+githubUrl: "https://github.com/FirzaCank/Dashboard-Tring-Apps"
+---
+
+## Context
+
+A digital financial services app needed a single source of truth for their product analytics. Data was scattered across four platforms: AppsFlyer (attribution and events), MoEngage (push campaigns), Google Play Console (Android performance), and App Store Connect (iOS analytics). Each had its own API format, auth method, and data lag. Marketing, product, and growth teams were pulling reports manually from each platform individually.
+
+The goal was to automate all four sources into one BigQuery warehouse, transform the raw data with dbt into clean mart tables, and surface it in a Looker Studio dashboard refreshed twice daily.
+
+## Problem
+
+Four distinct ingestion challenges in one pipeline:
+
+- **AppsFlyer** exposes separate endpoints per report type (installs, events, cohorts, cost) across iOS and Android. That is 8 total pulls per run.
+- **MoEngage** requires a two-step campaign API: search for campaigns first, then fetch stats per campaign.
+- **Google Play Console** has a 3-day data lag on vitals APIs. Requesting data newer than T-3 returns HTTP 400, so the pipeline window must be offset accordingly.
+- **App Store Connect** uses JWT-signed tokens with short expiry, requiring rotation logic baked into the extractor.
+
+Beyond ingestion, the pipeline needed CI/CD, environment isolation (dev vs. prod), and a runbook a non-engineer could follow for token rotation and backfills.
+
+## Approach
+
+**Architecture.** Cloud Scheduler triggers Cloud Workflows twice daily. The workflow fans out all four extractors in parallel, waits for all to succeed, then runs the dbt transform step. Each extractor runs as an independent Cloud Run Job. A single Docker image packages both the Python ingestion code and the dbt project, and each job sets its own command and args at runtime, keeping the image count to one.
+
+**Ingestion layer.** Each source is a Python module with its own API client, retry logic, and schema normalization. Raw payloads land in BigQuery raw layer tables. Extraction is stateless: the pipeline accepts a date range parameter, defaulting to T-4 to T-3 to accommodate the Play Console lag.
+
+**Transform layer.** dbt handles staging (type casting, deduplication, null handling) and mart (joined, aggregated, Looker-ready) layers. Models are tested with dbt's built-in schema tests, 51 tests total across all four sources, all green before production deploy.
+
+**CI/CD.** Cloud Build runs on push to `develop` (deploys to dev GCP) and `main` (deploys to client prod GCP via VPN). Secrets are managed in GCP Secret Manager, never in code or environment variables.
+
+**Environments.** Two long-lived branches mirror two GCP projects: consultant-owned dev for testing, client-owned prod for live data. Feature branches go through dev E2E verification before merging to main.
+
+## Results
+
+- **4 sources fully automated** across AppsFlyer, MoEngage, Google Play Console, and App Store Connect, all running end-to-end in production.
+- **51 dbt tests passing** across all sources, covering null checks, uniqueness, accepted values, and referential integrity.
+- **Full handover documentation** including setup guide, runbook, data catalogs per source, and contributing guide written for the client's internal team to maintain independently.
+
+## Stack notes
+
+- **Cloud Workflows** orchestrates parallel extraction with a fan-out pattern. All four sources run simultaneously and dbt only starts after all succeed. A single workflow failure stops the transform from running on partial data.
+- **Single Docker image** for both Python ingestion and dbt reduces image management overhead. Each Cloud Run Job overrides the command at runtime.
+- **dbt Medallion layers** (raw, staging, mart) keep transform logic modular. Adding a new source means adding one staging model and one mart model without touching existing ones.
+- **GCP Secret Manager** for all credentials. API tokens, service account keys, and App Store Connect private keys are never in code, never in env files, never in logs.
