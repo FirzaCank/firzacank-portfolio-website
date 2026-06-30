@@ -36,14 +36,18 @@ export function getDocs(): Doc[] {
   });
 
   for (const r of ROLES) {
+    const header = `${r.title} at ${r.company}${r.placement ? ` (${r.placement})` : ""}, ${r.period}${r.current ? " (current role)" : ""}. Location: ${r.location}.`;
+    // One doc per highlight so retrieval can pinpoint a specific achievement.
+    for (const highlight of r.highlights) {
+      docs.push({
+        source: `Experience: ${r.title} at ${r.company}`,
+        text: `${header}\n${r.summary}\n${highlight}\nStack: ${r.stack.join(", ")}.`,
+      });
+    }
+    // Overview doc covers summary + full stack for broad queries ("companies", "career start").
     docs.push({
       source: `Experience: ${r.title} at ${r.company}`,
-      text: [
-        `${r.title} at ${r.company}${r.placement ? ` (${r.placement})` : ""}, ${r.period}${r.current ? " (current role)" : ""}. Location: ${r.location}.`,
-        r.summary,
-        r.highlights.join(" "),
-        `Stack: ${r.stack.join(", ")}.`,
-      ].join("\n"),
+      text: `${header}\n${r.summary}\nStack: ${r.stack.join(", ")}.`,
     });
   }
 
