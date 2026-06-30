@@ -11,7 +11,7 @@ import { embed, cosine } from "@/lib/rag/embed";
 
 type IndexEntry = { source: string; text: string; vector: number[] };
 
-const TOP_K = 5;
+const TOP_K = 8;
 const MIN_SCORE = 0.4; // drop weakly-related chunks so we don't pad the prompt with noise
 
 let index: IndexEntry[] | null = null;
