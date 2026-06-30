@@ -24,7 +24,7 @@ export const SOCIAL_LINKS = {
   tableau: "https://public.tableau.com/app/profile/firza.putra/vizzes",
   hackerrank: "https://hackerrank.com/profile/firzasandjaya",
   youtube: "https://www.youtube.com/@firzachandra4169",
-  fastwork: "https://fastwork.id/user/firzachan/data-analysis-18839765",
+  fastwork: "https://fastwork.id/byob/tjKrYnCJqu?openExternalBrowser=1&source=byob",
   projectsCoId: "https://projects.co.id/public/browse_users/view/62a95c/cankcimen12",
 };
 
