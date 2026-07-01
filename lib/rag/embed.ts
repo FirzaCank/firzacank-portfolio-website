@@ -29,10 +29,7 @@ export async function embed(text: string, taskType: TaskType, apiKey: string): P
   return values;
 }
 
-// Embed many texts (build time). batchEmbedContents rejects API-key auth on
-// this model, so we run sequential embedContent calls. ~50 chunks takes a few
-// seconds and stays well within the free tier.
-// ponytail: sequential calls; parallelize with a concurrency limit if chunk count grows large.
+// ponytail: sequential calls (batchEmbedContents rejects API-key auth). Parallelize if chunk count grows large.
 export async function embedBatch(texts: string[], taskType: TaskType, apiKey: string): Promise<number[][]> {
   const out: number[][] = [];
   for (const text of texts) {
