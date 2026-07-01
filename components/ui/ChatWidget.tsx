@@ -114,9 +114,19 @@ export default function ChatWidget() {
             className="fixed bottom-24 right-5 z-50 flex h-[min(34rem,calc(100vh-8rem))] w-[min(24rem,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-ink/15 bg-beige-card shadow-2xl"
           >
             {/* Header */}
-            <div className="border-b border-ink/10 px-5 py-4">
+            <div className="relative border-b border-ink/10 px-5 py-4 pr-12">
               <p className="font-display text-base font-semibold text-ink">Ask about Firza</p>
               <p className="font-sans text-xs text-ink-muted/60">AI-generated · may not be fully accurate. For detailed or specific information, reach out via the <a href="/contact" className="underline hover:text-sage">Contact</a> page.</p>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Close chat"
+                className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full text-ink-muted/50 transition-colors hover:bg-ink/8 hover:text-ink"
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </button>
             </div>
 
             {/* Messages */}
