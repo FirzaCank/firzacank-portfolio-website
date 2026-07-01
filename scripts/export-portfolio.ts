@@ -1,8 +1,4 @@
-// Exports all portfolio data from the TypeScript source of truth into a flat
-// JSON file the Python RAG service can read. The TS files stay authoritative;
-// this just mirrors them into data/portfolio.json so Python has structured data
-// for the tool-calling handlers (search_projects, search_experience, etc.).
-//
+// Export data/*.ts to data/portfolio.json so Python tool handlers can read it.
 // Run with: npm run export-portfolio
 
 import fs from "node:fs";
