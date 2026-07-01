@@ -10,12 +10,12 @@ stack: ["Python", "Pandas", "Excel", "Looker Studio", "Google Sheets"]
 
 ## Context
 
-A banking collections operation: hundreds of agents, a multi-trillion-rupiah delinquent portfolio. Monthly reports arrived as separate Excel files with no unified view across agents, regions, or time — so questions like "who are our consistent top performers" or "where is recovery coming from" meant rebuilding the analysis from scratch every month.
+A banking collections operation: hundreds of agents, a large-scale delinquent portfolio. Monthly reports arrived as separate Excel files with no unified view across agents, regions, or time — so questions like "who are our consistent top performers" or "where is recovery coming from" meant rebuilding the analysis from scratch every month.
 
 ## Problem
 
 - Ten monthly Excel workbooks (Feb–Nov 2025), each with its own quirks: header drift, merged cells, inconsistent agent name spellings.
-- Alarming headline numbers — 95.6% unconnected rate, 1.56% success rate vs a 15–25% industry benchmark — needed a defensible explanation, not just the metric.
+- Alarming headline numbers — an extremely high unconnected rate and a success rate well below industry benchmarks — needed a defensible explanation, not just the metric.
 - One agent had anomalous numbers (zero connected calls but the highest "paid count") that would distort any naive ranking and undermine trust in the dashboard.
 
 ## Approach
@@ -28,6 +28,6 @@ A banking collections operation: hundreds of agents, a multi-trillion-rupiah del
 
 ## Outcome
 
-The dashboard became the monthly review artifact — leadership, team leads, and the data team all working off the same numbers. The report reframed the 95.6% unconnected rate as a data-quality problem, not an agent-skill problem, redirecting investment toward contact-database validation and skip tracing. Top-performer benchmarks (10–15 min optimal call duration, 2–3 attempts per account, 15–20% PTP conversion on connected calls) gave the coaching program concrete targets, and the tiered recommendations turned a one-off audit into an executable action backlog.
+The dashboard became the monthly review artifact — leadership, team leads, and the data team all working off the same numbers. The report reframed the 95.6% unconnected rate as a data-quality problem, not an agent-skill problem, redirecting investment toward contact-database validation and skip tracing. Top-performer benchmarks on call duration, attempt cadence, and PTP conversion gave the coaching program concrete targets, and the tiered recommendations turned a one-off audit into an executable action backlog.
 
 The live dashboard is kept private under the client's data confidentiality terms.
