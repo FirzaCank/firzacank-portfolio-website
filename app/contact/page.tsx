@@ -51,18 +51,17 @@ export default function ContactPage() {
           </p>
 
           <p className="mt-8 max-w-prose font-sans text-lg text-ink-muted leading-[1.7]">
-            Open to data analysis, dashboard, pitchdeck, data engineering, data science, machine learning, and AI engineering project inquiries and
-            collaborations.
+            Taking on projects in <span className="font-semibold text-ink">data engineering</span>, <span className="font-semibold text-ink">AI engineering</span>, <span className="font-semibold text-ink">machine learning</span>, data analysis, dashboards, and pitch decks.
             Drop a message below or reach me directly on the channels on the right.
           </p>
 
-          <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-sage/40 bg-sage-soft/15 px-4 py-2">
+          <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-sage bg-sage/10 px-5 py-2.5 shadow-sm">
             <span aria-hidden="true" className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sage opacity-60" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sage opacity-75" />
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-sage" />
             </span>
-            <span className="font-sans text-xs uppercase tracking-[0.18em] text-ink">
-              Open to projects
+            <span className="font-sans text-sm font-semibold uppercase tracking-[0.18em] text-sage">
+              Available for new projects
             </span>
           </div>
         </div>
