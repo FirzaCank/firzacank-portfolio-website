@@ -1,0 +1,41 @@
+---
+title: "Personal Portfolio Website with RAG Chat"
+subtitle: "A personal portfolio built with Next.js and a Gemini-powered chat assistant that answers questions about my work using semantic retrieval over projects, experience, and skills."
+client: "Self-initiated"
+role: "Full-stack & AI Engineer"
+year: "2026"
+duration: "ongoing"
+stack: ["Next.js", "TypeScript", "Tailwind CSS", "Gemini API", "RAG", "Vercel", "MDX", "Framer Motion"]
+---
+
+## Context
+
+I wanted a portfolio that could do more than just display static content. Most portfolios are one-way: the visitor has to read through everything and piece together the picture themselves. I wanted visitors to be able to ask questions and get direct answers about my work, experience, and skills without having to dig through pages manually.
+
+The result is this site: a Next.js portfolio with a chat widget backed by a Gemini-powered RAG pipeline.
+
+## Problem
+
+Two challenges to solve:
+
+- A generic LLM with no context about me would either hallucinate or give vague answers. It needed to be grounded in actual content from the portfolio.
+- Dumping all portfolio content into every prompt would be slow and wasteful. The assistant needed to retrieve only the relevant pieces per question.
+
+## Approach
+
+**Content layer.** All portfolio content lives as structured TypeScript data (experience, projects, skills) and MDX case studies. A build-time script reads all of it, splits it into chunks, embeds each chunk via Gemini's embedding model, and writes the vectors to a local JSON file.
+
+**Retrieval.** At query time, the user's question is embedded and compared against all stored vectors using cosine similarity. The top-k most relevant chunks are pulled and injected into the system prompt as grounding context.
+
+**Generation.** Gemini handles the response with a tight system prompt: answer only from the retrieved context, never hallucinate, stay scoped to questions about my work. The response streams back to the client token by token.
+
+**Rate limiting.** Two layers: per-IP (20 requests per minute) and global (200 requests per hour) to stay within the free tier and prevent abuse.
+
+**Frontend.** Next.js App Router, Tailwind CSS for styling, Framer Motion for transitions. The chat widget floats over the page and streams responses in real time. MDX powers the case study pages.
+
+## Stack notes
+
+- **Gemini embedding model** for both indexing and query-time retrieval. Keeping both on the same model avoids vector space mismatches.
+- **Static vector index** stored as a JSON file in the repo. Simple and fast for a portfolio-scale dataset (70 chunks). No external vector DB needed.
+- **Streaming SSE** from the API route to the client so responses appear progressively rather than waiting for the full answer.
+- **Vercel** for deployment with serverless functions handling the chat API.

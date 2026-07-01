@@ -170,6 +170,16 @@ export const PROJECTS: Project[] = [
     year: "2026",
   },
   {
+    slug: "personal-portfolio-website",
+    title: "Personal Portfolio Website with RAG Chat",
+    subtitle:
+      "A personal portfolio built with Next.js and a Gemini-powered chat assistant that answers questions about my work using semantic retrieval over projects, experience, and skills.",
+    client: "Self-initiated",
+    categories: ["ai-engineer", "data-engineer"],
+    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Gemini API", "RAG", "Vercel", "MDX", "Framer Motion"],
+    year: "2026",
+  },
+  {
     slug: "telco-churn-prediction",
     title: "Telco Customer Churn Prediction (Streamlit)",
     subtitle:
