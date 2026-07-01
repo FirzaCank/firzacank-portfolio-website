@@ -124,6 +124,9 @@ export const SKILL_GROUPS = [
       "Gemini API",
       "FAISS",
       "RAG",
+      "Vector Search",
+      "Tool Calling",
+      "Prompt Engineering",
       "SentenceTransformer",
       "OpenCV",
     ],
@@ -131,6 +134,7 @@ export const SKILL_GROUPS = [
   {
     group: "ML / Data Science",
     items: [
+      "Deep Learning",
       "TensorFlow / Keras",
       "PyTorch",
       "scikit-learn",
@@ -143,7 +147,7 @@ export const SKILL_GROUPS = [
   },
   {
     group: "Backend",
-    items: ["FastAPI", "Flask", "SQLAlchemy", "REST API"],
+    items: ["FastAPI", "Flask", "SQLAlchemy", "REST API", "Next.js"],
   },
   {
     group: "Cloud",
@@ -182,6 +186,6 @@ export const SKILL_GROUPS = [
   },
   {
     group: "Languages",
-    items: ["Python", "SQL", "JavaScript", "Shell Script"],
+    items: ["Python", "SQL", "JavaScript", "TypeScript", "Shell Script"],
   },
 ];
