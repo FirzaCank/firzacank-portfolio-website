@@ -1,6 +1,4 @@
-// Turns all portfolio data into labeled documents ready for chunking.
-// Replaces the old single-blob context with per-document sources so retrieval
-// can pull only the relevant pieces and cite them.
+// Turns all portfolio data into labeled Doc objects for chunking and embedding.
 
 import { getAllCaseStudySlugs, getCaseStudyBySlug } from "@/lib/mdx";
 import { BIO_PARAGRAPHS, EDUCATION, CERTIFICATIONS, LANGUAGES, SKILL_GROUPS, LEADERSHIP, ACHIEVEMENTS } from "@/data/about";
