@@ -55,7 +55,7 @@ export default function ContactPage() {
             Drop a message below or reach me directly on the channels on the right.
           </p>
 
-          <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-sage bg-sage/10 px-5 py-2.5 shadow-sm">
+          <a href="#contact-form" className="mt-8 inline-flex items-center gap-3 rounded-full border border-sage bg-sage/10 px-5 py-2.5 shadow-sm transition-colors hover:bg-sage/20">
             <span aria-hidden="true" className="relative flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sage opacity-75" />
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-sage" />
@@ -63,11 +63,11 @@ export default function ContactPage() {
             <span className="font-sans text-sm font-semibold uppercase tracking-[0.18em] text-sage">
               Available for new projects
             </span>
-          </div>
+          </a>
         </div>
       </section>
 
-      <section className="border-t border-ink/20 bg-beige-deep/30">
+      <section id="contact-form" className="border-t border-ink/20 bg-beige-deep/30">
         <div className="mx-auto max-w-container px-6 md:px-10 py-16 md:py-20">
           <div className="grid gap-12 md:grid-cols-[1.3fr_1fr] md:gap-16">
             {/* Left: Form */}
