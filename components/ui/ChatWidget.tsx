@@ -19,6 +19,8 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const accRef = useRef("");
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -31,8 +33,8 @@ export default function ChatWidget() {
     const next: Msg[] = [...messages, { role: "user", content: q }];
     setMessages([...next, { role: "assistant", content: "" }]);
     setBusy(true);
+    accRef.current = "";
 
-    // Safety net: abort if the stream hangs past 60s so the input never stays locked.
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 60_000);
     try {
@@ -48,15 +50,23 @@ export default function ChatWidget() {
       }
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
-      let acc = "";
       let firstChunk = true;
       for (;;) {
         const { done, value } = await reader.read();
         if (done) break;
-        acc += decoder.decode(value, { stream: true });
+        accRef.current += decoder.decode(value, { stream: true });
         if (firstChunk) { setBusy(false); firstChunk = false; }
-        setMessages([...next, { role: "assistant", content: acc }]);
+        // throttle re-renders to one per animation frame
+        if (!rafRef.current) {
+          rafRef.current = requestAnimationFrame(() => {
+            rafRef.current = null;
+            setMessages([...next, { role: "assistant", content: accRef.current }]);
+          });
+        }
       }
+      // flush any remaining content after stream ends
+      if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
+      setMessages([...next, { role: "assistant", content: accRef.current }]);
     } catch (err) {
       setMessages([
         ...next,
