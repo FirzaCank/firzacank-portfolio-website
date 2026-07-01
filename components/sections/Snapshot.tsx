@@ -17,7 +17,7 @@ const METRICS = [
     detail: "From 8 hours to 5 minutes with Document AI",
   },
   {
-    value: "IDR 300M",
+    value: "IDR XXX M",
     label: "Monthly GMV driven",
     detail: "Marketplace recommendation systems",
   },
