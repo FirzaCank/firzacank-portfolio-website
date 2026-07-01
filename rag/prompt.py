@@ -1,8 +1,7 @@
 """System prompt for the portfolio chat assistant.
 
-Ported from the old Next.js route. Combines RAG grounding rules with the
-tool-calling instructions: the model can either answer from retrieved context
-or call a tool to look up structured data, then answer from the result.
+Combines RAG grounding rules with tool-calling instructions: the model can
+answer from retrieved context or call a tool to look up structured data.
 """
 
 
