@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "embeddings": "npx tsx scripts/build-embeddings.ts"
+    "export-portfolio": "npx tsx scripts/export-portfolio.ts",
+    "embeddings": "npx tsx scripts/build-embeddings.ts",
+    "build-rag": "npm run export-portfolio && npm run embeddings"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
