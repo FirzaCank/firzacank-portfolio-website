@@ -1,7 +1,5 @@
-// Build-time RAG index: chunk all portfolio docs, embed each chunk via Gemini,
-// write the vectors to data/embeddings.json. Run with: npm run embeddings
-//
-// Re-run whenever content changes (new project, edited experience, etc.).
+// Chunk all portfolio docs, embed via Gemini, write data/embeddings.json.
+// Run with: npm run embeddings. Re-run whenever content changes.
 
 import fs from "node:fs";
 import path from "node:path";
