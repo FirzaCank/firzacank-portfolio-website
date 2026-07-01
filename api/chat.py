@@ -1,14 +1,4 @@
-"""Vercel Python serverless handler for the portfolio chat assistant.
-
-Flow per request:
-1. Validate + sanitize the message history.
-2. RAG: embed the latest user question, retrieve the most relevant chunks.
-3. Ask Gemini with the retrieved context + tool declarations.
-4. If Gemini calls a tool, run it, feed the result back, and ask again.
-5. Stream the final answer back to the client as plain text.
-
-Rate limits are in-memory and reset on cold start (see note below).
-"""
+"""Vercel Python handler: validate input, RAG retrieve, run Gemini tool-calling loop, stream reply."""
 
 import json
 import os
@@ -89,12 +79,7 @@ def _to_gemini_contents(messages):
 
 
 def _run_chat(messages, api_key):
-    """Generator yielding final-answer text chunks.
-
-    Runs the tool-calling loop internally: text is streamed straight through,
-    but a function call pauses streaming, runs the tool, appends the result,
-    and re-asks Gemini (up to MAX_TOOL_ROUNDS).
-    """
+    """Yield answer text chunks, running the tool-calling loop up to MAX_TOOL_ROUNDS."""
     last_user = next((m["content"] for m in reversed(messages) if m["role"] == "user"), "")
     try:
         hits = retrieve(last_user, api_key)
