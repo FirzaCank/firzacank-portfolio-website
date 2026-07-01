@@ -49,10 +49,12 @@ export default function ChatWidget() {
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let acc = "";
+      let firstChunk = true;
       for (;;) {
         const { done, value } = await reader.read();
         if (done) break;
         acc += decoder.decode(value, { stream: true });
+        if (firstChunk) { setBusy(false); firstChunk = false; }
         setMessages([...next, { role: "assistant", content: acc }]);
       }
     } catch (err) {
