@@ -178,7 +178,7 @@ export default function ChatWidget() {
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
                       e.preventDefault();
-                      send(input);
+                      setTimeout(() => send(input), 0);
                     }
                   }}
                   placeholder="Ask a question…"
