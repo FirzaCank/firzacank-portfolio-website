@@ -46,7 +46,7 @@ export default function ChatWidget() {
       });
       if (!res.ok || !res.body) {
         const { error } = await res.json().catch(() => ({ error: "" }));
-        throw new Error(error || "Chat unavailable.");
+        throw new Error(error || "The assistant is temporarily unavailable. Please try again in a moment.");
       }
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -70,7 +70,7 @@ export default function ChatWidget() {
     } catch (err) {
       setMessages([
         ...next,
-        { role: "assistant", content: err instanceof Error ? err.message : "Something went wrong. Please try again." },
+        { role: "assistant", content: err instanceof Error ? err.message : "Something went wrong on my end. Please try again in a moment." },
       ]);
     } finally {
       clearTimeout(timer);

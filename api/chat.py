@@ -139,10 +139,10 @@ class handler(BaseHTTPRequestHandler):
             return self._json(500, {"error": "GEMINI_API_KEY not configured on the server."})
 
         if _global_limited():
-            return self._json(429, {"error": "The assistant is busy right now. Please try again in a few minutes."})
+            return self._json(429, {"error": "The assistant is getting a lot of traffic right now. This is temporary — please try again in a few minutes."})
         ip = (self.headers.get("x-forwarded-for") or "unknown").split(",")[0].strip()
         if _ip_limited(ip):
-            return self._json(429, {"error": "Too many requests. Please wait a moment."})
+            return self._json(429, {"error": "You've sent a few messages quickly. Please wait a moment and try again."})
 
         try:
             length = int(self.headers.get("content-length", 0))
