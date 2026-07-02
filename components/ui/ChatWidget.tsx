@@ -130,7 +130,7 @@ export default function ChatWidget() {
             </div>
 
             {/* Messages */}
-            <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto px-5 py-4">
+            <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-5 py-3">
               {messages.length === 0 && (
                 <div className="space-y-3">
                   <p className="font-sans text-sm text-ink-muted">
@@ -153,19 +153,19 @@ export default function ChatWidget() {
               {messages.map((m, i) => (
                 <div key={i} className={m.role === "user" ? "flex justify-end" : "flex justify-start"}>
                   {m.role === "user" ? (
-                    <div className="max-w-[85%] whitespace-pre-wrap rounded-2xl bg-ink px-3.5 py-2.5 font-sans text-sm leading-relaxed text-beige-card">
+                    <div className="max-w-[85%] whitespace-pre-wrap rounded-2xl bg-ink px-3 py-2 font-sans text-[13px] leading-snug text-beige-card">
                       {m.content}
                     </div>
                   ) : (
-                    <div className="max-w-[85%] rounded-2xl border border-ink/10 bg-beige px-3.5 py-2.5 font-sans text-sm leading-relaxed text-ink">
+                    <div className="max-w-[85%] rounded-2xl border border-ink/10 bg-beige px-3 py-2 font-sans text-[13px] leading-snug text-ink">
                       {m.content ? (
                         <ReactMarkdown
                           remarkPlugins={[remarkGfm]}
                           components={{
-                            p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                            ul: ({ children }) => <ul className="mb-2 ml-4 list-disc space-y-1 last:mb-0">{children}</ul>,
-                            ol: ({ children }) => <ol className="mb-2 ml-4 list-decimal space-y-1 last:mb-0">{children}</ol>,
-                            li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+                            p: ({ children }) => <p className="mb-1.5 last:mb-0">{children}</p>,
+                            ul: ({ children }) => <ul className="mb-1.5 ml-4 list-disc space-y-0.5 last:mb-0">{children}</ul>,
+                            ol: ({ children }) => <ol className="mb-1.5 ml-4 list-decimal space-y-0.5 last:mb-0">{children}</ol>,
+                            li: ({ children }) => <li className="leading-snug">{children}</li>,
                             strong: ({ children }) => <strong className="font-semibold text-ink">{children}</strong>,
                             em: ({ children }) => <em className="italic">{children}</em>,
                             code: ({ children }) => <code className="rounded bg-beige-deep px-1 py-0.5 font-mono text-xs">{children}</code>,
