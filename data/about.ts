@@ -153,7 +153,7 @@ export const SKILL_GROUPS = [
     group: "Cloud",
     items: [
       "AWS (EC2, S3, Lambda, ECS/ECR)",
-      "GCP (Vertex AI, BigQuery, Cloud Run, Document AI, Pub/Sub, Composer)",
+      "GCP (Vertex AI, Agent Platform, BigQuery, Cloud Run, Document AI, Pub/Sub, Composer)",
       "Snowflake",
     ],
   },

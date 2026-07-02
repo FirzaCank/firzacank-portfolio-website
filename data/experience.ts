@@ -26,8 +26,8 @@ export const ROLES: Role[] = [
       "Building data and Machine Learning (ML) infrastructure for a multi-brand consumer aggregator. Pipelines, recommendation systems, AI-driven automation across 11+ brands.",
     highlights: [
       "Designed L0–L2 ETL pipelines ingesting order and customer data from 4 marketplace APIs & Google Sheets to BigQuery for 11+ brands, with Flask-based token management on Cloud Run and PostgreSQL for API authentication, enabling unified analytics and reporting.",
-      "Optimized scalable product recommendation systems on Shopee Marketplace (NCF, Replenishment, and Baby Cloth) using TensorFlow/Keras, scikit-learn, and FastAPI on GCP (Vertex AI), driving hundreds of millions IDR/month GMV.",
-      "Created an end-to-end pipeline for a smart voucher optimization system using K-Means clustering and linear programming for budget-constrained allocation, orchestrated via Vertex AI Pipelines and Cloud Composer, achieving 200× average monthly ROI per brand.",
+      "Optimized scalable product recommendation systems on Shopee Marketplace (NCF, Replenishment, and Baby Cloth) using TensorFlow/Keras, scikit-learn, and FastAPI on GCP (Vertex AI, Agent Platform), driving hundreds of millions IDR/month GMV.",
+      "Created an end-to-end pipeline for a smart voucher optimization system using K-Means clustering and linear programming for budget-constrained allocation, orchestrated via Vertex AI and Agent Platform Pipelines and Cloud Composer, achieving 200× average monthly ROI per brand.",
       "Automated financial workflows for 3 brands by integrating Jubelio (OMS) with Jurnal.id via API, reducing invoice processing from days to <5 minutes for hundreds of daily invoices, and accelerating cash flow through faster AR recognition.",
       "Engineered an AI-based OCR system using GCP Document AI (evaluated against Mistral AI), automating invoice and receipt processing, reducing extraction time from 8 hours to 5 minutes (96× faster) with 90%+ accuracy.",
       "Delivered Metabase dashboards for Finance, Data Science, and Business Operations teams to monitor catalog performance, advertising AI, and customer data platform.",
