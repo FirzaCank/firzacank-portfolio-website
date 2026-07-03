@@ -1,12 +1,75 @@
 import { NextResponse } from "next/server";
 
+// ponytail: in-memory counters, reset on cold start. Fine for a portfolio.
+// Move to Upstash/Redis only if persistent cross-instance limits are needed.
+type RateBucket = { count: number; resetAt: number };
+const _ipHits = new Map<string, RateBucket>();
+const _global: RateBucket = { count: 0, resetAt: 0 };
+
+function ipLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = _ipHits.get(ip);
+  if (!entry || now > entry.resetAt) {
+    _ipHits.set(ip, { count: 1, resetAt: now + 60_000 });
+    return false;
+  }
+  if (entry.count >= 5) return true;
+  entry.count++;
+  return false;
+}
+
+function globalLimited(): boolean {
+  const now = Date.now();
+  if (now > _global.resetAt) {
+    _global.count = 0;
+    _global.resetAt = now + 3_600_000;
+  }
+  if (_global.count >= 50) return true;
+  _global.count++;
+  return false;
+}
+
+function sanitize(val: unknown, maxLen: number): string {
+  return String(val ?? "").replace(/[<>&"']/g, "").trim().slice(0, maxLen);
+}
+
+function isValidEmail(val: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+}
+
 export async function POST(request: Request) {
   try {
-    const { name, email, topic, message } = await request.json();
+    const ip = (request.headers.get("x-forwarded-for") ?? "unknown").split(",")[0].trim();
+    if (globalLimited()) {
+      return NextResponse.json(
+        { error: "The contact form is receiving a lot of submissions right now. Please try again later." },
+        { status: 429 }
+      );
+    }
+    if (ipLimited(ip)) {
+      return NextResponse.json(
+        { error: "You've submitted a few messages recently. Please wait a minute before trying again." },
+        { status: 429 }
+      );
+    }
+
+    const body = await request.json();
+
+    const name = sanitize(body.name, 100);
+    const email = sanitize(body.email, 254).replace(/[\r\n]/g, "");
+    const topic = sanitize(body.topic, 100);
+    const message = sanitize(body.message, 5000);
 
     if (!name || !email || !message) {
       return NextResponse.json(
         { error: "Name, email, and message are required." },
+        { status: 400 }
+      );
+    }
+
+    if (!isValidEmail(email)) {
+      return NextResponse.json(
+        { error: "Please provide a valid email address." },
         { status: 400 }
       );
     }
