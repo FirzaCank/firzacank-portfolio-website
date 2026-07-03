@@ -153,7 +153,7 @@ export const SKILL_GROUPS = [
     group: "Cloud",
     items: [
       "AWS (EC2, S3, Lambda, ECS/ECR)",
-      "GCP (Vertex AI, Agent Platform, BigQuery, Cloud Run, Document AI, Pub/Sub, Composer)",
+      "GCP (Vertex AI, Agent Platform, BigQuery, Cloud Run, Document AI, Pub/Sub, Composer, Cloud Build, Cloud Workflows, Cloud Scheduler, Secret Manager, IAM)",
       "Snowflake",
     ],
   },
@@ -178,7 +178,7 @@ export const SKILL_GROUPS = [
   },
   {
     group: "Infra & DevOps",
-    items: ["Docker", "Kubernetes", "BitBucket CI/CD", "Linux", "Git"],
+    items: ["Terraform", "Docker", "Kubernetes", "BitBucket CI/CD", "Linux", "Git"],
   },
   {
     group: "Tools",
