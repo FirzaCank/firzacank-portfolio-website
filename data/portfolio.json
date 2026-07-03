@@ -231,7 +231,8 @@
       "client": "Digital financial services app",
       "year": "2026",
       "categories": [
-        "Data Engineer"
+        "Data Engineer",
+        "DevOps"
       ],
       "stack": [
         "Python",
@@ -513,7 +514,7 @@
         "group": "Cloud",
         "items": [
           "AWS (EC2, S3, Lambda, ECS/ECR)",
-          "GCP (Vertex AI, Agent Platform, BigQuery, Cloud Run, Document AI, Pub/Sub, Composer)",
+          "GCP (Vertex AI, Agent Platform, BigQuery, Cloud Run, Document AI, Pub/Sub, Composer, Cloud Build, Cloud Workflows, Cloud Scheduler, Secret Manager, IAM)",
           "Snowflake"
         ]
       },
@@ -549,6 +550,7 @@
       {
         "group": "Infra & DevOps",
         "items": [
+          "Terraform",
           "Docker",
           "Kubernetes",
           "BitBucket CI/CD",
