@@ -61,3 +61,4 @@ claude.md
 handoff.md
 todo.md
 embeddings_readable.json
+.env*
