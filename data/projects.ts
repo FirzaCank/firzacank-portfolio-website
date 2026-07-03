@@ -8,6 +8,7 @@ export type ProjectCategory =
   | "ml-engineer"
   | "ai-engineer"
   | "financial-analyst"
+  | "devops"
   | "pitch-deck"
   | "dashboard";
 
@@ -18,6 +19,7 @@ export const CATEGORY_LABEL: Record<ProjectCategory, string> = {
   "ml-engineer": "ML Engineer",
   "ai-engineer": "AI Engineer",
   "financial-analyst": "Financial Analyst",
+  devops: "DevOps",
   "pitch-deck": "Pitch Deck",
   dashboard: "Dashboard",
 };
@@ -165,7 +167,7 @@ export const PROJECTS: Project[] = [
     subtitle:
       "Multi-source ingestion pipeline unifying AppsFlyer, MoEngage, Google Play Console, and App Store Connect into BigQuery for a Looker Studio monitoring dashboard.",
     client: "Digital financial services app",
-    categories: ["data-engineer"],
+    categories: ["data-engineer", "devops"],
     stack: ["Python", "dbt", "BigQuery", "Cloud Run Jobs", "Cloud Workflows", "Cloud Scheduler", "Cloud Build", "GCP Secret Manager", "Terraform", "Looker Studio"],
     year: "2026",
   },
