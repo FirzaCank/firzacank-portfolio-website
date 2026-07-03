@@ -17,6 +17,7 @@ const CATEGORY_ORDER: ProjectCategory[] = [
   "data-engineer",
   "data-science",
   "ai-engineer",
+  "devops",
   "pitch-deck",
   "dashboard",
 ];
