@@ -48,7 +48,7 @@ The main technical challenge was building a RAG pipeline that stays grounded. Em
 - **Retrieval alone was not enough.** Open-ended queries returned relevant chunks, but questions like "what was his first job?" or "projects in 2026?" needed exact ordering and filtering that semantic search cannot guarantee. The solution was a hybrid: RAG for context, structured tool calling for precise lookups.
 - **Gemini thinking models return a `thoughtSignature` field** alongside function call parts. This signature must be passed back verbatim when feeding tool results, or the API returns a 400 error. It took debugging the raw SSE stream to catch this.
 - **Asymmetric embedding task types matter.** Using `RETRIEVAL_QUERY` at request time and `RETRIEVAL_DOCUMENT` at build time improved retrieval relevance noticeably versus using the same task type for both. Easy to miss in the docs.
-- **Free tier RPM limits are tight on newer models.** `gemini-3.5-flash` hit 503 overload errors in production due to capacity constraints on the free tier. Switched to `gemini-2.5-flash` which has more stable free-tier availability while maintaining answer quality for this use case.
+- **Free tier limits are tight on most models.** `gemini-3.5-flash` hit 503 overload errors in production, and most flash models only allow 20 requests per day on the free tier. Settled on `gemini-3.1-flash-lite` (500 RPD) after validating tool calling and answer accuracy with a fixed test set. Lite models needed an explicit "MUST call the tool first" instruction in the prompt to stop them answering capability questions from context alone.
 
 ## Design tokens
 
