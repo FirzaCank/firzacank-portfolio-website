@@ -3,11 +3,6 @@ import { PROJECTS } from "@/data/projects";
 export default function ProjectsIntro() {
   return (
     <section className="relative overflow-hidden">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-32 -right-20 h-[420px] w-[420px] rounded-full bg-sage-soft/30 blur-3xl"
-      />
-
       <div className="mx-auto max-w-container px-6 md:px-10 pt-12 md:pt-20 pb-8 md:pb-12">
         <div className="flex items-center gap-3">
           <span className="h-px w-10 bg-sage" />
