@@ -65,7 +65,7 @@ export default function FeaturedProjects() {
               </div>
 
               {/* Title */}
-              <h3 className="relative mt-5 font-display text-2xl md:text-3xl text-ink tracking-tighter leading-tight">
+              <h3 className="relative mt-5 font-satoshi text-2xl md:text-3xl text-ink tracking-tighter leading-tight">
                 {p.title}
               </h3>
 
