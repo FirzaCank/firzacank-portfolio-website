@@ -89,7 +89,8 @@ def stream_generate(model: str, body: dict, api_key: str):
                     buf = ""
             break  # success
         except urllib.error.HTTPError as e:
-            if e.code in (429, 503) and attempt == 0:
+            # retry 503 (transient overload) only; retrying 429 just burns more quota
+            if e.code == 503 and attempt == 0:
                 time.sleep(2)
                 continue
             raise
