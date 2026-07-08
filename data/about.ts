@@ -171,7 +171,7 @@ export const SKILL_GROUPS = [
   },
   {
     group: "Databases",
-    items: ["PostgreSQL", "MySQL", "MongoDB Atlas"],
+    items: ["PostgreSQL", "MySQL", "MongoDB Atlas", "NoSQL"],
   },
   {
     group: "BI & Visualization",
