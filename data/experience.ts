@@ -25,10 +25,10 @@ export const ROLES: Role[] = [
     summary:
       "Building data and Machine Learning (ML) infrastructure for a multi-brand consumer aggregator. Pipelines, recommendation systems, AI-driven automation across 11+ brands.",
     highlights: [
-      "Designed L0–L2 ETL pipelines ingesting order and customer data from 4 marketplace APIs & Google Sheets to BigQuery for 11+ brands, with Flask-based token management on Cloud Run and PostgreSQL for API authentication, enabling unified analytics and reporting.",
+      "Designed L0–L2 ETL pipelines ingesting order and customer data from 4 marketplace APIs & Google Sheets to BigQuery for 11+ brands, with Flask-based token management on Cloud Run and PostgreSQL for API authentication, applying SCD handling on dimension tables, enabling unified analytics and reporting.",
       "Optimized scalable product recommendation systems on Shopee Marketplace (NCF, Replenishment, and Baby Cloth) using TensorFlow/Keras, scikit-learn, and FastAPI on GCP (Vertex AI, Agent Platform), driving hundreds of millions IDR/month GMV.",
       "Created an end-to-end pipeline for a smart voucher optimization system using K-Means clustering and linear programming for budget-constrained allocation, orchestrated via Vertex AI and Agent Platform Pipelines and Cloud Composer, achieving 200× average monthly ROI per brand.",
-      "Automated financial workflows for 3 brands by integrating Jubelio (OMS) with Jurnal.id via API, reducing invoice processing from days to <5 minutes for hundreds of daily invoices, and accelerating cash flow through faster AR recognition.",
+      "Automated financial workflows for 3 brands by integrating Jubelio (omnichannel OMS) with Mekari Jurnal (Jurnal.id) via API, reducing invoice processing from days to <5 minutes for hundreds of daily invoices, and accelerating cash flow through faster AR recognition.",
       "Engineered an AI-based OCR system using GCP Document AI (evaluated against Mistral AI), automating invoice and receipt processing, reducing extraction time from 8 hours to 5 minutes (96× faster) with 90%+ accuracy.",
       "Delivered Metabase dashboards for Finance, Data Science, and Business Operations teams to monitor catalog performance, advertising AI, and customer data platform.",
     ],
@@ -37,7 +37,11 @@ export const ROLES: Role[] = [
       "Composer (Airflow)",
       "BigQuery",
       "Vertex AI",
+      "Agent Platform",
       "Cloud Run",
+      "Compute Engine",
+      "Pub/Sub",
+      "Datastream (Change Data Capture / CDC)",
       "Document AI",
       "Flask",
       "FastAPI",
@@ -45,7 +49,9 @@ export const ROLES: Role[] = [
       "scikit-learn",
       "PostgreSQL",
       "Metabase",
-      "Mistral AI"
+      "Mistral AI",
+      "Jubelio (Omnichannel OMS)",
+      "Mekari Jurnal"
     ],
   },
   {
@@ -58,7 +64,7 @@ export const ROLES: Role[] = [
     summary:
       "Built telco-scale data platforms processing 1B+ daily records with Medallion architecture, plus partner-facing analytics products.",
     highlights: [
-      "Developed an end-to-end telco user behavior & credit scoring platform using a Medallion Architecture (Bronze/Silver/Gold) on Snowflake; built PySpark ETL pipelines on AWS (S3, EC2, Lambda) processing 1B+ daily records with schema evolution, partition pruning, and data quality gates enforced at each layer.",
+      "Developed an end-to-end telco user behavior & credit scoring platform using a Medallion Architecture (Bronze/Silver/Gold) on Snowflake; built PySpark ETL pipelines on AWS (S3, EC2, Lambda) processing 1B+ daily records with schema evolution, partition pruning, and data quality gates enforced at each layer, plus slowly changing dimension (SCD) management across Types 0-6.",
       "Built a monthly PySpark-based lead generation pipeline to process and enrich millions of XL Axiata subscriber profiles for targeted bank product acquisition.",
       "Designed a dashboard to monitor XL's API Economy performance for external partners, improving API response times by 30%, success rates by 15%, and driving 10% revenue growth from API transactions.",
     ],
