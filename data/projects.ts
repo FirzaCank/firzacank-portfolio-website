@@ -77,6 +77,7 @@ export const PROJECTS: Project[] = [
     categories: ["financial-analyst", "pitch-deck"],
     stack: ["Excel", "PowerPoint", "DCF", "Comparable Analysis", "Financial Modeling"],
     year: "2025",
+    featured: true,
   },
   {
     slug: "nuclear-policy-dna-sna",
@@ -180,6 +181,7 @@ export const PROJECTS: Project[] = [
     categories: ["ai-engineer", "data-engineer"],
     stack: ["Next.js", "TypeScript", "Tailwind CSS", "Gemini API", "RAG", "Vercel", "MDX", "Framer Motion"],
     year: "2026",
+    featured: true,
   },
   {
     slug: "telco-churn-prediction",
@@ -193,12 +195,14 @@ export const PROJECTS: Project[] = [
   },
 ];
 
-// Order on home: PCA → Nuclear → Video → Google News
+// Order on home: RAG portfolio → PCA → Nuclear → Video → Google News → E-commerce valuation
 const FEATURED_ORDER = [
+  "personal-portfolio-website",
   "writer-density-index",
   "nuclear-policy-dna-sna",
   "video-platform-data-analysis",
   "google-news-gemini-parser",
+  "ecommerce-pitch-deck-valuation",
 ];
 
 export const FEATURED_PROJECTS = FEATURED_ORDER.map(
