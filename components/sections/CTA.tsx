@@ -24,7 +24,7 @@ export default function CTA() {
               </p>
             </div>
             <h2 className="mt-6 font-satoshi text-4xl md:text-5xl font-extrabold text-beige-card tracking-tighter">
-              Need to streamline workflows with automated pipelines or unlock data-driven insights that win your next pitch deck?
+              Pipelines that break overnight? Dashboards nobody trusts? Decks that need real numbers? I fix that.
             </h2>
             <p className="mt-4 max-w-lg font-sans text-base text-beige-card/80">
               Open for consulting work in data engineering,
