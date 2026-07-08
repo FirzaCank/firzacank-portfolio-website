@@ -506,8 +506,7 @@
           "FastAPI",
           "Flask",
           "SQLAlchemy",
-          "REST API",
-          "Next.js"
+          "REST API"
         ]
       },
       {
@@ -576,6 +575,18 @@
           "JavaScript",
           "TypeScript",
           "Shell Script"
+        ]
+      },
+      {
+        "group": "Data Warehouse",
+        "items": [
+          "Medallion Architecture (Bronze / Silver / Gold)",
+          "Kimball Dimensional Modeling",
+          "Star Schema",
+          "Fact & Dimension Tables",
+          "Slowly Changing Dimensions (SCD)",
+          "Data Mart",
+          "Data Lakehouse"
         ]
       }
     ],
