@@ -89,10 +89,13 @@
       ],
       "stack": [
         "Gemini API",
-        "GCP",
+        "LLM Extraction",
+        "Prompt Engineering",
         "Sentiment Analysis",
         "MongoDB",
-        "pyvis"
+        "NoSQL",
+        "pyvis",
+        "GCP"
       ],
       "detail": "\n## Context\n\nA policy research initiative on Indonesia's nuclear and EBET (new and renewable energy) debate. The team had a research design but no production-grade pipeline to collect, parse, and visualize the discourse at scale. The deliverable: a proof of concept combining Discourse Network Analysis (DNA), Social Network Analysis (SNA), and sentiment scoring across news and social platforms.\n\n## Problem\n\nClassical content analysis wouldn't scale to the volume needed. Four blockers:\n\n- Heterogeneous sources - news and social posts scraped from multiple sites, each with its own structure, pagination, and rate limits.\n- Articles spanned Indonesian and English with code-mixing, breaking off-the-shelf NLP.\n- Manual coding of actor, claim, stance, and sentiment was the bottleneck, not collection.\n- The team needed a defensible overview of where the conversation stands, not a dump of charts.\n\n## Approach\n\n1. Built scraping pipelines for news results (keywords: nuclear, EBET, RUU EBET variants) and relevant social posts, normalized into one MongoDB schema with source provenance.\n2. Used the Gemini API to extract actor, claim, stance, frame, and sentiment per item, with a prompt template tuned against a manually coded gold set to keep LLM output comparable to analyst coding.\n3. Built two network views - actor-to-claim (DNA) and actor-to-actor co-occurrence (SNA) - persisted as edge lists and merged with sentiment so each edge carries polarity.\n4. Rendered interactive networks (pyvis, Chart.js) plus sentiment timelines as a static HTML report bundle.\n5. Ran the pipeline on ~1,000 items across two snapshot windows to compare discourse shifts over time.\n\n## Outcome\n\nThe PoC produced a working DNA + SNA + sentiment dashboard and an end-to-end pipeline the team can rerun on new corpora. It gave a clear read on where Indonesia's nuclear policy conversation stands: two dominant coalition clusters, three recurring frames, and a sentiment skew that maps cleanly to which actor groups drive the debate. LLM extraction cut manual coding time by roughly an order of magnitude on the validation sample, and the live dashboard turned a one-off study into something the team can refresh as the debate evolves.\n"
     },
@@ -144,11 +147,13 @@
         "Data Engineer"
       ],
       "stack": [
+        "Gemini API",
+        "LLM Extraction",
+        "Prompt Engineering",
         "Python",
+        "Cloud Run",
         "Google CSE",
         "APIFY",
-        "Gemini API",
-        "Cloud Run",
         "Web Scraping"
       ],
       "detail": "\n## Context\n\nA small research desk tracking monetary policy and FX needed continuous coverage of Bank Indonesia, inflation, and rupiah-related news across Indonesian and English sources. Manual scanning was the bottleneck - by the time an analyst had read enough to brief the team, intraday signals were already stale.\n\n## Problem\n\nThree constraints shaped the build:\n\n- Coverage had to be intraday - a daily digest wasn't enough.\n- The Google CSE API caps results at 100 per query and deep paging at index 91, so a naive scheduler would miss articles or burn quota.\n- Search results return only titles, snippets, and links - article bodies had to be fetched separately, then parsed into structured fields analysts could query.\n\n## Approach\n\n1. Built a single-purpose Cloud Run scraper that hits the CSE API on a configurable window (5–60 min), filters by `after:` date plus a strict in-code timestamp check, and writes deduplicated records to monthly JSON files (`articles_YYYY-MM.json`) via a checkpoint store.\n2. Triggered it from Cloud Scheduler so cadence is decoupled from code; queries and intervals are env vars, so the team tunes coverage per topic without redeploying.\n3. Layered APIFY's Google Search Scraper actor on top for backfills and sweeps beyond the CSE quota. Both sources write the same normalized schema with a `source_kind` flag marking which path produced each row.\n4. Routed article bodies through a Gemini parsing step extracting actor, claim, stance, and a coarse sentiment tag, tuned against a small manually labeled gold set to keep output comparable to analyst coding.\n5. Persisted everything as date-partitioned JSON so analysts pull a window straight into pandas or a notebook - no intermediate database.\n\n## Outcome\n\nThe pipeline runs unattended, pushing structured news records into the research store at the chosen cadence. The desk swapped manual scanning for a queryable feed - rupiah, inflation, and BI policy queries share one parsing schema, so cross-topic comparisons that took hours become a single filter. The Gemini layer cut manual coding on the validation sample by roughly an order of magnitude, and the modular split (CSE for live, APIFY for backfill, Gemini for parse) lets each piece be swapped independently.\n"
@@ -259,14 +264,19 @@
         "Data Engineer"
       ],
       "stack": [
-        "Next.js",
-        "TypeScript",
-        "Tailwind CSS",
-        "Gemini API",
         "RAG",
-        "Vercel",
-        "MDX",
-        "Framer Motion"
+        "LLM",
+        "Gemini API",
+        "Vector Embeddings",
+        "Semantic Search",
+        "Tool Calling",
+        "AI Agent",
+        "Prompt Engineering",
+        "Guardrails",
+        "Hallucination Mitigation",
+        "Python",
+        "Next.js",
+        "Vercel"
       ],
       "detail": "\n## Context\n\nI wanted a portfolio that could do more than just display static content. Most portfolios are one-way: the visitor has to read through everything and piece together the picture themselves. I wanted visitors to be able to ask questions and get direct answers about my work, experience, and skills without having to dig through pages manually.\n\nThe result is this site: a Next.js portfolio with a chat widget backed by a Gemini-powered RAG pipeline.\n\n## Problem\n\nTwo challenges to solve:\n\n- A generic LLM with no context about me would either hallucinate or give vague answers. It needed to be grounded in actual content from the portfolio.\n- Dumping all portfolio content into every prompt would be slow and wasteful. The assistant needed to retrieve only the relevant pieces per question.\n\n## Approach\n\n**Content layer.** All portfolio content lives as structured TypeScript data (experience, projects, skills) and MDX case studies. A build-time script reads all of it, splits it into chunks, embeds each chunk via Gemini's embedding model, and writes the vectors to a local JSON file.\n\n**Retrieval.** At query time, the user's question is embedded and compared against all stored vectors using cosine similarity. The top-k most relevant chunks are pulled and injected into the system prompt as grounding context.\n\n**Generation.** Gemini handles the response with a tight system prompt: answer only from the retrieved context, never hallucinate, stay scoped to questions about my work. The response streams back to the client token by token.\n\n**Rate limiting.** Two layers: per-IP (20 requests per minute) and global (200 requests per hour) to stay within the free tier and prevent abuse.\n\n**Frontend.** Next.js App Router, Tailwind CSS for styling, Framer Motion for transitions. The chat widget floats over the page and streams responses in real time. MDX powers the case study pages.\n\n## Prompt Engineering and Evaluation\n\nGetting the model to answer accurately required more iteration than the retrieval side. A few specific problems came up:\n\n**Capability bridging.** When asked \"can Firza do X?\" where X is not explicitly in the data, the model would either hallucinate a yes or give a flat no. Neither is useful. The solution was a structured bridging instruction in the system prompt: always call a tool first to check, then if X is not found, surface the closest analog from the data with an explicit explanation of the overlap. This turns dead-ends into honest, useful answers.\n\n**Tool-call enforcement.** Lightweight models tend to skip tool calls and answer from retrieved context alone, which leads to confident wrong answers. The fix was explicit instruction: \"You MUST call get_skills or search_projects first\" for capability questions. Without the word MUST, the model would ignore the instruction.\n\n**Language detection.** Retrieved context is often in Bahasa Indonesia (from local project descriptions). Without guidance, the model would mirror the context language rather than the visitor's language. Fixed by explicitly grounding language choice to the visitor's message only.\n\n**Evaluation approach.** Prompt changes were validated with a dedicated test script (`scripts/test_chat.py`) running a fixed set of hard questions: capability questions for skills not in the data, sensitive questions (salary, availability), negative questions, and cross-language cases. Each prompt iteration was tested against all cases before shipping. Model selection (comparing gemini-2.5-flash vs gemini-3.1-flash-lite) was also done this way: same 4 questions, side-by-side output comparison, pick based on accuracy and free-tier quota.\n\n## Stack notes\n\n- **Gemini embedding model** for both indexing and query-time retrieval. Keeping both on the same model avoids vector space mismatches.\n- **Static vector index** stored as a JSON file in the repo. Simple and fast for a portfolio-scale dataset (70 chunks). No external vector DB needed.\n- **Streaming SSE** from the API route to the client so responses appear progressively rather than waiting for the full answer.\n- **Vercel** for deployment with serverless functions handling the chat API.\n"
     },
@@ -535,7 +545,8 @@
         "items": [
           "PostgreSQL",
           "MySQL",
-          "MongoDB Atlas"
+          "MongoDB Atlas",
+          "NoSQL"
         ]
       },
       {
