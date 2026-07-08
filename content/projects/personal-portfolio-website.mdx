@@ -33,6 +33,18 @@ Two challenges to solve:
 
 **Frontend.** Next.js App Router, Tailwind CSS for styling, Framer Motion for transitions. The chat widget floats over the page and streams responses in real time. MDX powers the case study pages.
 
+## Prompt Engineering and Evaluation
+
+Getting the model to answer accurately required more iteration than the retrieval side. A few specific problems came up:
+
+**Capability bridging.** When asked "can Firza do X?" where X is not explicitly in the data, the model would either hallucinate a yes or give a flat no. Neither is useful. The solution was a structured bridging instruction in the system prompt: always call a tool first to check, then if X is not found, surface the closest analog from the data with an explicit explanation of the overlap. This turns dead-ends into honest, useful answers.
+
+**Tool-call enforcement.** Lightweight models tend to skip tool calls and answer from retrieved context alone, which leads to confident wrong answers. The fix was explicit instruction: "You MUST call get_skills or search_projects first" for capability questions. Without the word MUST, the model would ignore the instruction.
+
+**Language detection.** Retrieved context is often in Bahasa Indonesia (from local project descriptions). Without guidance, the model would mirror the context language rather than the visitor's language. Fixed by explicitly grounding language choice to the visitor's message only.
+
+**Evaluation approach.** Prompt changes were validated with a dedicated test script (`scripts/test_chat.py`) running a fixed set of hard questions: capability questions for skills not in the data, sensitive questions (salary, availability), negative questions, and cross-language cases. Each prompt iteration was tested against all cases before shipping. Model selection (comparing gemini-2.5-flash vs gemini-3.1-flash-lite) was also done this way: same 4 questions, side-by-side output comparison, pick based on accuracy and free-tier quota.
+
 ## Stack notes
 
 - **Gemini embedding model** for both indexing and query-time retrieval. Keeping both on the same model avoids vector space mismatches.
