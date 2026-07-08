@@ -32,7 +32,7 @@ Beyond ingestion, the pipeline needed CI/CD, environment isolation (dev vs. prod
 
 **Ingestion layer.** Each source is a Python module with its own API client, retry logic, and schema normalization. Raw payloads land in BigQuery raw layer tables. Extraction is stateless: the pipeline accepts a date range parameter, defaulting to T-4 to T-3 to accommodate the Play Console lag.
 
-**Transform layer.** dbt handles staging (type casting, deduplication, null handling) and mart (joined, aggregated, Looker-ready) layers. Models are tested with dbt's built-in schema tests, 51 tests total across all four sources, all green before production deploy.
+**Transform layer.** dbt handles the data modeling: staging models (type casting, deduplication, null handling) and mart models (joined, aggregated, Looker-ready), with slowly changing dimensions tracked as SCD Type 2 via dbt snapshots. Models are tested with dbt's built-in schema tests, 51 tests total across all four sources, all green before production deploy.
 
 **CI/CD.** Cloud Build runs on push to `develop` (deploys to dev GCP) and `main` (deploys to client prod GCP via VPN). Secrets are managed in GCP Secret Manager, never in code or environment variables.
 
