@@ -56,7 +56,7 @@ export default function FeaturedExperience() {
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
                   <div className="flex flex-wrap items-end gap-3">
-                    <h3 className="font-display text-2xl md:text-3xl text-ink tracking-tighter">
+                    <h3 className="font-satoshi text-2xl md:text-3xl text-ink tracking-tighter">
                       {role.company}
                       {role.placement && (
                         <span className="font-display text-lg md:text-xl text-ink-muted font-bold tracking-tighter ml-2">({role.placement})</span>
