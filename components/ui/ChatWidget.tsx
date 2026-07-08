@@ -25,6 +25,7 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [cooldown, setCooldown] = useState(0);
+  const [nudge, setNudge] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const accRef = useRef("");
   const rafRef = useRef<number | null>(null);
@@ -47,6 +48,24 @@ export default function ChatWidget() {
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, open]);
+
+  // one-time attention nudge on the launcher, first visit per tab session
+  useEffect(() => {
+    if (sessionStorage.getItem("chat-nudged")) return;
+    const show = setTimeout(() => setNudge(true), 1500);
+    const hide = setTimeout(() => {
+      setNudge(false);
+      sessionStorage.setItem("chat-nudged", "1");
+    }, 6500);
+    return () => { clearTimeout(show); clearTimeout(hide); };
+  }, []);
+
+  useEffect(() => {
+    if (open && nudge) {
+      setNudge(false);
+      sessionStorage.setItem("chat-nudged", "1");
+    }
+  }, [open, nudge]);
 
   async function send(text: string) {
     const q = text.trim();
@@ -104,6 +123,24 @@ export default function ChatWidget() {
 
   return (
     <>
+      {/* Nudge bubble */}
+      <AnimatePresence>
+        {nudge && !open && (
+          <motion.button
+            type="button"
+            onClick={() => setOpen(true)}
+            initial={{ opacity: 0, y: 8, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.95 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="fixed bottom-20 right-5 z-50 rounded-2xl rounded-br-sm border border-sage/30 bg-beige-card px-4 py-2.5 text-left shadow-xl shadow-sage/10"
+          >
+            <span className="font-sans text-sm text-ink">Hi! Curious about Firza&rsquo;s work?</span>
+            <span className="block font-sans text-xs text-ink-muted mt-0.5">Ask me anything here</span>
+          </motion.button>
+        )}
+      </AnimatePresence>
+
       {/* Launcher */}
       <button
         type="button"
@@ -111,6 +148,9 @@ export default function ChatWidget() {
         aria-label={open ? "Close chat" : "Ask about Firza"}
         className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 rounded-full bg-ink px-4 py-3 text-beige-card shadow-lg transition-colors hover:bg-sage focus:outline-none focus:ring-2 focus:ring-sage/40"
       >
+        {nudge && !open && (
+          <span aria-hidden="true" className="absolute inset-0 rounded-full bg-sage/60 animate-ping" />
+        )}
         {open ? (
           <>
             <svg className="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -139,7 +179,7 @@ export default function ChatWidget() {
           >
             {/* Header */}
             <div className="relative border-b border-ink/10 px-5 py-4 pr-12">
-              <p className="font-display text-base font-semibold text-ink">Ask about Firza</p>
+              <p className="font-display text-xl font-semibold text-ink">Ask about Firza</p>
               <p className="font-sans text-xs text-ink-muted/60">AI-generated · may not be fully accurate. For detailed or specific information, reach out via the <a href="/contact" className="underline hover:text-sage">Contact</a> page.</p>
               <button
                 type="button"
