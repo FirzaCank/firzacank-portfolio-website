@@ -34,7 +34,7 @@ Request time:
     --> rag/retriever.py             embed query, cosine similarity search over embeddings.json
     --> top-k chunks                 injected into system prompt as grounding context
     --> api/chat.py                  build request with context + tool declarations
-    --> Gemini 2.5 Flash
+    --> Gemini 3.1 Flash-Lite
           |-- decides: answer from context, OR call a tool
           |-- if tool call: run handler in rag/tools.py, feed result back
           |-- repeat up to 2 rounds
@@ -86,7 +86,7 @@ The model decides which tool to call based on the question. For example:
 
 The tool-calling loop runs up to 2 rounds. Each tool result is fed back to the model as a `functionResponse`, and the model continues until it has enough to generate a final answer.
 
-**Gemini thinking models and `thoughtSignature`**: Gemini 2.5 Flash returns a `thoughtSignature` field alongside `functionCall` parts. This signature must be passed back verbatim in the model turn when feeding tool results, or Gemini returns a 400 error. `rag/gemini.py` preserves raw parts (including `thoughtSignature`) and `api/chat.py` includes them in the model content turn.
+**Gemini thinking models and `thoughtSignature`**: Gemini thinking models return a `thoughtSignature` field alongside `functionCall` parts. This signature must be passed back verbatim in the model turn when feeding tool results, or Gemini returns a 400 error. `rag/gemini.py` preserves raw parts (including `thoughtSignature`) and `api/chat.py` includes them in the model content turn.
 
 ---
 
@@ -148,14 +148,20 @@ The system prompt (`rag/prompt.py`) follows RAG best practices:
 | :--- | :--- |
 | Input sanitization | Control characters stripped, max 2000 chars per message |
 | Role validation | Only `user` and `assistant` roles accepted; all others coerced to `user` |
-| Message limit | Max 40 messages per request history |
+| Message limit | Max 40 messages accepted, only the last 12 validated and sent to the model |
 | Delimiter injection | "RETRIEVED_CONTEXT" neutralized in user input |
-| Prompt injection | Untrusted-data framing in system prompt, refuse role-change instructions |
-| Per-IP rate limit | Max 20 requests per minute per IP (in-memory) |
-| Global rate limit | Max 200 requests per hour across all IPs (in-memory, protects free tier quota) |
+| Prompt injection | Untrusted-data framing in system prompt, refuse role-change instructions, encoded/obfuscated instructions treated as injection |
+| Origin allowlist | Browser requests from foreign origins get 403 (exact match, not suffix). Bare curl passes; rate limits handle it |
+| Per-IP rate limit | Max 20 requests per minute per IP, keyed on `x-real-ip` (Vercel-set, not spoofable like `x-forwarded-for`) |
+| Global rate limit | Max 200 requests per hour across all IPs (in-memory) |
+| Daily quota cap | Max 150 chats per day globally, protects the 500 RPD Gemini free-tier quota |
+| Output cap | `maxOutputTokens` 1024, answers are 2-4 sentences by design |
+| Retry policy | 503 retried once, 429 never retried (retrying quota errors burns more quota) |
 | Tool round cap | Max 2 tool-calling rounds per request, prevents infinite loops |
 
 Note: rate limit counters are in-memory and reset on cold start. Not shared across Vercel instances. Acceptable for a personal portfolio. Replace with Upstash Redis if persistent cross-instance limits are needed.
+
+Note: the Origin allowlist only matches the production URL and localhost. Vercel preview deployments will get 403 on chat. Add the preview origin to the allowlist in `api/chat.py` if you need chat on a preview.
 
 ---
 
