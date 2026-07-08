@@ -167,9 +167,9 @@ class handler(BaseHTTPRequestHandler):
         except urllib.error.HTTPError as e:
             print(f"Chat error: HTTP Error {e.code}: {e.reason}")
             msg = (
-                b"\n\nThe AI assistant is taking a short break right now. "
-                b"Feel free to explore the Projects or Experience pages in the meantime, "
-                b"or come back in a moment to continue chatting."
+                b"\n\nThe AI assistant is taking a short break right now due to high demand. "
+                b"Please try again in a few minutes. "
+                b"In the meantime, feel free to explore the Projects or Experience pages."
             ) if e.code in (503, 429) else (
                 b"\n\nSomething went wrong on my end. "
                 b"You can explore the Projects or Experience pages while I sort this out, "
