@@ -15,7 +15,7 @@ from rag.retriever import retrieve, format_context
 from rag.prompt import system_prompt
 from rag.tools import DECLARATIONS, run_tool
 
-MODEL = "gemini-3.5-flash"
+MODEL = "gemini-2.5-flash"
 MAX_HISTORY = 12
 MAX_MSG_CHARS = 2000
 MAX_MSGS = 40
