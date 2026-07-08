@@ -23,6 +23,33 @@ The backend is a Python Vercel serverless function (`api/chat.py`) using Gemini 
 
 Re-run `npm run build-rag` whenever you add or edit content, then commit the updated `data/embeddings.json` and `data/portfolio.json`. See [RAG Chat Assistant](./docs/RAG.md) for setup and extension details.
 
+## Getting started
+
+```bash
+npm install
+cp .env.local.example .env.local   # add GEMINI_API_KEY and RESEND_API_KEY
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). The chat widget requires a Gemini API key — get one free at [aistudio.google.com/api-keys](https://aistudio.google.com/api-keys).
+
+After editing portfolio content, rebuild the RAG index before deploying:
+
+```bash
+npm run build-rag   # regenerates data/portfolio.json and data/embeddings.json
+```
+
+Commit both updated files. See [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md) for the full setup guide.
+
+## Challenges
+
+The main technical challenge was building a RAG pipeline that stays grounded. Embedding the entire portfolio and doing cosine retrieval was straightforward, but getting the model to answer accurately without hallucinating required several iterations:
+
+- **Retrieval alone was not enough.** Open-ended queries returned relevant chunks, but questions like "what was his first job?" or "projects in 2026?" needed exact ordering and filtering that semantic search cannot guarantee. The solution was a hybrid: RAG for context, structured tool calling for precise lookups.
+- **Gemini thinking models return a `thoughtSignature` field** alongside function call parts. This signature must be passed back verbatim when feeding tool results, or the API returns a 400 error. It took debugging the raw SSE stream to catch this.
+- **Asymmetric embedding task types matter.** Using `RETRIEVAL_QUERY` at request time and `RETRIEVAL_DOCUMENT` at build time improved retrieval relevance noticeably versus using the same task type for both. Easy to miss in the docs.
+- **Free tier RPM limits are tight on newer models.** `gemini-3.5-flash` hit 503 overload errors in production due to capacity constraints on the free tier. Switched to `gemini-2.5-flash` which has more stable free-tier availability while maintaining answer quality for this use case.
+
 ## Design tokens
 
 WCAG AA/AAA verified palette:
