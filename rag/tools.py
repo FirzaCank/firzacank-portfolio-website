@@ -69,11 +69,13 @@ def get_project_detail(slug=""):
     return {"error": f"No project with slug '{slug}'."}
 
 
-def search_experience(company="", current="", internship=""):
-    """Filter full-time and internship roles by company, current flag, or internship flag."""
+def search_experience(company="", current="", internship="", stack=""):
+    """Filter full-time and internship roles by company, current flag, internship flag, or stack tech."""
     out = []
     for r in _data()["experience"]:
         if company and not _contains(r["company"], company):
+            continue
+        if stack and not any(_contains(s, stack) for s in r.get("stack", [])):
             continue
         if current != "" and bool(r["current"]) != (str(current).lower() == "true"):
             continue
@@ -105,9 +107,14 @@ def get_career_timeline():
 
 def get_skills(domain=""):
     """Return skill groups, optionally filtered to groups matching a domain keyword."""
-    groups = _data()["about"]["skills"]
-    if domain:
-        groups = [g for g in groups if _contains(g["group"], domain) or any(_contains(i, domain) for i in g["items"])]
+    all_groups = _data()["about"]["skills"]
+    if not domain:
+        return {"skills": all_groups}
+    groups = [g for g in all_groups if _contains(g["group"], domain) or any(_contains(i, domain) for i in g["items"])]
+    if not groups:
+        # a miss on the keyword shouldn't dead-end the model; hand it the full
+        # list so it can spot the relevant skill itself
+        return {"note": f"No skill group matched '{domain}'. Full skill list:", "skills": all_groups}
     return {"skills": groups}
 
 
@@ -147,13 +154,14 @@ DECLARATIONS = [
     },
     {
         "name": "search_experience",
-        "description": "Search Firza's full-time roles and internships. Filter by company name, whether it's his current role, or whether it's an internship.",
+        "description": "Search Firza's full-time roles and internships. Filter by company name, whether it's his current role, whether it's an internship, or a technology used in the role.",
         "parameters": {
             "type": "object",
             "properties": {
                 "company": {"type": "string", "description": "Company name to match."},
                 "current": {"type": "string", "description": "'true' for only the current role."},
                 "internship": {"type": "string", "description": "'true' for only internships, 'false' for only full-time."},
+                "stack": {"type": "string", "description": "Technology used in the role, e.g. 'Kafka', 'dbt'."},
             },
         },
     },
@@ -178,7 +186,10 @@ def run_tool(name: str, args: dict):
     if not handler:
         return {"error": f"Unknown tool '{name}'."}
     try:
-        return handler(**(args or {}))
+        result = handler(**(args or {}))
+        # visible in local test runs and Vercel function logs
+        print(f"tool: {name}({args}) -> {str(result)[:120]}")
+        return result
     except TypeError as e:
         return {"error": f"Bad arguments for '{name}': {e}"}
 
@@ -191,4 +202,8 @@ if __name__ == "__main__":
     tl = get_career_timeline()["timeline"]
     assert tl[0]["order"] == 1 and len(tl) == len(_data()["experience"]), "timeline malformed"
     assert "error" in get_project_detail(slug="nope"), "unknown slug should error"
+    assert search_experience(stack="kafka")["count"] >= 1, "stack filter should find Kafka role"
+    assert search_experience(stack="cobol")["count"] == 0, "stack filter should exclude unknown tech"
+    assert get_skills(domain="data engineering")["skills"], "skill miss should fall back to full list"
+    assert get_skills(domain="cloud")["skills"] != get_skills()["skills"], "matched domain should filter"
     print(f"OK: {len(HANDLERS)} tools, {len(_data()['projects'])} projects, {len(tl)} roles.")
