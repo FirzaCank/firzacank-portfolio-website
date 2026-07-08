@@ -127,6 +127,7 @@ export const SKILL_GROUPS = [
       "Vector Search",
       "Tool Calling",
       "Prompt Engineering",
+      "Prompt Evaluation",
       "SentenceTransformer",
       "OpenCV",
     ],
