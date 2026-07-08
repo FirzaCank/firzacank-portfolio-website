@@ -1,11 +1,11 @@
 ---
 title: "Personal Portfolio Website with RAG Chat"
-subtitle: "A personal portfolio built with Next.js and a Gemini-powered chat assistant that answers questions about my work using semantic retrieval over projects, experience, and skills."
+subtitle: "A personal portfolio with an agentic RAG chat assistant powered by Gemini, combining semantic retrieval, tool calling, and guardrails to answer grounded questions about my projects, experience, and skills."
 client: "Self-initiated"
 role: "Full-stack & AI Engineer"
 year: "2026"
 duration: "ongoing"
-stack: ["RAG", "LLM", "Gemini API", "Vector Embeddings", "Semantic Search", "Tool Calling", "AI Agent", "Prompt Engineering", "Guardrails", "Hallucination Mitigation", "Python", "Next.js", "Vercel"]
+stack: ["Agentic RAG", "RAG", "GenAI", "Agentic AI", "LLM", "Chatbot", "Gemini API", "Vector Embeddings", "Semantic Search", "Tool Calling", "AI Agent", "Prompt Engineering", "Guardrails", "Hallucination Mitigation", "Python", "Next.js", "Vercel"]
 ---
 
 ## Context
@@ -28,6 +28,8 @@ Two challenges to solve:
 **Retrieval.** At query time, the user's question is embedded and compared against all stored vectors using cosine similarity. The top-k most relevant chunks are pulled and injected into the system prompt as grounding context.
 
 **Generation.** Gemini handles the response with a tight system prompt: answer only from the retrieved context, never hallucinate, stay scoped to questions about my work. The response streams back to the client token by token.
+
+**Guardrails.** The system prompt enforces strict boundaries: answer only about my work, decline off-topic and sensitive questions (salary, company internals), treat user input and retrieved context as untrusted data against prompt injection, and never construct URLs or figures not present in the data. Input validation strips control characters and caps message length and history.
 
 **Rate limiting.** Two layers: per-IP (20 requests per minute) and global (200 requests per hour) to stay within the free tier and prevent abuse.
 
