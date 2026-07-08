@@ -154,7 +154,7 @@ export const SKILL_GROUPS = [
     group: "Cloud",
     items: [
       "AWS (EC2, S3, Lambda, ECS/ECR)",
-      "GCP (Vertex AI, Agent Platform, BigQuery, Cloud Run, Document AI, Pub/Sub, Composer, Cloud Build, Cloud Workflows, Cloud Scheduler, Secret Manager, IAM)",
+      "GCP (Vertex AI, Agent Platform, BigQuery, Cloud Run, Compute Engine, Datastream (Change Data Capture / CDC), Document AI, Pub/Sub, Composer, Cloud Build, Cloud Workflows, Cloud Scheduler, Secret Manager, IAM)",
       "Snowflake",
     ],
   },
@@ -163,7 +163,7 @@ export const SKILL_GROUPS = [
     items: [
       "Cloudera (CDH)",
       "Apache Airflow",
-      "Kafka",
+      "Kafka (streaming)",
       "Hive",
       "Impala",
       "Hadoop (HDFS, YARN)",
@@ -171,7 +171,13 @@ export const SKILL_GROUPS = [
   },
   {
     group: "Databases",
-    items: ["PostgreSQL", "MySQL", "MongoDB Atlas", "NoSQL"],
+    items: [
+      "PostgreSQL",
+      "MySQL",
+      "MongoDB Atlas",
+      "NoSQL",
+      "Data modeling (star schema, SCD Types 0-6, dbt snapshots)",
+    ],
   },
   {
     group: "BI & Visualization",
@@ -183,7 +189,15 @@ export const SKILL_GROUPS = [
   },
   {
     group: "Tools",
-    items: ["Jira", "Confluence", "Apps Script", "N8N", "dbt"],
+    items: [
+      "Jira",
+      "Confluence",
+      "Apps Script",
+      "N8N",
+      "dbt",
+      "Jubelio (Omnichannel OMS)",
+      "Mekari Jurnal",
+    ],
   },
   {
     group: "Languages",
