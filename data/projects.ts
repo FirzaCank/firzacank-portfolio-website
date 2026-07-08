@@ -176,10 +176,10 @@ export const PROJECTS: Project[] = [
     slug: "personal-portfolio-website",
     title: "Personal Portfolio Website with RAG Chat",
     subtitle:
-      "A personal portfolio built with Next.js and a Gemini-powered chat assistant that answers questions about my work using semantic retrieval over projects, experience, and skills.",
+      "A personal portfolio with an agentic RAG chat assistant powered by Gemini, combining semantic retrieval, tool calling, and guardrails to answer grounded questions about my projects, experience, and skills.",
     client: "Self-initiated",
     categories: ["ai-engineer", "data-engineer"],
-    stack: ["RAG", "LLM", "Gemini API", "Vector Embeddings", "Semantic Search", "Tool Calling", "AI Agent", "Prompt Engineering", "Guardrails", "Hallucination Mitigation", "Python", "Next.js", "Vercel"],
+    stack: ["Agentic RAG", "RAG", "GenAI", "Agentic AI", "LLM", "Chatbot", "Gemini API", "Vector Embeddings", "Semantic Search", "Tool Calling", "AI Agent", "Prompt Engineering", "Guardrails", "Hallucination Mitigation", "Python", "Next.js", "Vercel"],
     year: "2026",
     featured: true,
   },
