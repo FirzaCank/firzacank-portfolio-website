@@ -48,7 +48,8 @@ def _global_limited() -> bool:
     if now > _daily["reset_at"]:
         _daily["count"] = 0
         _daily["reset_at"] = now + 86400
-    # each chat = 1 embed + up to 2 generate calls, so 150 chats/day stays well under 500 RPD
+    # each chat = 1 embed + up to 3 generate calls (2 tool rounds + 1 no-tools
+    # fallback pass), so 150 chats/day = max 450 generate RPD, under the 500 cap
     if _daily["count"] >= 150:
         return "daily"
     if _global["count"] >= 200:
@@ -137,7 +138,36 @@ def _run_chat(messages, api_key):
             )
         # loop again so the model can answer from the tool results
 
-    # Exhausted tool rounds without a final text answer.
+    # Exhausted tool rounds without a final text answer. Run one last pass with
+    # function calling forced off so the model must answer in text from the tool
+    # results it already gathered (including empty ones, which the bridging
+    # prompt handles). Tools stay declared because the history contains
+    # functionCall/functionResponse parts; only the calling mode is disabled.
+    # Higher token cap: thinking models spend output tokens reasoning first.
+    if not produced_text:
+        contents.append(
+            {
+                "role": "user",
+                "parts": [{"text": "(System: tool budget exhausted. Answer the visitor's question now in plain text using the tool results and retrieved context above. Do not call any more tools.)"}],
+            }
+        )
+        body = {
+            "systemInstruction": {"parts": [{"text": system_prompt(context)}]},
+            "contents": contents,
+            "tools": [{"functionDeclarations": DECLARATIONS}],
+            "toolConfig": {"functionCallingConfig": {"mode": "NONE"}},
+            "generationConfig": {"temperature": 0.4, "maxOutputTokens": 2048},
+        }
+        finish = None
+        for item in stream_generate(MODEL, body, api_key):
+            if "text" in item:
+                produced_text = True
+                yield item["text"]
+            elif "finish" in item:
+                finish = item["finish"]
+        if not produced_text:
+            print(f"Final no-tools pass produced no text, finishReason={finish}")
+
     if not produced_text:
         yield "Sorry, I couldn't complete that lookup. Please try rephrasing or contact Firza directly."
 
