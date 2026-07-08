@@ -5,7 +5,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-type Msg = { role: "user" | "assistant"; content: string };
+type Msg = { role: "user" | "assistant"; content: string; time: string };
+
+function now() {
+  return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
 
 const SUGGESTIONS = [
   "What does Firza do?",
@@ -30,8 +34,9 @@ export default function ChatWidget() {
     const q = text.trim();
     if (!q || busy) return;
     setInput("");
-    const next: Msg[] = [...messages, { role: "user", content: q }];
-    setMessages([...next, { role: "assistant", content: "" }]);
+    const t = now();
+    const next: Msg[] = [...messages, { role: "user", content: q, time: t }];
+    setMessages([...next, { role: "assistant", content: "", time: t }]);
     setBusy(true);
     accRef.current = "";
 
@@ -66,11 +71,11 @@ export default function ChatWidget() {
       }
       // flush any remaining content after stream ends
       if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
-      setMessages([...next, { role: "assistant", content: accRef.current }]);
+      setMessages([...next, { role: "assistant", content: accRef.current, time: now() }]);
     } catch (err) {
       setMessages([
         ...next,
-        { role: "assistant", content: err instanceof Error ? err.message : "Something went wrong on my end. Please try again in a moment." },
+        { role: "assistant", content: err instanceof Error ? err.message : "Something went wrong on my end. Please try again in a moment.", time: now() },
       ]);
     } finally {
       clearTimeout(timer);
@@ -151,7 +156,7 @@ export default function ChatWidget() {
                 </div>
               )}
               {messages.map((m, i) => (
-                <div key={i} className={m.role === "user" ? "flex justify-end" : "flex justify-start"}>
+                <div key={i} className={m.role === "user" ? "flex flex-col items-end gap-0.5" : "flex flex-col items-start gap-0.5"}>
                   {m.role === "user" ? (
                     <div className="max-w-[85%] whitespace-pre-wrap rounded-2xl bg-ink px-3 py-2 font-sans text-[13px] leading-snug text-beige-card">
                       {m.content}
@@ -177,6 +182,9 @@ export default function ChatWidget() {
                         <Dots />
                       ) : null}
                     </div>
+                  )}
+                  {m.time && (!busy || i < messages.length - 1) && (
+                    <span className="px-1 font-sans text-[10px] text-ink-muted/40">{m.time}</span>
                   )}
                 </div>
               ))}
