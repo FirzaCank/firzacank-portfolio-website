@@ -193,6 +193,7 @@ export default function ChatWidget() {
                             strong: ({ children }) => <strong className="font-semibold text-ink">{children}</strong>,
                             em: ({ children }) => <em className="italic">{children}</em>,
                             code: ({ children }) => <code className="rounded bg-beige-deep px-1 py-0.5 font-mono text-xs">{children}</code>,
+                            a: ({ href, children }) => <a href={href} target="_blank" rel="noopener noreferrer" className="underline text-sage hover:text-sage/70 transition-colors">{children}</a>,
                           }}
                         >
                           {m.content}
