@@ -65,7 +65,7 @@ export default function ChatWidget() {
         if (!rafRef.current) {
           rafRef.current = requestAnimationFrame(() => {
             rafRef.current = null;
-            setMessages([...next, { role: "assistant", content: accRef.current }]);
+            setMessages([...next, { role: "assistant", content: accRef.current, time: t }]);
           });
         }
       }
