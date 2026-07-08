@@ -74,9 +74,9 @@ The model can call any of these tools instead of (or before) generating a text a
 | :--- | :--- | :--- |
 | `search_projects` | List projects matching criteria | `query`, `year`, `category`, `stack` |
 | `get_project_detail` | Full case study for one project | `slug` |
-| `search_experience` | Filter work history | `company`, `current`, `internship` |
+| `search_experience` | Filter work history | `company`, `current`, `internship`, `stack` |
 | `get_career_timeline` | All roles in chronological order | none |
-| `get_skills` | Skill groups | `domain` keyword |
+| `get_skills` | Skill groups | `domain` keyword (a miss returns the full list with a note, so a wrong keyword never dead-ends the model) |
 
 The model decides which tool to call based on the question. For example:
 - "project 2026?" calls `search_projects(year="2026")` for exact filtering
@@ -85,6 +85,8 @@ The model decides which tool to call based on the question. For example:
 - Open-ended questions skip tools and answer from retrieved context directly
 
 The tool-calling loop runs up to 2 rounds. Each tool result is fed back to the model as a `functionResponse`, and the model continues until it has enough to generate a final answer.
+
+If both rounds end in tool calls with no text, a final pass runs with function calling forced off (`toolConfig.functionCallingConfig.mode = NONE`), an appended "tool budget exhausted, answer now" user message, and a higher token cap (2048, because thinking models spend output tokens reasoning before emitting text). This forces a text answer from the tool results already gathered. The apology fallback only fires if even this pass produces nothing, and the `finishReason` is logged when that happens. `run_tool` also logs every call (`tool: name(args) -> result`) to the function logs for debugging.
 
 **Gemini thinking models and `thoughtSignature`**: Gemini thinking models return a `thoughtSignature` field alongside `functionCall` parts. This signature must be passed back verbatim in the model turn when feeding tool results, or Gemini returns a 400 error. `rag/gemini.py` preserves raw parts (including `thoughtSignature`) and `api/chat.py` includes them in the model content turn.
 
