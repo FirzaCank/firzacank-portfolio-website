@@ -25,7 +25,7 @@ export default function Achievements() {
               key={i}
               className="border-l-2 border-sage pl-6"
             >
-              <h3 className="font-display text-2xl md:text-3xl text-ink tracking-tighter">
+              <h3 className="font-satoshi text-2xl md:text-3xl text-ink tracking-tighter">
                 {a.title}
               </h3>
               <p className="mt-1 font-sans text-sm text-ink-muted italic">
