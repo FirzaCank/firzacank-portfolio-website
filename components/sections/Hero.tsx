@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -75,6 +74,20 @@ export default function Hero() {
             >
               <span className="text-ink font-medium">Big Data Solution Engineer</span> building production-grade pipelines and AI systems.
             </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.38 }}
+              className="mt-4 inline-flex items-center gap-2 rounded-full bg-sage-soft/50 border border-sage/30 px-4 py-1.5"
+            >
+              <svg className="h-3.5 w-3.5 text-sage shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              <span className="font-sans text-sm font-medium text-sage">Jakarta, Indonesia</span>
+              <span className="font-sans text-xs text-ink-muted">· GMT+7</span>
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 12 }}
