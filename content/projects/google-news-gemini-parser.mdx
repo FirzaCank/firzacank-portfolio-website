@@ -12,15 +12,15 @@ liveLabel: "View source on GitHub"
 
 ## Context
 
-A small research desk tracking monetary policy and FX needed continuous coverage of Bank Indonesia, inflation, and rupiah-related news across Indonesian and English sources. Manual scanning was the bottleneck — by the time an analyst had read enough to brief the team, intraday signals were already stale.
+A small research desk tracking monetary policy and FX needed continuous coverage of Bank Indonesia, inflation, and rupiah-related news across Indonesian and English sources. Manual scanning was the bottleneck - by the time an analyst had read enough to brief the team, intraday signals were already stale.
 
 ## Problem
 
 Three constraints shaped the build:
 
-- Coverage had to be intraday — a daily digest wasn't enough.
+- Coverage had to be intraday - a daily digest wasn't enough.
 - The Google CSE API caps results at 100 per query and deep paging at index 91, so a naive scheduler would miss articles or burn quota.
-- Search results return only titles, snippets, and links — article bodies had to be fetched separately, then parsed into structured fields analysts could query.
+- Search results return only titles, snippets, and links - article bodies had to be fetched separately, then parsed into structured fields analysts could query.
 
 ## Approach
 
@@ -28,8 +28,8 @@ Three constraints shaped the build:
 2. Triggered it from Cloud Scheduler so cadence is decoupled from code; queries and intervals are env vars, so the team tunes coverage per topic without redeploying.
 3. Layered APIFY's Google Search Scraper actor on top for backfills and sweeps beyond the CSE quota. Both sources write the same normalized schema with a `source_kind` flag marking which path produced each row.
 4. Routed article bodies through a Gemini parsing step extracting actor, claim, stance, and a coarse sentiment tag, tuned against a small manually labeled gold set to keep output comparable to analyst coding.
-5. Persisted everything as date-partitioned JSON so analysts pull a window straight into pandas or a notebook — no intermediate database.
+5. Persisted everything as date-partitioned JSON so analysts pull a window straight into pandas or a notebook - no intermediate database.
 
 ## Outcome
 
-The pipeline runs unattended, pushing structured news records into the research store at the chosen cadence. The desk swapped manual scanning for a queryable feed — rupiah, inflation, and BI policy queries share one parsing schema, so cross-topic comparisons that took hours become a single filter. The Gemini layer cut manual coding on the validation sample by roughly an order of magnitude, and the modular split (CSE for live, APIFY for backfill, Gemini for parse) lets each piece be swapped independently.
+The pipeline runs unattended, pushing structured news records into the research store at the chosen cadence. The desk swapped manual scanning for a queryable feed - rupiah, inflation, and BI policy queries share one parsing schema, so cross-topic comparisons that took hours become a single filter. The Gemini layer cut manual coding on the validation sample by roughly an order of magnitude, and the modular split (CSE for live, APIFY for backfill, Gemini for parse) lets each piece be swapped independently.

@@ -19,7 +19,7 @@ A policy research initiative on Indonesia's nuclear and EBET (new and renewable 
 
 Classical content analysis wouldn't scale to the volume needed. Four blockers:
 
-- Heterogeneous sources — news and social posts scraped from multiple sites, each with its own structure, pagination, and rate limits.
+- Heterogeneous sources - news and social posts scraped from multiple sites, each with its own structure, pagination, and rate limits.
 - Articles spanned Indonesian and English with code-mixing, breaking off-the-shelf NLP.
 - Manual coding of actor, claim, stance, and sentiment was the bottleneck, not collection.
 - The team needed a defensible overview of where the conversation stands, not a dump of charts.
@@ -28,7 +28,7 @@ Classical content analysis wouldn't scale to the volume needed. Four blockers:
 
 1. Built scraping pipelines for news results (keywords: nuclear, EBET, RUU EBET variants) and relevant social posts, normalized into one MongoDB schema with source provenance.
 2. Used the Gemini API to extract actor, claim, stance, frame, and sentiment per item, with a prompt template tuned against a manually coded gold set to keep LLM output comparable to analyst coding.
-3. Built two network views — actor-to-claim (DNA) and actor-to-actor co-occurrence (SNA) — persisted as edge lists and merged with sentiment so each edge carries polarity.
+3. Built two network views - actor-to-claim (DNA) and actor-to-actor co-occurrence (SNA) - persisted as edge lists and merged with sentiment so each edge carries polarity.
 4. Rendered interactive networks (pyvis, Chart.js) plus sentiment timelines as a static HTML report bundle.
 5. Ran the pipeline on ~1,000 items across two snapshot windows to compare discourse shifts over time.
 

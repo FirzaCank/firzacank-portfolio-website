@@ -139,7 +139,7 @@ const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "@id": `${SITE_URL}/#service`,
-  name: `${SITE_NAME} — Freelance Data & AI Engineering`,
+  name: `${SITE_NAME} - Freelance Data & AI Engineering`,
   url: SITE_URL,
   image: `${SITE_URL}/opengraph-image`,
   description:

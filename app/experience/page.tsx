@@ -6,7 +6,7 @@ import CTA from "@/components/sections/CTA";
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Data engineering experience across Hypefast, IDstar at XL Axiata, and Telkom Indonesia — production data pipelines, ML systems, and telco-scale analytics platforms processing 1B+ daily records.",
+    "Data engineering experience across Hypefast, IDstar at XL Axiata, and Telkom Indonesia - production data pipelines, ML systems, and telco-scale analytics platforms processing 1B+ daily records.",
   keywords: [
     "data engineer experience",
     "PySpark ETL",

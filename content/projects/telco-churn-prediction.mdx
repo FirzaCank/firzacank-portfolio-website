@@ -12,7 +12,7 @@ liveLabel: "Open live Streamlit app"
 
 ## Context
 
-A self-initiated project to practice the full ML lifecycle on a known business problem: predicting telecom subscriber churn. The dataset is DQLab's dummy data for a fictional "DQLab Telco" — customer state as of June 2020, ~6,800 rows, 21 attributes covering demographics, services, contract type, and billing.
+A self-initiated project to practice the full ML lifecycle on a known business problem: predicting telecom subscriber churn. The dataset is DQLab's dummy data for a fictional "DQLab Telco" - customer state as of June 2020, ~6,800 rows, 21 attributes covering demographics, services, contract type, and billing.
 
 The goal wasn't just to fit a model, but to make the analysis legible end-to-end: a visitor to the live app can walk through cleansing, EDA, and model comparison, then type in customer attributes and get a churn probability back.
 
@@ -22,7 +22,7 @@ DQLab Telco wants to predict, ahead of time, who is likely to unsubscribe. From 
 
 - Imbalanced target (~26% churn, 74% non-churn), so accuracy alone misleads.
 - Most predictors are categorical (gender, partner status, service flags, contract terms), so encoding choices matter.
-- Output must be usable — a notebook score doesn't help ops; a ten-input form returning a churn probability does.
+- Output must be usable - a notebook score doesn't help ops; a ten-input form returning a churn probability does.
 
 ## Approach
 
@@ -30,7 +30,7 @@ The Streamlit app is split into four navigable sections, each one mapping to a s
 
 **Data cleansing.** Drop operational columns (customerID, UpdatedAt), handle missing TotalCharges, standardize types. The cleaned dataset is exported to a separate CSV so EDA and modeling read from one canonical source.
 
-**Exploratory data analysis.** Bivariate plots against the Churn label — overlaid histograms for numerical features, seaborn count plots for categorical, a Plotly donut for the overall churn ratio. Three findings shaped the model framing:
+**Exploratory data analysis.** Bivariate plots against the Churn label - overlaid histograms for numerical features, seaborn count plots for categorical, a Plotly donut for the overall churn ratio. Three findings shaped the model framing:
 
 - Higher monthly charges correlate with higher churn.
 - Longer tenure correlates with lower churn.
@@ -54,13 +54,13 @@ Test accuracy was close across baselines, but training accuracy told the real st
 - **Random Forest: 100% train / 78% test.** Classic overfit signal.
 - **Gradient Boosting: 82% train / 79% test.** Slightly better train fit, no real test gain.
 
-I picked **Logistic Regression** for production precisely because its train–test gap was smallest. Its test confusion matrix is more conservative on positives than negatives — appropriate when the downstream action (retention offers, discount budget) carries a per-customer cost you don't want to spray indiscriminately.
+I picked **Logistic Regression** for production precisely because its train–test gap was smallest. Its test confusion matrix is more conservative on positives than negatives - appropriate when the downstream action (retention offers, discount budget) carries a per-customer cost you don't want to spray indiscriminately.
 
 The operational takeaway, written into the app's Conclusion: an ML score concentrates retention spend on customers actually predicted to churn, instead of blanket promotions across the full base.
 
 ## Stack notes
 
-- **Streamlit** for the entire UI — no Flask, no React. The same script runs locally and deploys to share.streamlit.io.
+- **Streamlit** for the entire UI - no Flask, no React. The same script runs locally and deploys to share.streamlit.io.
 - **scikit-learn** for all three models; a uniform API across LR, RF, and GBC kept the side-by-side comparison simple.
 - **joblib** for in-app model persistence, **pickle** for the saved repo artifact.
 - **Plotly + matplotlib + seaborn** mixed deliberately: Plotly for the interactive churn donut, matplotlib for confusion matrices, seaborn for categorical count plots.

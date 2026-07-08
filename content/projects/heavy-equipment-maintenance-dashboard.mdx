@@ -12,7 +12,7 @@ liveLabel: "View live dashboard"
 
 ## Context
 
-A mining contractor running large Komatsu excavators (PC2000, PC1250, PC850 class) needed forward visibility into cylinder and hose rehousing demand. Lifetime data lived in the maintenance planner's workbooks, indexed by EGI (unit serial), section (boom, arm, bucket), and part number. Stock for overhaul (stock OVH) was tracked separately — the only way to confirm parts were ready when a cylinder hit its rehousing window was a manual cross-check.
+A mining contractor running large Komatsu excavators (PC2000, PC1250, PC850 class) needed forward visibility into cylinder and hose rehousing demand. Lifetime data lived in the maintenance planner's workbooks, indexed by EGI (unit serial), section (boom, arm, bucket), and part number. Stock for overhaul (stock OVH) was tracked separately - the only way to confirm parts were ready when a cylinder hit its rehousing window was a manual cross-check.
 
 ## Problem
 
@@ -22,9 +22,9 @@ A mining contractor running large Komatsu excavators (PC2000, PC1250, PC850 clas
 
 ## Approach
 
-1. Restructured the source workbooks into a clean tabular dataset — one row per unit + section + component + part number, stock and need columns aligned, serial-range logic flattened for clean downstream joins.
+1. Restructured the source workbooks into a clean tabular dataset - one row per unit + section + component + part number, stock and need columns aligned, serial-range logic flattened for clean downstream joins.
 2. Built a parts-demand model in Sheets combining current lifetime status with the rehousing interval per cylinder type, producing a forward window of which units come due next month, quarter, and year.
-3. Designed a Looker Studio dashboard with three lenses — fleet-level readiness (parts ready vs shortage), per-unit timeline (next milestone per EGI), and part-level (where stock is below need).
+3. Designed a Looker Studio dashboard with three lenses - fleet-level readiness (parts ready vs shortage), per-unit timeline (next milestone per EGI), and part-level (where stock is below need).
 4. Added an exception view surfacing rows where stock OVH is zero against an upcoming need, so the planner acts on a shortlist instead of scanning the whole workbook.
 5. Documented a lightweight monthly refresh so the planner updates the source sheet and the dashboard stays in sync.
 
