@@ -6,6 +6,7 @@ the results back, and streams the final answer token by token.
 """
 
 import json
+import time
 import urllib.request
 import urllib.error
 
@@ -61,29 +62,37 @@ def stream_generate(model: str, body: dict, api_key: str):
     all_parts = []  # raw parts including thoughtSignature, preserved for round-2 passback
     finish_reason = None
 
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        buf = ""
-        for raw in resp:
-            buf += raw.decode()
-            for line in buf.split("\n"):
-                line = line.strip()
-                if not line.startswith("data:"):
-                    continue
-                chunk = line[5:].strip()
-                if not chunk or chunk == "[DONE]":
-                    continue
-                try:
-                    parsed = json.loads(chunk)
-                except json.JSONDecodeError:
-                    continue
-                candidate = (parsed.get("candidates") or [{}])[0]
-                for part in candidate.get("content", {}).get("parts", []):
-                    if "text" in part or "functionCall" in part or "thoughtSignature" in part:
-                        all_parts.append(part)
-                fr = candidate.get("finishReason")
-                if fr and fr != "OTHER":
-                    finish_reason = fr
-            buf = ""
+    for attempt in range(2):
+        try:
+            with urllib.request.urlopen(req, timeout=25) as resp:
+                buf = ""
+                for raw in resp:
+                    buf += raw.decode()
+                    for line in buf.split("\n"):
+                        line = line.strip()
+                        if not line.startswith("data:"):
+                            continue
+                        chunk = line[5:].strip()
+                        if not chunk or chunk == "[DONE]":
+                            continue
+                        try:
+                            parsed = json.loads(chunk)
+                        except json.JSONDecodeError:
+                            continue
+                        candidate = (parsed.get("candidates") or [{}])[0]
+                        for part in candidate.get("content", {}).get("parts", []):
+                            if "text" in part or "functionCall" in part or "thoughtSignature" in part:
+                                all_parts.append(part)
+                        fr = candidate.get("finishReason")
+                        if fr and fr != "OTHER":
+                            finish_reason = fr
+                    buf = ""
+            break  # success
+        except urllib.error.HTTPError as e:
+            if e.code in (429, 503) and attempt == 0:
+                time.sleep(2)
+                continue
+            raise
 
     for part in all_parts:
         if "text" in part and part["text"]:

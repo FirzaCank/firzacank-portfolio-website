@@ -3,6 +3,7 @@
 import json
 import os
 import time
+import urllib.error
 from http.server import BaseHTTPRequestHandler
 
 import sys
@@ -18,7 +19,7 @@ MODEL = "gemini-3.5-flash"
 MAX_HISTORY = 12
 MAX_MSG_CHARS = 2000
 MAX_MSGS = 40
-MAX_TOOL_ROUNDS = 4  # cap tool-call loops so a confused model can't spin forever
+MAX_TOOL_ROUNDS = 2  # cap tool-call loops so a confused model can't spin forever
 
 # ponytail: in-memory counters, reset on cold start. Fine for a portfolio.
 # Move to Upstash/Redis only if persistent cross-instance limits are needed.
@@ -163,10 +164,25 @@ class handler(BaseHTTPRequestHandler):
             for chunk in _run_chat(messages, api_key):
                 self.wfile.write(chunk.encode())
                 self.wfile.flush()
+        except urllib.error.HTTPError as e:
+            print(f"Chat error: HTTP Error {e.code}: {e.reason}")
+            msg = (
+                b"\n\nThe AI assistant is taking a short break right now. "
+                b"Feel free to explore the Projects or Experience pages in the meantime, "
+                b"or come back in a moment to continue chatting."
+            ) if e.code in (503, 429) else (
+                b"\n\nSomething went wrong on my end. "
+                b"You can explore the Projects or Experience pages while I sort this out, "
+                b"or reach out directly via the Contact page."
+            )
+            try:
+                self.wfile.write(msg)
+            except OSError:
+                pass
         except Exception as e:
             print(f"Chat error: {e}")
             try:
-                self.wfile.write(b"\n\nSomething went wrong. Please try again.")
+                self.wfile.write(b"\n\nSomething went wrong on my end. Feel free to explore the Projects or Experience pages, or reach out via the Contact page.")
             except OSError:
                 pass
 
