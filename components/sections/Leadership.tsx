@@ -26,7 +26,7 @@ export default function Leadership() {
               key={l.organization}
               className="border-l-2 border-sage pl-6"
             >
-              <h3 className="font-display text-2xl md:text-3xl text-ink tracking-tighter">
+              <h3 className="font-satoshi text-2xl md:text-3xl text-ink tracking-tighter">
                 {l.organization}
               </h3>
               <p className="mt-1 font-sans text-sm text-ink-muted italic">
