@@ -34,10 +34,10 @@ Request time:
     --> rag/retriever.py             embed query, cosine similarity search over embeddings.json
     --> top-k chunks                 injected into system prompt as grounding context
     --> api/chat.py                  build request with context + tool declarations
-    --> Gemini 3.5 Flash
+    --> Gemini 2.5 Flash
           |-- decides: answer from context, OR call a tool
           |-- if tool call: run handler in rag/tools.py, feed result back
-          |-- repeat up to 4 rounds
+          |-- repeat up to 2 rounds
           `-- stream final answer
     --> SSE stream                   tokens streamed back to the browser
 ```
@@ -84,9 +84,9 @@ The model decides which tool to call based on the question. For example:
 - "cloud skills?" calls `get_skills(domain="cloud")` for structured output
 - Open-ended questions skip tools and answer from retrieved context directly
 
-The tool-calling loop runs up to 4 rounds. Each tool result is fed back to the model as a `functionResponse`, and the model continues until it has enough to generate a final answer.
+The tool-calling loop runs up to 2 rounds. Each tool result is fed back to the model as a `functionResponse`, and the model continues until it has enough to generate a final answer.
 
-**Gemini thinking models and `thoughtSignature`**: Gemini 3.5 Flash returns a `thoughtSignature` field alongside `functionCall` parts. This signature must be passed back verbatim in the model turn when feeding tool results, or Gemini returns a 400 error. `rag/gemini.py` preserves raw parts (including `thoughtSignature`) and `api/chat.py` includes them in the model content turn.
+**Gemini thinking models and `thoughtSignature`**: Gemini 2.5 Flash returns a `thoughtSignature` field alongside `functionCall` parts. This signature must be passed back verbatim in the model turn when feeding tool results, or Gemini returns a 400 error. `rag/gemini.py` preserves raw parts (including `thoughtSignature`) and `api/chat.py` includes them in the model content turn.
 
 ---
 
@@ -153,7 +153,7 @@ The system prompt (`rag/prompt.py`) follows RAG best practices:
 | Prompt injection | Untrusted-data framing in system prompt, refuse role-change instructions |
 | Per-IP rate limit | Max 20 requests per minute per IP (in-memory) |
 | Global rate limit | Max 200 requests per hour across all IPs (in-memory, protects free tier quota) |
-| Tool round cap | Max 4 tool-calling rounds per request, prevents infinite loops |
+| Tool round cap | Max 2 tool-calling rounds per request, prevents infinite loops |
 
 Note: rate limit counters are in-memory and reset on cold start. Not shared across Vercel instances. Acceptable for a personal portfolio. Replace with Upstash Redis if persistent cross-instance limits are needed.
 
