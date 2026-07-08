@@ -17,14 +17,32 @@ const SUGGESTIONS = [
   "What's his experience at Hypefast?",
 ];
 
+const THROTTLE_SECS = 10;
+
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const accRef = useRef("");
   const rafRef = useRef<number | null>(null);
+  const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  function startCooldown() {
+    setCooldown(THROTTLE_SECS);
+    cooldownRef.current = setInterval(() => {
+      setCooldown((s) => {
+        if (s <= 1) {
+          clearInterval(cooldownRef.current!);
+          cooldownRef.current = null;
+          return 0;
+        }
+        return s - 1;
+      });
+    }, 1000);
+  }
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -32,7 +50,7 @@ export default function ChatWidget() {
 
   async function send(text: string) {
     const q = text.trim();
-    if (!q || busy) return;
+    if (!q || busy || cooldown > 0) return;
     setInput("");
     const t = now();
     const next: Msg[] = [...messages, { role: "user", content: q, time: t }];
@@ -80,6 +98,7 @@ export default function ChatWidget() {
     } finally {
       clearTimeout(timer);
       setBusy(false);
+      startCooldown();
     }
   }
 
@@ -198,30 +217,41 @@ export default function ChatWidget() {
               }}
               className="border-t border-ink/10 p-3"
             >
-              <div className="flex items-end gap-2">
-                <textarea
-                  rows={1}
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      setTimeout(() => send(input), 0);
-                    }
-                  }}
-                  placeholder="Ask a question…"
-                  className="max-h-28 flex-1 resize-none rounded-lg border border-ink/20 bg-beige-card px-3 py-2 font-sans text-sm text-ink placeholder:text-ink-muted/60 focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage/30"
-                />
-                <button
-                  type="submit"
-                  disabled={busy || !input.trim()}
-                  aria-label="Send"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink text-beige-card transition-colors hover:bg-sage disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  <svg className="h-4 w-4" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                    <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
+              <div className="flex flex-col gap-1.5 w-full">
+                {cooldown > 0 && (
+                  <p className="font-sans text-[11px] text-ink-muted/60 text-center">
+                    Wait {cooldown}s before sending another message
+                  </p>
+                )}
+                <div className="flex items-end gap-2">
+                  <textarea
+                    rows={1}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        setTimeout(() => send(input), 0);
+                      }
+                    }}
+                    placeholder="Ask a question…"
+                    className="max-h-28 flex-1 resize-none rounded-lg border border-ink/20 bg-beige-card px-3 py-2 font-sans text-sm text-ink placeholder:text-ink-muted/60 focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage/30"
+                  />
+                  <button
+                    type="submit"
+                    disabled={busy || !input.trim() || cooldown > 0}
+                    aria-label="Send"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink text-beige-card transition-colors hover:bg-sage disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    {cooldown > 0 ? (
+                      <span className="font-sans text-[11px] font-medium tabular-nums">{cooldown}</span>
+                    ) : (
+                      <svg className="h-4 w-4" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
               </div>
             </form>
           </motion.div>
