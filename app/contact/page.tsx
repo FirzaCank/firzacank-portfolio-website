@@ -28,12 +28,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <section className="relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-32 -right-20 h-[420px] w-[420px] rounded-full bg-sage-soft/30 blur-3xl"
-        />
-        <div className="mx-auto max-w-container px-6 md:px-10 pt-12 md:pt-20 pb-12 md:pb-16">
+      <section className="relative overflow-hidden">        <div className="mx-auto max-w-container px-6 md:px-10 pt-12 md:pt-20 pb-12 md:pb-16">
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-sage" />
             <p className="font-sans text-xs uppercase tracking-[0.2em] text-sage">
