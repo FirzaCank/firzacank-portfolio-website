@@ -251,7 +251,7 @@
         "Terraform",
         "Looker Studio"
       ],
-      "detail": "\n## Context\n\nA digital financial services app needed a single source of truth for their product analytics. Data was scattered across four platforms: AppsFlyer (attribution and events), MoEngage (push campaigns), Google Play Console (Android performance), and App Store Connect (iOS analytics). Each had its own API format, auth method, and data lag. Marketing, product, and growth teams were pulling reports manually from each platform individually.\n\nThe goal was to automate all four sources into one BigQuery warehouse, transform the raw data with dbt into clean mart tables, and surface it in a Looker Studio dashboard refreshed twice daily.\n\n## Problem\n\nFour distinct ingestion challenges in one pipeline:\n\n- **AppsFlyer** exposes separate endpoints per report type (installs, events, cohorts, cost) across iOS and Android. That is 8 total pulls per run.\n- **MoEngage** requires a two-step campaign API: search for campaigns first, then fetch stats per campaign.\n- **Google Play Console** has a 3-day data lag on vitals APIs. Requesting data newer than T-3 returns HTTP 400, so the pipeline window must be offset accordingly.\n- **App Store Connect** uses JWT-signed tokens with short expiry, requiring rotation logic baked into the extractor.\n\nBeyond ingestion, the pipeline needed CI/CD, environment isolation (dev vs. prod), and a runbook a non-engineer could follow for token rotation and backfills.\n\n## Approach\n\n**Architecture.** Cloud Scheduler triggers Cloud Workflows twice daily. The workflow fans out all four extractors in parallel, waits for all to succeed, then runs the dbt transform step. Each extractor runs as an independent Cloud Run Job. A single Docker image packages both the Python ingestion code and the dbt project, and each job sets its own command and args at runtime, keeping the image count to one.\n\n**Ingestion layer.** Each source is a Python module with its own API client, retry logic, and schema normalization. Raw payloads land in BigQuery raw layer tables. Extraction is stateless: the pipeline accepts a date range parameter, defaulting to T-4 to T-3 to accommodate the Play Console lag.\n\n**Transform layer.** dbt handles staging (type casting, deduplication, null handling) and mart (joined, aggregated, Looker-ready) layers. Models are tested with dbt's built-in schema tests, 51 tests total across all four sources, all green before production deploy.\n\n**CI/CD.** Cloud Build runs on push to `develop` (deploys to dev GCP) and `main` (deploys to client prod GCP via VPN). Secrets are managed in GCP Secret Manager, never in code or environment variables.\n\n**Environments.** Two long-lived branches mirror two GCP projects: consultant-owned dev for testing, client-owned prod for live data. Feature branches go through dev E2E verification before merging to main.\n\n## Results\n\n- **4 sources fully automated** across AppsFlyer, MoEngage, Google Play Console, and App Store Connect, all running end-to-end in production.\n- **51 dbt tests passing** across all sources, covering null checks, uniqueness, accepted values, and referential integrity.\n- **Full handover documentation** including setup guide, runbook, data catalogs per source, and contributing guide written for the client's internal team to maintain independently.\n\n## Stack notes\n\n- **Cloud Workflows** orchestrates parallel extraction with a fan-out pattern. All four sources run simultaneously and dbt only starts after all succeed. A single workflow failure stops the transform from running on partial data.\n- **Single Docker image** for both Python ingestion and dbt reduces image management overhead. Each Cloud Run Job overrides the command at runtime.\n- **dbt Medallion layers** (raw, staging, mart) keep transform logic modular. Adding a new source means adding one staging model and one mart model without touching existing ones.\n- **GCP Secret Manager** for all credentials. API tokens, service account keys, and App Store Connect private keys are never in code, never in env files, never in logs.\n"
+      "detail": "\n## Context\n\nA digital financial services app needed a single source of truth for their product analytics. Data was scattered across four platforms: AppsFlyer (attribution and events), MoEngage (push campaigns), Google Play Console (Android performance), and App Store Connect (iOS analytics). Each had its own API format, auth method, and data lag. Marketing, product, and growth teams were pulling reports manually from each platform individually.\n\nThe goal was to automate all four sources into one BigQuery warehouse, transform the raw data with dbt into clean mart tables, and surface it in a Looker Studio dashboard refreshed twice daily.\n\n## Problem\n\nFour distinct ingestion challenges in one pipeline:\n\n- **AppsFlyer** exposes separate endpoints per report type (installs, events, cohorts, cost) across iOS and Android. That is 8 total pulls per run.\n- **MoEngage** requires a two-step campaign API: search for campaigns first, then fetch stats per campaign.\n- **Google Play Console** has a 3-day data lag on vitals APIs. Requesting data newer than T-3 returns HTTP 400, so the pipeline window must be offset accordingly.\n- **App Store Connect** uses JWT-signed tokens with short expiry, requiring rotation logic baked into the extractor.\n\nBeyond ingestion, the pipeline needed CI/CD, environment isolation (dev vs. prod), and a runbook a non-engineer could follow for token rotation and backfills.\n\n## Approach\n\n**Architecture.** Cloud Scheduler triggers Cloud Workflows twice daily. The workflow fans out all four extractors in parallel, waits for all to succeed, then runs the dbt transform step. Each extractor runs as an independent Cloud Run Job. A single Docker image packages both the Python ingestion code and the dbt project, and each job sets its own command and args at runtime, keeping the image count to one.\n\n**Ingestion layer.** Each source is a Python module with its own API client, retry logic, and schema normalization. Raw payloads land in BigQuery raw layer tables. Extraction is stateless: the pipeline accepts a date range parameter, defaulting to T-4 to T-3 to accommodate the Play Console lag.\n\n**Transform layer.** dbt handles the data modeling: staging models (type casting, deduplication, null handling) and mart models (joined, aggregated, Looker-ready), with slowly changing dimensions tracked as SCD Type 2 via dbt snapshots. Models are tested with dbt's built-in schema tests, 51 tests total across all four sources, all green before production deploy.\n\n**CI/CD.** Cloud Build runs on push to `develop` (deploys to dev GCP) and `main` (deploys to client prod GCP via VPN). Secrets are managed in GCP Secret Manager, never in code or environment variables.\n\n**Environments.** Two long-lived branches mirror two GCP projects: consultant-owned dev for testing, client-owned prod for live data. Feature branches go through dev E2E verification before merging to main.\n\n## Results\n\n- **4 sources fully automated** across AppsFlyer, MoEngage, Google Play Console, and App Store Connect, all running end-to-end in production.\n- **51 dbt tests passing** across all sources, covering null checks, uniqueness, accepted values, and referential integrity.\n- **Full handover documentation** including setup guide, runbook, data catalogs per source, and contributing guide written for the client's internal team to maintain independently.\n\n## Stack notes\n\n- **Cloud Workflows** orchestrates parallel extraction with a fan-out pattern. All four sources run simultaneously and dbt only starts after all succeed. A single workflow failure stops the transform from running on partial data.\n- **Single Docker image** for both Python ingestion and dbt reduces image management overhead. Each Cloud Run Job overrides the command at runtime.\n- **dbt Medallion layers** (raw, staging, mart) keep transform logic modular. Adding a new source means adding one staging model and one mart model without touching existing ones.\n- **GCP Secret Manager** for all credentials. API tokens, service account keys, and App Store Connect private keys are never in code, never in env files, never in logs.\n"
     },
     {
       "slug": "personal-portfolio-website",
@@ -315,10 +315,10 @@
       "location": "Jakarta, Indonesia",
       "summary": "Building data and Machine Learning (ML) infrastructure for a multi-brand consumer aggregator. Pipelines, recommendation systems, AI-driven automation across 11+ brands.",
       "highlights": [
-        "Designed L0–L2 ETL pipelines ingesting order and customer data from 4 marketplace APIs & Google Sheets to BigQuery for 11+ brands, with Flask-based token management on Cloud Run and PostgreSQL for API authentication, enabling unified analytics and reporting.",
+        "Designed L0–L2 ETL pipelines ingesting order and customer data from 4 marketplace APIs & Google Sheets to BigQuery for 11+ brands, with Flask-based token management on Cloud Run and PostgreSQL for API authentication, applying SCD handling on dimension tables, enabling unified analytics and reporting.",
         "Optimized scalable product recommendation systems on Shopee Marketplace (NCF, Replenishment, and Baby Cloth) using TensorFlow/Keras, scikit-learn, and FastAPI on GCP (Vertex AI, Agent Platform), driving hundreds of millions IDR/month GMV.",
         "Created an end-to-end pipeline for a smart voucher optimization system using K-Means clustering and linear programming for budget-constrained allocation, orchestrated via Vertex AI and Agent Platform Pipelines and Cloud Composer, achieving 200× average monthly ROI per brand.",
-        "Automated financial workflows for 3 brands by integrating Jubelio (OMS) with Jurnal.id via API, reducing invoice processing from days to <5 minutes for hundreds of daily invoices, and accelerating cash flow through faster AR recognition.",
+        "Automated financial workflows for 3 brands by integrating Jubelio (omnichannel OMS) with Mekari Jurnal (Jurnal.id) via API, reducing invoice processing from days to <5 minutes for hundreds of daily invoices, and accelerating cash flow through faster AR recognition.",
         "Engineered an AI-based OCR system using GCP Document AI (evaluated against Mistral AI), automating invoice and receipt processing, reducing extraction time from 8 hours to 5 minutes (96× faster) with 90%+ accuracy.",
         "Delivered Metabase dashboards for Finance, Data Science, and Business Operations teams to monitor catalog performance, advertising AI, and customer data platform."
       ],
@@ -327,7 +327,11 @@
         "Composer (Airflow)",
         "BigQuery",
         "Vertex AI",
+        "Agent Platform",
         "Cloud Run",
+        "Compute Engine",
+        "Pub/Sub",
+        "Datastream (Change Data Capture / CDC)",
         "Document AI",
         "Flask",
         "FastAPI",
@@ -335,7 +339,9 @@
         "scikit-learn",
         "PostgreSQL",
         "Metabase",
-        "Mistral AI"
+        "Mistral AI",
+        "Jubelio (Omnichannel OMS)",
+        "Mekari Jurnal"
       ]
     },
     {
@@ -349,7 +355,7 @@
       "location": "Jakarta, Indonesia",
       "summary": "Built telco-scale data platforms processing 1B+ daily records with Medallion architecture, plus partner-facing analytics products.",
       "highlights": [
-        "Developed an end-to-end telco user behavior & credit scoring platform using a Medallion Architecture (Bronze/Silver/Gold) on Snowflake; built PySpark ETL pipelines on AWS (S3, EC2, Lambda) processing 1B+ daily records with schema evolution, partition pruning, and data quality gates enforced at each layer.",
+        "Developed an end-to-end telco user behavior & credit scoring platform using a Medallion Architecture (Bronze/Silver/Gold) on Snowflake; built PySpark ETL pipelines on AWS (S3, EC2, Lambda) processing 1B+ daily records with schema evolution, partition pruning, and data quality gates enforced at each layer, plus slowly changing dimension (SCD) management across Types 0-6.",
         "Built a monthly PySpark-based lead generation pipeline to process and enrich millions of XL Axiata subscriber profiles for targeted bank product acquisition.",
         "Designed a dashboard to monitor XL's API Economy performance for external partners, improving API response times by 30%, success rates by 15%, and driving 10% revenue growth from API transactions."
       ],
@@ -525,7 +531,7 @@
         "group": "Cloud",
         "items": [
           "AWS (EC2, S3, Lambda, ECS/ECR)",
-          "GCP (Vertex AI, Agent Platform, BigQuery, Cloud Run, Document AI, Pub/Sub, Composer, Cloud Build, Cloud Workflows, Cloud Scheduler, Secret Manager, IAM)",
+          "GCP (Vertex AI, Agent Platform, BigQuery, Cloud Run, Compute Engine, Datastream (Change Data Capture / CDC), Document AI, Pub/Sub, Composer, Cloud Build, Cloud Workflows, Cloud Scheduler, Secret Manager, IAM)",
           "Snowflake"
         ]
       },
@@ -534,7 +540,7 @@
         "items": [
           "Cloudera (CDH)",
           "Apache Airflow",
-          "Kafka",
+          "Kafka (streaming)",
           "Hive",
           "Impala",
           "Hadoop (HDFS, YARN)"
@@ -546,7 +552,8 @@
           "PostgreSQL",
           "MySQL",
           "MongoDB Atlas",
-          "NoSQL"
+          "NoSQL",
+          "Data modeling (star schema, SCD Types 0-6, dbt snapshots)"
         ]
       },
       {
@@ -577,7 +584,9 @@
           "Confluence",
           "Apps Script",
           "N8N",
-          "dbt"
+          "dbt",
+          "Jubelio (Omnichannel OMS)",
+          "Mekari Jurnal"
         ]
       },
       {
