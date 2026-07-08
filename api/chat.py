@@ -25,6 +25,7 @@ MAX_TOOL_ROUNDS = 2  # cap tool-call loops so a confused model can't spin foreve
 # Move to Upstash/Redis only if persistent cross-instance limits are needed.
 _ip_hits = {}
 _global = {"count": 0, "reset_at": 0.0}
+_daily = {"count": 0, "reset_at": 0.0}  # protects the 500 RPD Gemini free-tier quota
 
 
 def _ip_limited(ip: str) -> bool:
@@ -44,9 +45,16 @@ def _global_limited() -> bool:
     if now > _global["reset_at"]:
         _global["count"] = 0
         _global["reset_at"] = now + 3600
+    if now > _daily["reset_at"]:
+        _daily["count"] = 0
+        _daily["reset_at"] = now + 86400
+    # each chat = 1 embed + up to 2 generate calls, so 150 chats/day stays well under 500 RPD
+    if _daily["count"] >= 150:
+        return "daily"
     if _global["count"] >= 200:
-        return True
+        return "hourly"
     _global["count"] += 1
+    _daily["count"] += 1
     return False
 
 
@@ -62,7 +70,8 @@ def _validate(raw_msgs):
     if not isinstance(raw_msgs, list) or not raw_msgs or len(raw_msgs) > MAX_MSGS:
         return None
     out = []
-    for m in raw_msgs:
+    # only the last MAX_HISTORY messages reach the model; skip validating the rest
+    for m in raw_msgs[-MAX_HISTORY:]:
         if not isinstance(m, dict):
             continue
         role = "assistant" if m.get("role") == "assistant" else "user"
@@ -98,7 +107,7 @@ def _run_chat(messages, api_key):
             "tools": [{"functionDeclarations": DECLARATIONS}],
             "generationConfig": {
                 "temperature": 0.4,
-                "maxOutputTokens": 2048,
+                "maxOutputTokens": 1024,  # answers are 2-4 sentences by design; caps abuse of long outputs
             },
         }
 
@@ -139,9 +148,19 @@ class handler(BaseHTTPRequestHandler):
         if not api_key:
             return self._json(500, {"error": "GEMINI_API_KEY not configured on the server."})
 
-        if _global_limited():
+        # cheap scraper filter: reject browser requests from foreign origins.
+        # Bare curl (no Origin) still passes; rate limits handle that case.
+        origin = self.headers.get("origin") or ""
+        if origin and origin not in ("https://firzacank.vercel.app", "http://localhost:3000"):
+            return self._json(403, {"error": "Forbidden."})
+
+        limited = _global_limited()
+        if limited == "daily":
+            return self._json(429, {"error": "The assistant has reached its daily limit. Please come back tomorrow, or reach out via the Contact page."})
+        if limited:
             return self._json(429, {"error": "The assistant is getting a lot of traffic right now. This is temporary — please try again in a few minutes."})
-        ip = (self.headers.get("x-forwarded-for") or "unknown").split(",")[0].strip()
+        # x-real-ip is set by Vercel and not client-spoofable, unlike x-forwarded-for
+        ip = (self.headers.get("x-real-ip") or self.headers.get("x-forwarded-for") or "unknown").split(",")[0].strip()
         if _ip_limited(ip):
             return self._json(429, {"error": "You've sent a few messages quickly. Please wait a moment and try again."})
 
