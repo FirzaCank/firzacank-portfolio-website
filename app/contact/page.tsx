@@ -46,7 +46,7 @@ export default function ContactPage() {
           </p>
 
           <p className="mt-8 max-w-prose font-sans text-lg text-ink-muted leading-[1.7]">
-            Taking on projects in <span className="font-semibold text-ink">data engineering</span>, <span className="font-semibold text-ink">AI engineering</span>, <span className="font-semibold text-ink">machine learning</span>, data analysis, dashboards, and pitch decks.
+            Taking on projects in <span className="font-semibold text-ink">data engineering</span>, <span className="font-semibold text-ink">AI engineering</span>, <span className="font-semibold text-ink">machine learning</span>, <span className="font-semibold text-ink">data analysis</span>, <span className="font-semibold text-ink">dashboards</span>, and <span className="font-semibold text-ink">pitch decks</span>.
             Drop a message below or reach me directly on the channels on the right.
           </p>
 
