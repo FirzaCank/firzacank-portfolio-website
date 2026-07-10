@@ -39,6 +39,24 @@ def _load_index():
     return sources, texts, vectors
 
 
+# The chat widget's suggestion chips send the exact same questions over and
+# over; caching their embeddings makes those requests one API call cheaper.
+_query_cache = {}
+_QUERY_CACHE_MAX = 64
+
+
+def _embed_cached(query: str, api_key: str) -> list:
+    key = query.strip().lower()
+    hit = _query_cache.get(key)
+    if hit is not None:
+        return hit
+    vec = embed_query(query, api_key)
+    if len(_query_cache) >= _QUERY_CACHE_MAX:
+        _query_cache.clear()  # ponytail: dump-all eviction; LRU if this ever matters
+    _query_cache[key] = vec
+    return vec
+
+
 def retrieve(query: str, api_key: str):
     """Return the top-k chunks most similar to the query, above MIN_SCORE.
 
@@ -48,7 +66,7 @@ def retrieve(query: str, api_key: str):
     if len(texts) == 0:
         return []
 
-    qv = np.array(embed_query(query, api_key), dtype=np.float32)
+    qv = np.array(_embed_cached(query, api_key), dtype=np.float32)
     qn = np.linalg.norm(qv) or 1.0
     qv = qv / qn
 
