@@ -30,6 +30,24 @@ export default function ChatWidget() {
   const accRef = useRef("");
   const rafRef = useRef<number | null>(null);
   const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const launcherRef = useRef<HTMLButtonElement>(null);
+
+  function close() {
+    setOpen(false);
+    launcherRef.current?.focus();
+  }
+
+  // dialog basics: Escape closes, focus moves into the panel on open
+  useEffect(() => {
+    if (!open) return;
+    textareaRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   function startCooldown() {
     setCooldown(THROTTLE_SECS);
@@ -145,6 +163,7 @@ export default function ChatWidget() {
 
       {/* Launcher */}
       <button
+        ref={launcherRef}
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-label={open ? "Close chat" : "Ask about Firza"}
@@ -173,6 +192,9 @@ export default function ChatWidget() {
       <AnimatePresence>
         {open && (
           <motion.div
+            role="dialog"
+            aria-modal="false"
+            aria-label="Ask about Firza"
             initial={{ opacity: 0, y: 16, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.98 }}
@@ -182,10 +204,10 @@ export default function ChatWidget() {
             {/* Header */}
             <div className="relative border-b border-ink/10 px-5 py-4 pr-12">
               <p className="font-display text-xl font-semibold text-ink">Ask about Firza</p>
-              <p className="font-sans text-xs text-ink-muted/60">AI-generated · may not be fully accurate. For detailed or specific information, reach out via the <a href="/contact" className="underline hover:text-sage">Contact</a> page.</p>
+              <p className="font-sans text-xs text-ink-muted/80">AI-generated · may not be fully accurate. For detailed or specific information, reach out via the <a href="/contact" className="underline hover:text-sage">Contact</a> page.</p>
               <button
                 type="button"
-                onClick={() => setOpen(false)}
+                onClick={close}
                 aria-label="Close chat"
                 className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full text-ink-muted/50 transition-colors hover:bg-ink/8 hover:text-ink"
               >
@@ -195,8 +217,8 @@ export default function ChatWidget() {
               </button>
             </div>
 
-            {/* Messages */}
-            <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-5 py-3">
+            {/* Messages. role=log + aria-live lets screen readers announce streamed replies */}
+            <div ref={scrollRef} role="log" aria-live="polite" className="flex-1 space-y-3 overflow-y-auto px-5 py-3">
               {messages.length === 0 && (
                 <div className="space-y-3">
                   <p className="font-sans text-sm text-ink-muted">
@@ -246,7 +268,7 @@ export default function ChatWidget() {
                     </div>
                   )}
                   {m.time && (!busy || i < messages.length - 1) && (
-                    <span className="px-1 font-sans text-[10px] text-ink-muted/40">{m.time}</span>
+                    <span className="px-1 font-sans text-[11px] text-ink-muted/70">{m.time}</span>
                   )}
                 </div>
               ))}
@@ -262,13 +284,15 @@ export default function ChatWidget() {
             >
               <div className="flex flex-col gap-1.5 w-full">
                 {cooldown > 0 && (
-                  <p className="font-sans text-[11px] text-ink-muted/60 text-center">
+                  <p className="font-sans text-[11px] text-ink-muted/80 text-center">
                     Wait {cooldown}s before sending another message
                   </p>
                 )}
                 <div className="flex items-end gap-2">
                   <textarea
+                    ref={textareaRef}
                     rows={1}
+                    aria-label="Your question"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => {
