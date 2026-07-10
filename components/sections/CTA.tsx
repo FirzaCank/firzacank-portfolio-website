@@ -29,6 +29,7 @@ export default function CTA() {
             <p className="mt-4 max-w-lg font-sans text-base text-beige-card/80">
               Open for consulting work in data engineering, analytics and BI,
               data science, machine learning, MLOps, and AI engineering.
+              Shipped systems have driven 200&times; voucher ROI and hundreds of millions in GMV.
             </p>
           </div>
 
