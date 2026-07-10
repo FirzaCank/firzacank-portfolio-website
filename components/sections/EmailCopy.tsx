@@ -30,7 +30,7 @@ export default function EmailCopy({ email }: { email: string }) {
         <button
           type="button"
           onClick={handleCopy}
-          className="font-display text-tagline text-ink break-all hover:text-sage transition-colors text-left"
+          className="font-display text-lg md:text-xl text-ink break-all hover:text-sage transition-colors text-left"
         >
           {email}
         </button>
@@ -38,7 +38,7 @@ export default function EmailCopy({ email }: { email: string }) {
           type="button"
           onClick={handleCopy}
           aria-label="Copy email to clipboard"
-          className="inline-flex items-center gap-1.5 rounded-full border border-ink/25 bg-beige px-3 py-1 font-sans text-nav-link text-ink transition-colors hover:border-sage hover:text-sage"
+          className="inline-flex items-center gap-1.5 rounded-full border border-ink/25 bg-beige px-3 py-1 font-sans text-xs text-ink transition-colors hover:border-sage hover:text-sage"
         >
           {copied ? (
             <>
@@ -58,7 +58,7 @@ export default function EmailCopy({ email }: { email: string }) {
       <div
         role="status"
         aria-live="polite"
-        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 font-sans text-btn-util text-beige-card shadow-lg shadow-ink/20 transition-all duration-300 ${
+        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 font-sans text-sm text-beige-card shadow-lg shadow-ink/20 transition-all duration-300 ${
           copied ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
         }`}
       >
