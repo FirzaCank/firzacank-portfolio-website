@@ -19,7 +19,7 @@ export default function FeaturedExperience() {
           </h2>
           <p className="mt-4 max-w-sm font-sans text-base text-ink-muted">
             Telco, consumer aggregator, and digital products. ~4 years of
-            production data systems.
+            production systems with proven revenue impact.
           </p>
           <Link
             href="/experience"
