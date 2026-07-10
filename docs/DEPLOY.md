@@ -2,6 +2,8 @@
 
 Step-by-step to push to GitHub and connect to Vercel. Target subdomain: `firzacank.vercel.app`.
 
+> Note: Steps 2-3 are historical (the repo already exists at `github.com/FirzaCank/firzacank-portfolio-website` and Vercel is connected). They are kept as reference for setting up a fresh clone or a new project. For day-to-day updates, jump to [Future updates](#future-updates).
+
 Estimated time: 15 minutes if everything goes smoothly.
 
 ---
@@ -92,9 +94,10 @@ Run those 3 commands in your terminal. If prompted for credentials, use a Person
 5. Framework Preset: Vercel should auto-detect **Next.js**
 6. Root Directory: leave as `./`
 7. Build & Output Settings: leave defaults
-8. **Environment Variables**: add one:
-   - Name: `NEXT_PUBLIC_SITE_URL`
-   - Value: `https://firzacank.vercel.app`
+8. **Environment Variables**: add all three (the site deploys without the last two, but the chat assistant and contact form will return errors in production):
+   - `NEXT_PUBLIC_SITE_URL` = `https://firzacank.vercel.app`
+   - `GEMINI_API_KEY` = your Gemini API key (powers the RAG chat, free at [aistudio.google.com/api-keys](https://aistudio.google.com/api-keys))
+   - `RESEND_API_KEY` = your Resend API key (powers the contact form, [resend.com/api-keys](https://resend.com/api-keys))
 9. Click **Deploy**
 
 Wait ~2 minutes. You should see "Congratulations! Your project has been deployed."
@@ -119,10 +122,20 @@ Visit https://firzacank.vercel.app and check:
 
 Every time you push to `main`, Vercel auto-deploys.
 
+Stage and commit files individually so each commit stays focused and no stray file slips in:
+
 ```bash
-git add .
-git commit -m "Describe what changed"
+git add path/to/changed-file
+git commit -m "fix copy - describe what changed"
 git push
+```
+
+If you edited any portfolio content in `data/*.ts`, rebuild the RAG index first and commit the generated files too:
+
+```bash
+npm run build-rag
+git add data/portfolio.json data/embeddings.json
+git commit -m "chore rag - rebuild export and embeddings"
 ```
 
 Preview deployments happen automatically for any other branch.
