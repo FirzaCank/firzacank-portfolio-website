@@ -1,9 +1,9 @@
 // Static content for the /about page. Sourced from CV.
 
 export const BIO_PARAGRAPHS = [
-  "I&rsquo;m a Data Engineer, AI Engineer, and ML Engineer with ~4 years of expertise in building end-to-end data pipelines and scalable MLOps frameworks. I focus on the evolution of data infrastructure into intelligent automation, specializing in the deployment and optimization of ML models that accelerate workflows.",
-  "I&rsquo;ve spent the last several years inside Telco and consumer brand environments, where the systems I designed had to run reliably at scale, with proven impact: processing 1B+ daily records, driving hundreds of millions IDR/month GMV via recommendation systems, achieving 200× average monthly ROI per brand through optimization, and cutting OCR extraction time from 8 hours to 5 minutes (96&times; faster).",
-  "Beyond my core engineering role, I deliver project highlights spanning data analysis, dashboard visualization, pitch decks, and AI engineering. The work I take on lets me ship end-to-end, from raw data to a deliverable a stakeholder can act on.",
+  "I&rsquo;m a Data &amp; AI Engineer with ~4 years of experience building end-to-end data pipelines and scalable MLOps frameworks. I turn raw data infrastructure into automated systems: recommendation models in production, LLM-powered document processing, and pipelines that run unattended.",
+  "I&rsquo;ve spent the last several years inside Telco and consumer brand environments, where the systems I designed had to run reliably at scale, with proven impact: processing 1B+ daily records, driving hundreds of millions of IDR per month in GMV via recommendation systems, achieving a 200&times; average monthly return on voucher budget per brand, and cutting OCR extraction time from 8 hours to 5 minutes (96&times; faster).",
+  "Beyond my core engineering role, I take on freelance projects spanning AI engineering, data analysis, dashboards, and pitch decks. The work I take on lets me ship end-to-end, from raw data to a deliverable a stakeholder can act on.",
 ];
 
 export type EducationItem = {
@@ -24,7 +24,7 @@ export const EDUCATION: EducationItem[] = [
     degree: "Bachelor's Degree",
     faculty: "Faculty of Industrial Technology, Industrial Engineering",
     detail:
-      "Contributed at paid assistant at Production System Laboratory (LSP), Faculty of Industrial Technology",
+      "Worked as a paid assistant at the Production Systems Laboratory (LSP), Faculty of Industrial Technology",
     period: "August 2017 - July 2021",
     thesis: {
       title:
@@ -76,7 +76,7 @@ export const LEADERSHIP: LeadershipItem[] = [
   {
     organization: "INFINITY ITB",
     context: "ITB Dance and Performance Art Community",
-    role: "Vice President and Head of the General Secretary Department",
+    role: "Vice President and Head of the General Secretariat Department",
     highlights: [
       "Oversaw all organizational activities, set vision, mission, and OKRs, drove budget allocation decisions, and represented the organization in external partnerships. Achieved 95% program execution success across all divisions.",
       "Led the General Secretariat Department, managing three divisions: Treasury, Administration, and Secretary Management.",
@@ -88,7 +88,7 @@ export const LEADERSHIP: LeadershipItem[] = [
     role: "Head of Staff, People Management & Measurement",
     highlights: [
       "Performed the Social Mapping project for MTI 2018 students to identify the 10 best group combinations.",
-      "Produced appreciation cards for every member at the end of the management period, with 100% staff coverage.",
+      "Produced appreciation cards for every member at the end of the management period.",
     ],
   },
 ];
@@ -128,7 +128,7 @@ export const SKILL_GROUPS = [
       "Tool Calling",
       "Prompt Engineering",
       "Prompt Evaluation",
-      "SentenceTransformer",
+      "Sentence Transformers",
       "OpenCV",
     ],
   },
@@ -193,7 +193,7 @@ export const SKILL_GROUPS = [
       "Jira",
       "Confluence",
       "Apps Script",
-      "N8N",
+      "n8n",
       "dbt",
       "Jubelio (Omnichannel OMS)",
       "Mekari Jurnal",
