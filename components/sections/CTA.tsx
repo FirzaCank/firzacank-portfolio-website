@@ -27,8 +27,8 @@ export default function CTA() {
               Pipelines that break overnight? Dashboards nobody trusts? Decks that need real numbers? I fix that.
             </h2>
             <p className="mt-4 max-w-lg font-sans text-base text-beige-card/80">
-              Open for consulting work in data engineering,
-              analytics (pitch deck/dashboard/Excel/Sheets), data science, machine learning, MLOps, and AI engineering.
+              Open for consulting work in data engineering, analytics and BI,
+              data science, machine learning, MLOps, and AI engineering.
             </p>
           </div>
 
