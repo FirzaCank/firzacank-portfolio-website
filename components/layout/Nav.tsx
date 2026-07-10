@@ -22,6 +22,15 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // close any open dropdown on Escape
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpenDropdown(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   return (
     <header
       className={cn(
@@ -111,15 +120,12 @@ export default function Nav() {
                       </svg>
                     </button>
 
+                    {/* plain list of links: no role=menu without full menu keyboard semantics */}
                     {isOpen && (
-                      <div
-                        role="menu"
-                        className="absolute left-0 top-full pt-2 min-w-[240px]"
-                      >
+                      <div className="absolute left-0 top-full pt-2 min-w-[240px]">
                         <div className="rounded-lg border border-ink/20 bg-beige-card shadow-lg shadow-ink/5 p-2">
                           <Link
                             href={item.href}
-                            role="menuitem"
                             className="block rounded-md px-3 py-2 font-sans text-sm text-ink-muted hover:bg-beige hover:text-ink transition-colors"
                           >
                             View all
@@ -129,7 +135,6 @@ export default function Nav() {
                             <Link
                               key={child.href}
                               href={child.href}
-                              role="menuitem"
                               className="block rounded-md px-3 py-2 transition-colors hover:bg-beige"
                             >
                               <span className="block font-sans text-sm text-ink">
@@ -202,15 +207,11 @@ export default function Nav() {
               </button>
 
               {openDropdown === "__cv__" && (
-                <div
-                  role="menu"
-                  className="absolute right-0 top-full pt-2 min-w-[220px]"
-                >
+                <div className="absolute right-0 top-full pt-2 min-w-[220px]">
                   <div className="rounded-lg border border-ink/20 bg-beige-card shadow-lg shadow-ink/5 p-2">
                     <a
                       href={CV_URL}
                       download
-                      role="menuitem"
                       className="flex items-center justify-between rounded-md px-3 py-2 transition-colors hover:bg-beige"
                     >
                       <div>
@@ -229,7 +230,6 @@ export default function Nav() {
                     <a
                       href={CV_URL_JA}
                       download
-                      role="menuitem"
                       className="flex items-center justify-between rounded-md px-3 py-2 transition-colors hover:bg-beige"
                     >
                       <div>
