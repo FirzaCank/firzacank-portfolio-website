@@ -1,8 +1,8 @@
 // Static content for the /about page. Sourced from CV.
 
 export const BIO_PARAGRAPHS = [
-  "I&rsquo;m a Data &amp; AI Engineer with ~4 years of experience building end-to-end data pipelines and scalable MLOps frameworks. I turn raw data infrastructure into automated systems: recommendation models in production, LLM-powered document processing, and pipelines that run unattended.",
-  "I&rsquo;ve spent the last several years inside Telco and consumer brand environments, where the systems I designed had to run reliably at scale, with proven impact: processing 1B+ daily records, driving hundreds of millions of IDR per month in GMV via recommendation systems, achieving a 200&times; average monthly return on voucher budget per brand, and cutting OCR extraction time from 8 hours to 5 minutes (96&times; faster).",
+  "I’m a Data & AI Engineer with ~4 years of experience building end-to-end data pipelines and scalable MLOps frameworks. I turn raw data infrastructure into automated systems: recommendation models in production, LLM-powered document processing, and pipelines that run unattended.",
+  "I’ve spent the last several years inside Telco and consumer brand environments, where the systems I designed had to run reliably at scale, with proven impact: processing 1B+ daily records, driving hundreds of millions of IDR per month in GMV via recommendation systems, achieving a 200× average monthly return on voucher budget per brand, and cutting OCR extraction time from 8 hours to 5 minutes (96× faster).",
   "Beyond my core engineering role, I take on freelance projects spanning AI engineering, data analysis, dashboards, and pitch decks. The work I take on lets me ship end-to-end, from raw data to a deliverable a stakeholder can act on.",
 ];
 
