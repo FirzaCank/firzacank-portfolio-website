@@ -66,7 +66,7 @@ export default function ContactForm({ to }: { to: string }) {
 
   if (status === "success") {
     return (
-      <div className="mt-8 rounded-2xl border border-sage/30 bg-sage-soft/10 p-8 text-center">
+      <div role="status" className="mt-8 rounded-2xl border border-sage/30 bg-sage-soft/10 p-8 text-center">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-sage text-beige-card">
           <svg className="h-6 w-6" viewBox="0 0 14 14" fill="none" aria-hidden="true">
             <path
@@ -96,16 +96,17 @@ export default function ContactForm({ to }: { to: string }) {
   return (
     <div className="mt-8 space-y-6">
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Topic chips */}
-        <div>
-          <label className="font-sans text-xs uppercase tracking-[0.2em] text-ink-muted">
+        {/* Topic chips: a label without a control is meaningless to SRs — group + aria-pressed instead */}
+        <div role="group" aria-label="Topic">
+          <span className="font-sans text-xs uppercase tracking-[0.2em] text-ink-muted">
             Topic
-          </label>
+          </span>
           <div className="mt-3 flex flex-wrap gap-2">
             {TOPICS.map((t) => (
               <button
                 key={t}
                 type="button"
+                aria-pressed={topic === t}
                 onClick={() => setTopic(t)}
                 className={`rounded-full border px-3.5 py-1.5 font-sans text-xs transition-colors ${topic === t
                     ? "border-ink bg-ink text-beige-card"
@@ -157,7 +158,7 @@ export default function ContactForm({ to }: { to: string }) {
         </div>
 
         {status === "error" && (
-          <div className="rounded-lg border border-terracotta/20 bg-terracotta/5 p-4 text-sm text-terracotta">
+          <div role="alert" className="rounded-lg border border-terracotta/20 bg-terracotta/5 p-4 text-sm text-terracotta">
             <p className="font-semibold">Direct Sending Failsafe:</p>
             <p className="mt-1 text-xs">{errorMessage}</p>
           </div>
