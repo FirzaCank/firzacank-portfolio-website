@@ -40,7 +40,7 @@ export default function ExperienceIntro() {
               className="group inline-flex items-center gap-2 rounded-full border-2 border-sage/40 bg-beige-card px-4 py-1.5 font-sans text-xs text-ink shadow-sm shadow-ink/5 transition-all hover:border-sage hover:bg-sage hover:text-beige-card hover:shadow-md"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-sage group-hover:bg-beige-card" />
-              {r.company.replace("PT ", "").split(" ")[0]}
+              {r.shortLabel}
               {r.placement && (
                 <span className="text-ink-muted group-hover:text-beige-card/80">
                   @ {r.placement.replace(/^Placement in PT |\sTbk\.$/g, "")}
