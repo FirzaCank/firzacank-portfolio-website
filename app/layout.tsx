@@ -4,7 +4,7 @@ import localFont from "next/font/local";
 import "@/styles/globals.css";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
-import ChatWidget from "@/components/ui/ChatWidget";
+import ChatWidget from "@/components/ui/ChatWidgetLazy";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, SITE_TAGLINE } from "@/lib/site";
 import { SOCIAL_LINKS } from "@/data/nav";
 import { Analytics } from "@vercel/analytics/next";
@@ -162,7 +162,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${bricolage.variable} ${inter.variable} ${satoshi.variable}`}>
-      <body className="font-sans bg-beige text-ink antialiased" suppressHydrationWarning>
+      <body className="font-sans bg-beige text-ink antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
