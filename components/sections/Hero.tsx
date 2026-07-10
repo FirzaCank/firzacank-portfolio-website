@@ -127,15 +127,11 @@ export default function Hero() {
                 </button>
 
                 {cvOpen && (
-                  <div
-                    role="menu"
-                    className="absolute left-0 top-full pt-2 min-w-[220px] z-10"
-                  >
+                  <div className="absolute left-0 top-full pt-2 min-w-[220px] z-10">
                     <div className="rounded-lg border border-ink/20 bg-beige-card shadow-lg shadow-ink/10 p-2">
                       <a
                         href={CV_URL}
                         download
-                        role="menuitem"
                         onClick={() => setCvOpen(false)}
                         className="flex items-center justify-between rounded-md px-3 py-2 transition-colors hover:bg-beige"
                       >
@@ -155,7 +151,6 @@ export default function Hero() {
                       <a
                         href={CV_URL_JA}
                         download
-                        role="menuitem"
                         onClick={() => setCvOpen(false)}
                         className="flex items-center justify-between rounded-md px-3 py-2 transition-colors hover:bg-beige"
                       >
