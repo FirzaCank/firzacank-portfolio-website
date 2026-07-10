@@ -47,6 +47,7 @@ export default function Hero() {
             >
               <StatBadge value="4+ yrs" label="Engineering experience" />
               <StatBadge value={`${PROJECTS.length}+`} label="Projects delivered" />
+              <StatBadge value="IDR 200M+" label="Monthly GMV driven" />
             </motion.div>
 
             <motion.p
