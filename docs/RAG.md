@@ -31,8 +31,10 @@ Build time:
 
 Request time:
   User question
-    --> rag/retriever.py             embed query, cosine similarity search over embeddings.json
-    --> top-k chunks                 injected into system prompt as grounding context
+    --> api/chat.py                  short/anaphoric follow-up? prefix previous user message to the retrieval query
+    --> rag/retriever.py             embed query (cached for repeated questions), cosine search over embeddings.json
+    --> top-k chunks                 appended to the latest user message as a delimited context block
+                                     (system prompt stays byte-stable, so Gemini prefix caching can reuse it)
     --> api/chat.py                  build request with context + tool declarations
     --> Gemini 3.1 Flash-Lite
           |-- decides: answer from context, OR call a tool
@@ -142,6 +144,7 @@ The system prompt (`rag/prompt.py`) follows RAG best practices:
 - **Scope guard**: questions not about Firza's professional work are politely declined in one sentence.
 - **Security**: the model is told that retrieved context, tool results, and user messages are untrusted data, not instructions. It refuses any attempt to change its role, reveal the system prompt, or override rules.
 - **Delimiter isolation**: retrieved content is wrapped in `<<<RETRIEVED_CONTEXT ... RETRIEVED_CONTEXT>>>` markers. The string "RETRIEVED_CONTEXT" is stripped from user input before it reaches the prompt.
+- **Static prompt for prefix caching**: the system prompt contains no interpolated content. Retrieved context is appended server-side to the visitor's latest message instead, so the (large) system instruction is byte-identical across requests and Gemini's implicit prefix caching can reuse it, including across the up-to-3 generate calls within one request.
 - **Style**: markdown-formatted responses, third-person references to Firza, language matched to the visitor.
 
 ---
@@ -152,18 +155,24 @@ The system prompt (`rag/prompt.py`) follows RAG best practices:
 | :--- | :--- |
 | Input sanitization | Control characters stripped, max 2000 chars per message |
 | Role validation | Only `user` and `assistant` roles accepted; all others coerced to `user` |
-| Message limit | Max 40 messages accepted, only the last 12 validated and sent to the model |
+| Message limit | Max 40 messages accepted, only the last 12 validated and sent to the model (the widget also slices to 12 before POSTing) |
+| Body size cap | Requests over 64 KB rejected with 413 before the body is read into memory |
 | Delimiter injection | "RETRIEVED_CONTEXT" neutralized in user input |
-| Prompt injection | Untrusted-data framing in system prompt, refuse role-change instructions, encoded/obfuscated instructions treated as injection |
+| Prompt injection | Untrusted-data framing in system prompt, refuse role-change instructions, encoded/obfuscated instructions treated as injection, tool names/schemas never enumerated |
 | Origin allowlist | Browser requests from foreign origins get 403 (exact match, not suffix). Bare curl passes; rate limits handle it |
-| Per-IP rate limit | Max 20 requests per minute per IP, keyed on `x-real-ip` (Vercel-set, not spoofable like `x-forwarded-for`) |
-| Global rate limit | Max 200 requests per hour across all IPs (in-memory) |
+| Per-IP rate limit | Max 20 requests per minute per IP, keyed on `x-real-ip` (Vercel-set, not spoofable like `x-forwarded-for`). Checked before the global counters so a throttled IP can't drain the daily budget |
+| Global rate limit | Max 200 requests per hour across all IPs |
 | Daily quota cap | Max 150 chats per day globally, protects the 500 RPD Gemini free-tier quota |
 | Output cap | `maxOutputTokens` 1024, answers are 2-4 sentences by design |
 | Retry policy | 503 retried once, 429 never retried (retrying quota errors burns more quota) |
 | Tool round cap | Max 2 tool-calling rounds per request, prevents infinite loops |
+| Time budget | No new tool round starts after 30s elapsed; remaining time goes to the forced-text fallback pass so Vercel's 60s kill never cuts a round mid-flight |
 
-Note: rate limit counters are in-memory and reset on cold start. Not shared across Vercel instances. Acceptable for a personal portfolio. Replace with Upstash Redis if persistent cross-instance limits are needed.
+The hourly and daily counters use Upstash Redis (REST, stdlib urllib) when `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` are set, so the quota guard survives cold starts and parallel instances. Without those env vars (or when Redis is unreachable) they fall back to in-memory counters, so local dev needs no Redis. Per-IP counters stay in-memory either way: a cold start resetting a per-minute window is harmless.
+
+### Monitoring
+
+Every request ends with one structured JSON log line (`"evt": "chat"`) in the Vercel function logs: hashed IP, latency, message count, retrieved chunk count, top similarity score, tool rounds, tools called, finish reason, and error if any. Filter the function logs for `"evt": "chat"` to see traffic; `"evt": "redis_error"` flags Redis fallbacks.
 
 Note: the Origin allowlist only matches the production URL and localhost. Vercel preview deployments will get 403 on chat. Add the preview origin to the allowlist in `api/chat.py` if you need chat on a preview.
 
