@@ -30,7 +30,7 @@ export default function Hero() {
         >
           <span className="h-px w-10 bg-sage" />
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-sage">
-            Data, Analytics, ML &amp; AI Engineer
+            Data &amp; AI Engineering
           </p>
         </motion.div>
 
@@ -44,8 +44,8 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="flex flex-wrap gap-8"
             >
-              <StatBadge value="+4 yrs" label="Engineering experience" />
-              <StatBadge value={`+${PROJECTS.length}`} label="Projects delivered" />
+              <StatBadge value="4+ yrs" label="Engineering experience" />
+              <StatBadge value={`${PROJECTS.length}+`} label="Projects delivered" />
             </motion.div>
 
             <motion.p
@@ -72,7 +72,7 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="mt-6 max-w-prose font-sans text-lg text-ink-muted"
             >
-              <span className="text-ink font-medium">Big Data Solution Engineer</span> building production-grade pipelines, machine learning, AI systems, and data-driven analytics.
+              <span className="text-ink font-medium">Data &amp; AI Engineer</span> building production-grade pipelines, ML systems, LLM applications, and data-driven analytics.
             </motion.p>
 
             <motion.div
