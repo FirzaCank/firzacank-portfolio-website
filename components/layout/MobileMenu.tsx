@@ -79,7 +79,8 @@ export default function MobileMenu() {
         </div>
       </button>
 
-      {/* Overlay */}
+      {/* Overlay. `inert` removes the hidden menu's links from tab order —
+          aria-hidden alone leaves them keyboard-focusable. */}
       <div
         className={cn(
           "fixed inset-0 z-40 bg-beige transition-opacity duration-300",
@@ -88,6 +89,7 @@ export default function MobileMenu() {
             : "opacity-0 pointer-events-none",
         )}
         aria-hidden={!open}
+        inert={!open}
       >
         <div className="flex h-full flex-col px-6 pt-24 pb-10 overflow-y-auto">
           <nav className="flex-1" aria-label="Mobile primary">
