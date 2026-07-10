@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { ROLES } from "@/data/experience";
 import SearchBar from "@/components/ui/SearchBar";
+import Pill from "@/components/ui/Pill";
 
 export default function ExperienceTimeline() {
   const [query, setQuery] = useState("");
@@ -36,7 +37,7 @@ export default function ExperienceTimeline() {
         placeholder="Search roles, tech, companies…"
         className="mb-6 max-w-md"
       />
-      <p className="mb-2 font-sans text-xs uppercase tracking-[0.2em] text-ink-muted">
+      <p aria-live="polite" className="mb-2 font-sans text-xs uppercase tracking-[0.2em] text-ink-muted">
         Showing {filtered.length} of {ROLES.length} roles
       </p>
 
@@ -56,13 +57,13 @@ export default function ExperienceTimeline() {
             {/* Top divider */}
             <div
               aria-hidden="true"
-              className="absolute top-0 left-0 right-0 h-0.5 bg-ink/40 md:left-12"
+              className="absolute top-0 left-0 right-0 h-px bg-ink/20 md:left-12"
             />
             {/* Bottom divider on last item */}
             {idx === filtered.length - 1 && (
               <div
                 aria-hidden="true"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-ink/40 md:left-12"
+                className="absolute bottom-0 left-0 right-0 h-px bg-ink/20 md:left-12"
               />
             )}
 
@@ -154,25 +155,5 @@ export default function ExperienceTimeline() {
         </p>
       )}
     </section>
-  );
-}
-
-function Pill({
-  children,
-  variant,
-}: {
-  children: React.ReactNode;
-  variant: "sage" | "muted";
-}) {
-  const cls =
-    variant === "sage"
-      ? "bg-sage text-beige-card"
-      : "bg-ink/10 text-ink-muted";
-  return (
-    <span
-      className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-[10px] font-medium uppercase tracking-widest relative -translate-y-[1px] md:-translate-y-[2px] ${cls}`}
-    >
-      {children}
-    </span>
   );
 }
