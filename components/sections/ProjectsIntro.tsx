@@ -22,7 +22,7 @@ export default function ProjectsIntro() {
 
         <div className="mt-6 flex items-center gap-2.5">
           <p className="font-sans text-sm italic text-ink-muted">
-            Use search bar or filters below to narrow by words or category
+            Use the search bar or filters below to filter by keyword or category
           </p>
           <ArrowDown />
         </div>
