@@ -92,6 +92,7 @@ export default function SlideGallery({
     };
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+    lightboxRef.current?.focus();
     return () => {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
@@ -149,11 +150,11 @@ export default function SlideGallery({
               type="button"
               onClick={() => setActive(n)}
               className="group relative block aspect-video w-full overflow-hidden rounded-xl border border-ink/20 bg-beige-card transition-all hover:border-sage hover:shadow-lg hover:shadow-ink/5"
-              aria-label={`Open slide ${n}`}
+              aria-label={`Open ${title}, slide ${n}`}
             >
               <Image
                 src={slidePath(n)}
-                alt={`Slide ${n}`}
+                alt={`${title} – slide ${n}`}
                 fill
                 sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 className="object-cover transition-transform group-hover:scale-[1.02]"
@@ -169,8 +170,9 @@ export default function SlideGallery({
           ref={lightboxRef}
           role="dialog"
           aria-modal="true"
-          aria-label={`Slide ${active} preview`}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/95"
+          aria-label={`${title}, slide ${active} preview`}
+          tabIndex={-1}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/95 focus:outline-none"
           onClick={close}
         >
           <button
@@ -279,7 +281,7 @@ export default function SlideGallery({
           >
             <Image
               src={slidePath(active)}
-              alt={`Slide ${active}`}
+              alt={`${title} – slide ${active}`}
               fill
               sizes="100vw"
               className="object-contain"
