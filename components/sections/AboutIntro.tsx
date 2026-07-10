@@ -15,7 +15,7 @@ export default function AboutIntro() {
         <h1 className="mt-6 font-satoshi text-5xl md:text-7xl font-extrabold tracking-tightest text-ink leading-[1.05]">
           Building data systems
           <br />
-          that ship outcomes.
+          that move revenue.
         </h1>
 
         <div className="mt-10 grid gap-10 md:grid-cols-[2fr_1fr] md:gap-16">
