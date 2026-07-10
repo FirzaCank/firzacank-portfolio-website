@@ -3,6 +3,8 @@
 export type Role = {
   id: string;
   company: string;
+  /** Short company name for compact UI (chips, jump nav) */
+  shortLabel: string;
   placement?: string;
   title: string;
   period: string;
@@ -18,6 +20,7 @@ export const ROLES: Role[] = [
   {
     id: "hypefast",
     company: "Hypefast",
+    shortLabel: "Hypefast",
     title: "Data Engineer",
     period: "March 2025 - Present",
     current: true,
@@ -57,6 +60,7 @@ export const ROLES: Role[] = [
   {
     id: "idstar",
     company: "IDstar Cipta Teknologi",
+    shortLabel: "IDstar",
     placement: "Placement in PT XL Axiata Tbk.",
     title: "Data Engineer and Analytics / ETL Developer",
     period: "July 2022 - March 2025",
@@ -84,6 +88,7 @@ export const ROLES: Role[] = [
   {
     id: "telkom",
     company: "Telkom Indonesia",
+    shortLabel: "Telkom",
     title: "Data Scientist Internship",
     period: "February 2021 - August 2021",
     internship: true,
@@ -99,6 +104,7 @@ export const ROLES: Role[] = [
   {
     id: "arindo",
     company: "PT Arindo Cipta Perkasa",
+    shortLabel: "Arindo",
     title: "Production Systems and Business Analyst Internship",
     period: "November 2020 - April 2021",
     internship: true,
@@ -114,6 +120,7 @@ export const ROLES: Role[] = [
   {
     id: "banopolis",
     company: "Banopolis Inovasi Kendara",
+    shortLabel: "Banopolis",
     title: "Business Development Internship",
     period: "June 2020 - August 2020",
     internship: true,
