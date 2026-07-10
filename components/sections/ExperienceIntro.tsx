@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ROLES } from "@/data/experience";
 
 export default function ExperienceIntro() {
@@ -21,9 +22,9 @@ export default function ExperienceIntro() {
           From telco-scale ETL pipelines processing 1B+ daily records to MLOps
           platforms, ML pipelines, and recommendation systems driving real GMV.
           My LLM and RAG work lives in the{" "}
-          <a href="/projects" className="text-sage underline underline-offset-4 hover:text-ink">
+          <Link href="/projects" className="text-sage underline underline-offset-4 hover:text-ink">
             AI projects
-          </a>
+          </Link>
           .
         </p>
 
