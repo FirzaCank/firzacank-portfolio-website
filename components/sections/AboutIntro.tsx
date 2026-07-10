@@ -24,8 +24,9 @@ export default function AboutIntro() {
               <p
                 key={i}
                 className="font-sans text-base md:text-lg text-ink-muted leading-[1.75]"
-                dangerouslySetInnerHTML={{ __html: p }}
-              />
+              >
+                {p}
+              </p>
             ))}
           </div>
 
