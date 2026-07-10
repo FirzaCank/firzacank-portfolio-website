@@ -64,7 +64,7 @@ export default function CopyEmailButton({
         <button
           type="button"
           onClick={copy}
-          className={`inline-flex items-center justify-center gap-2 rounded-full border border-beige-card/30 px-6 py-3 font-sans text-btn-util font-medium text-beige-card transition-colors hover:bg-beige-card/10 ${className}`}
+          className={`inline-flex items-center justify-center gap-2 rounded-full border border-beige-card/30 px-6 py-3 font-sans text-sm font-medium text-beige-card transition-colors hover:bg-beige-card/10 ${className}`}
         >
           {copied ? "Copied!" : (label ?? EMAIL)}
         </button>
@@ -94,7 +94,7 @@ export default function CopyEmailButton({
       <button
         type="button"
         onClick={copy}
-        className={`font-sans text-btn-util text-ink hover:text-sage transition-colors ${className}`}
+        className={`font-sans text-sm text-ink hover:text-sage transition-colors ${className}`}
       >
         {copied ? "Copied!" : (label ?? "Email")}
       </button>
@@ -108,7 +108,7 @@ function Toast({ show }: { show: boolean }) {
     <div
       role="status"
       aria-live="polite"
-      className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 font-sans text-btn-util text-beige-card shadow-lg shadow-ink/20 transition-all duration-300 ${
+      className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 font-sans text-sm text-beige-card shadow-lg shadow-ink/20 transition-all duration-300 ${
         show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
       }`}
     >
