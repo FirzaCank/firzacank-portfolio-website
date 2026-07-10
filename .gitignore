@@ -52,6 +52,8 @@ __pycache__/
 *.xls
 *.docx
 *.docs
+# exception: the Japanese CV is a public download linked from the site
+!public/firza-cv-ja.xlsx
 
 # notebook
 *.ipynb
@@ -62,5 +64,7 @@ handoff.md
 todo.md
 embeddings_readable.json
 .env*
+# exception: template with dummy values only, needed for onboarding
+!.env.local.example
 portfolio-source.md
 job-applications/
