@@ -71,6 +71,17 @@ export default async function CaseStudyPage({
     about: fm.client || undefined,
   };
 
+  // mirrors the visual breadcrumb in CaseStudyHeader
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Projects", item: `${SITE_URL}/projects` },
+      { "@type": "ListItem", position: 3, name: fm.title, item: `${SITE_URL}/projects/${slug}` },
+    ],
+  };
+
   const deck = DECKS[slug];
   const deckFolder = DECK_SLUG_TO_FOLDER[slug];
   const screenshots = SCREENSHOTS[slug];
@@ -80,6 +91,10 @@ export default async function CaseStudyPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudyJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <CaseStudyHeader fm={study.frontmatter} />
       <article className="mx-auto max-w-container px-6 md:px-10 pb-12 md:pb-16">
