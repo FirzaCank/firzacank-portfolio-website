@@ -41,7 +41,7 @@ export const PROJECTS: Project[] = [
     slug: "video-platform-data-analysis",
     title: "Video Platform Data Analysis",
     subtitle:
-      "Behavior and growth deep dive for an AI gaming clip platform: activation levers that move retention and clip output.",
+      "Behavior and growth deep dive for an AI gaming clip platform: activation levers that move retention, clip output, and revenue.",
     client: "AI gaming clip platform",
     categories: ["data-analyst", "dashboard"],
     stack: ["SQL", "Python", "Tableau", "Pitch Deck"],
