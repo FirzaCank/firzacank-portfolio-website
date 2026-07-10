@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { SOCIAL_LINKS } from "@/data/nav";
 
-const EMAIL = "firzasandjaya@gmail.com";
+const EMAIL = SOCIAL_LINKS.email;
 
 interface Props {
   /** Visual variant */
