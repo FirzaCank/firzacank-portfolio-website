@@ -1,9 +1,12 @@
 """Vercel Python handler: validate input, RAG retrieve, run Gemini tool-calling loop, stream reply."""
 
+import hashlib
 import json
 import os
+import re
 import time
 import urllib.error
+import urllib.request
 from http.server import BaseHTTPRequestHandler
 
 import sys
@@ -19,10 +22,17 @@ MODEL = "gemini-3.1-flash-lite"
 MAX_HISTORY = 12
 MAX_MSG_CHARS = 2000
 MAX_MSGS = 40
+MAX_BODY_BYTES = 65536  # reject oversized bodies before reading them into memory
 MAX_TOOL_ROUNDS = 2  # cap tool-call loops so a confused model can't spin forever
+TIME_BUDGET_S = 30  # stop starting new tool rounds past this; Vercel kills the function at 60s
 
-# ponytail: in-memory counters, reset on cold start. Fine for a portfolio.
-# Move to Upstash/Redis only if persistent cross-instance limits are needed.
+# Upstash Redis (REST) keeps the daily/hourly counters accurate across cold
+# starts and parallel instances. Optional: without the env vars (local dev)
+# everything falls back to the in-memory counters below.
+_UPSTASH_URL = os.environ.get("UPSTASH_REDIS_REST_URL", "")
+_UPSTASH_TOKEN = os.environ.get("UPSTASH_REDIS_REST_TOKEN", "")
+
+# In-memory fallback counters, reset on cold start.
 _ip_hits = {}
 _global = {"count": 0, "reset_at": 0.0}
 _daily = {"count": 0, "reset_at": 0.0}  # protects the 500 RPD Gemini free-tier quota
@@ -30,6 +40,10 @@ _daily = {"count": 0, "reset_at": 0.0}  # protects the 500 RPD Gemini free-tier 
 
 def _ip_limited(ip: str) -> bool:
     now = time.time()
+    # evict expired entries so the dict can't grow for the life of the instance
+    if len(_ip_hits) > 1000:
+        for k in [k for k, v in _ip_hits.items() if now > v["reset_at"]]:
+            del _ip_hits[k]
     entry = _ip_hits.get(ip)
     if not entry or now > entry["reset_at"]:
         _ip_hits[ip] = {"count": 1, "reset_at": now + 60}
@@ -40,7 +54,45 @@ def _ip_limited(ip: str) -> bool:
     return False
 
 
-def _global_limited() -> bool:
+def _redis_incr(key: str, ttl: int):
+    """INCR key, set TTL on first write. Returns the new count, or None on failure."""
+    try:
+        req = urllib.request.Request(
+            f"{_UPSTASH_URL}/pipeline",
+            data=json.dumps([["INCR", key], ["EXPIRE", key, str(ttl), "NX"]]).encode(),
+            headers={"Content-Type": "application/json", "Authorization": f"Bearer {_UPSTASH_TOKEN}"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=2) as resp:
+            results = json.loads(resp.read().decode())
+        return int(results[0]["result"])
+    except Exception as e:
+        print(json.dumps({"evt": "redis_error", "error": str(e)[:200]}))
+        return None
+
+
+def _global_limited():
+    """Return 'daily', 'hourly', or False.
+
+    Uses Redis when configured (survives cold starts and multi-instance
+    fan-out, which the Gemini 500 RPD quota actually needs); falls back to
+    in-memory counters when Redis is absent or unreachable.
+    """
+    # each chat = 1 embed + up to 3 generate calls (2 tool rounds + 1 no-tools
+    # fallback pass), so 150 chats/day = max 450 generate RPD, under the 500 cap
+    if _UPSTASH_URL and _UPSTASH_TOKEN:
+        day = time.strftime("%Y%m%d", time.gmtime())
+        daily_count = _redis_incr(f"chat:daily:{day}", 86400 + 3600)
+        if daily_count is not None:
+            if daily_count > 150:
+                return "daily"
+            hour = time.strftime("%Y%m%d%H", time.gmtime())
+            hourly_count = _redis_incr(f"chat:hourly:{hour}", 7200)
+            if hourly_count is not None and hourly_count > 200:
+                return "hourly"
+            return False
+        # Redis unreachable: fall through to in-memory so the guard still exists
+
     now = time.time()
     if now > _global["reset_at"]:
         _global["count"] = 0
@@ -48,8 +100,6 @@ def _global_limited() -> bool:
     if now > _daily["reset_at"]:
         _daily["count"] = 0
         _daily["reset_at"] = now + 86400
-    # each chat = 1 embed + up to 3 generate calls (2 tool rounds + 1 no-tools
-    # fallback pass), so 150 chats/day = max 450 generate RPD, under the 500 cap
     if _daily["count"] >= 150:
         return "daily"
     if _global["count"] >= 200:
@@ -82,28 +132,68 @@ def _validate(raw_msgs):
     return out or None
 
 
-def _to_gemini_contents(messages):
-    return [
+_FOLLOWUP_RE = re.compile(
+    r"\b(it|that|this|those|these|he|him|his|there|one|more|else|itu|ini|dia|tersebut|lagi|lainnya)\b",
+    re.IGNORECASE,
+)
+
+
+def _retrieval_query(messages) -> str:
+    """Build the text to embed for retrieval.
+
+    A short or anaphoric follow-up ("tell me more about that") embeds to
+    near-noise on its own, so prefix it with the previous user message.
+    """
+    users = [m["content"] for m in messages if m["role"] == "user"]
+    if not users:
+        return ""
+    last = users[-1]
+    if len(users) >= 2 and (len(last) < 40 or _FOLLOWUP_RE.search(last)):
+        return f"{users[-2]}\n{last}"
+    return last
+
+
+def _to_gemini_contents(messages, context):
+    contents = [
         {"role": "model" if m["role"] == "assistant" else "user", "parts": [{"text": m["content"]}]}
         for m in messages[-MAX_HISTORY:]
     ]
+    # Retrieved context rides on the latest user turn instead of the system
+    # prompt: the system instruction stays byte-stable across requests (so
+    # Gemini's implicit prefix caching can reuse it) and the variable part
+    # sits last in the request. _sanitize() already neutralizes the marker
+    # string in visitor text, so this block can't be spoofed from the client.
+    block = f"\n\n<<<RETRIEVED_CONTEXT\n{context}\nRETRIEVED_CONTEXT>>>"
+    for c in reversed(contents):
+        if c["role"] == "user":
+            c["parts"][0]["text"] += block
+            break
+    return contents
 
 
-def _run_chat(messages, api_key):
-    """Yield answer text chunks, running the tool-calling loop up to MAX_TOOL_ROUNDS."""
-    last_user = next((m["content"] for m in reversed(messages) if m["role"] == "user"), "")
+def _run_chat(messages, api_key, stats=None):
+    """Yield answer text chunks, running the tool-calling loop up to MAX_TOOL_ROUNDS.
+
+    `stats` (optional dict) is filled with retrieval/tool metrics for logging.
+    """
+    stats = stats if stats is not None else {}
+    t0 = time.time()
     try:
-        hits = retrieve(last_user, api_key)
+        hits = retrieve(_retrieval_query(messages), api_key)
         context = format_context(hits)
+        stats["chunks"] = len(hits)
+        stats["top_score"] = round(hits[0]["score"], 3) if hits else None
     except Exception as e:  # retrieval failure shouldn't 500 the whole chat
         print(f"Retrieval failed: {e}")
         context = "(No relevant information found in the portfolio.)"
 
-    contents = _to_gemini_contents(messages)
+    contents = _to_gemini_contents(messages, context)
+    stats["tools"] = []
 
-    for _ in range(MAX_TOOL_ROUNDS):
+    for round_no in range(MAX_TOOL_ROUNDS):
+        stats["rounds"] = round_no + 1
         body = {
-            "systemInstruction": {"parts": [{"text": system_prompt(context)}]},
+            "systemInstruction": {"parts": [{"text": system_prompt()}]},
             "contents": contents,
             "tools": [{"functionDeclarations": DECLARATIONS}],
             "generationConfig": {
@@ -129,6 +219,7 @@ def _run_chat(messages, api_key):
         contents.append({"role": "model", "parts": model_parts})
 
         for fc, _ in pending_calls:
+            stats["tools"].append(fc.get("name", ""))
             result = run_tool(fc.get("name", ""), fc.get("args", {}))
             contents.append(
                 {
@@ -136,7 +227,11 @@ def _run_chat(messages, api_key):
                     "parts": [{"functionResponse": {"name": fc.get("name", ""), "response": result}}],
                 }
             )
-        # loop again so the model can answer from the tool results
+        # loop again so the model can answer from the tool results — unless
+        # we're close enough to Vercel's 60s kill that the fallback pass
+        # (25s worst case) is the safer way to spend the remaining time
+        if time.time() - t0 > TIME_BUDGET_S:
+            break
 
     # Exhausted tool rounds without a final text answer. Run one last pass with
     # function calling forced off so the model must answer in text from the tool
@@ -152,7 +247,7 @@ def _run_chat(messages, api_key):
             }
         )
         body = {
-            "systemInstruction": {"parts": [{"text": system_prompt(context)}]},
+            "systemInstruction": {"parts": [{"text": system_prompt()}]},
             "contents": contents,
             "tools": [{"functionDeclarations": DECLARATIONS}],
             "toolConfig": {"functionCallingConfig": {"mode": "NONE"}},
@@ -165,6 +260,7 @@ def _run_chat(messages, api_key):
                 yield item["text"]
             elif "finish" in item:
                 finish = item["finish"]
+        stats["finish"] = finish
         if not produced_text:
             print(f"Final no-tools pass produced no text, finishReason={finish}")
 
@@ -174,6 +270,7 @@ def _run_chat(messages, api_key):
 
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
+        t0 = time.time()
         api_key = os.environ.get("GEMINI_API_KEY")
         if not api_key:
             return self._json(500, {"error": "GEMINI_API_KEY not configured on the server."})
@@ -184,18 +281,23 @@ class handler(BaseHTTPRequestHandler):
         if origin and origin not in ("https://firzacank.vercel.app", "http://localhost:3000"):
             return self._json(403, {"error": "Forbidden."})
 
-        limited = _global_limited()
-        if limited == "daily":
-            return self._json(429, {"error": "The assistant has reached its daily limit. Please come back tomorrow, or reach out via the Contact page."})
-        if limited:
-            return self._json(429, {"error": "The assistant is getting a lot of traffic right now. This is temporary — please try again in a few minutes."})
+        # per-IP check runs first: a throttled IP must not consume the
+        # global/daily budget that protects the Gemini quota
         # x-real-ip is set by Vercel and not client-spoofable, unlike x-forwarded-for
         ip = (self.headers.get("x-real-ip") or self.headers.get("x-forwarded-for") or "unknown").split(",")[0].strip()
         if _ip_limited(ip):
             return self._json(429, {"error": "You've sent a few messages quickly. Please wait a moment and try again."})
 
+        limited = _global_limited()
+        if limited == "daily":
+            return self._json(429, {"error": "The assistant has reached its daily limit. Please come back tomorrow, or reach out via the Contact page."})
+        if limited:
+            return self._json(429, {"error": "The assistant is getting a lot of traffic right now. This is temporary — please try again in a few minutes."})
+
         try:
             length = int(self.headers.get("content-length", 0))
+            if length > MAX_BODY_BYTES:
+                return self._json(413, {"error": "Request too large."})
             raw = json.loads(self.rfile.read(length).decode())
         except (ValueError, json.JSONDecodeError):
             return self._json(400, {"error": "Invalid request body."})
@@ -209,12 +311,14 @@ class handler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "text/plain; charset=utf-8")
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
+        stats = {}
+        error = None
         try:
-            for chunk in _run_chat(messages, api_key):
+            for chunk in _run_chat(messages, api_key, stats):
                 self.wfile.write(chunk.encode())
                 self.wfile.flush()
         except urllib.error.HTTPError as e:
-            print(f"Chat error: HTTP Error {e.code}: {e.reason}")
+            error = f"HTTP {e.code}: {e.reason}"
             msg = (
                 b"\n\nThe AI assistant is taking a short break right now due to high demand. "
                 b"Please try again in a few minutes. "
@@ -229,11 +333,25 @@ class handler(BaseHTTPRequestHandler):
             except OSError:
                 pass
         except Exception as e:
-            print(f"Chat error: {e}")
+            error = str(e)[:200]
             try:
                 self.wfile.write(b"\n\nSomething went wrong on my end. Feel free to explore the Projects or Experience pages, or reach out via the Contact page.")
             except OSError:
                 pass
+
+        # one structured line per request: greppable in Vercel logs
+        print(json.dumps({
+            "evt": "chat",
+            "ip": hashlib.sha256(ip.encode()).hexdigest()[:12],
+            "latency_ms": int((time.time() - t0) * 1000),
+            "msgs": len(messages),
+            "chunks": stats.get("chunks"),
+            "top_score": stats.get("top_score"),
+            "rounds": stats.get("rounds"),
+            "tools": stats.get("tools"),
+            "finish": stats.get("finish"),
+            "error": error,
+        }))
 
     def _json(self, status, obj):
         self.send_response(status)
