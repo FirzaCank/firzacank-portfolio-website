@@ -14,7 +14,7 @@ export default function FeaturedProjects() {
               </p>
             </div>
             <h2 className="mt-6 max-w-2xl font-satoshi text-4xl md:text-5xl font-extrabold text-ink tracking-tighter">
-              Project highlights where I have delivered impact.
+              A few highlights from the work.
             </h2>
           </div>
           <Link
