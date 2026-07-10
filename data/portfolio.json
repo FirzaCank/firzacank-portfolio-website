@@ -84,7 +84,7 @@
       "year": "2025",
       "categories": [
         "AI Engineer",
-        "Data Science",
+        "Data Scientist",
         "Data Engineer"
       ],
       "stack": [
@@ -106,7 +106,7 @@
       "client": "Cultural Policy Think Tank",
       "year": "2024",
       "categories": [
-        "Data Science",
+        "Data Scientist",
         "Data Analyst"
       ],
       "stack": [
@@ -223,7 +223,7 @@
       "stack": [
         "Python",
         "BPS Web API",
-        "Javascript",
+        "JavaScript",
         "CSV",
         "JSON"
       ],
@@ -264,20 +264,13 @@
         "Data Engineer"
       ],
       "stack": [
-        "Agentic RAG",
-        "RAG",
-        "GenAI",
-        "Agentic AI",
-        "LLM",
-        "Chatbot",
         "Gemini API",
+        "Agentic RAG",
         "Vector Embeddings",
         "Semantic Search",
         "Tool Calling",
-        "AI Agent",
         "Prompt Engineering",
         "Guardrails",
-        "Hallucination Mitigation",
         "Python",
         "Next.js",
         "Vercel"
@@ -291,7 +284,7 @@
       "client": "Self-initiated portfolio project",
       "year": "2022",
       "categories": [
-        "Data Science",
+        "Data Scientist",
         "ML Engineer",
         "Dashboard"
       ],
@@ -319,9 +312,9 @@
       "location": "Jakarta, Indonesia",
       "summary": "Building data and Machine Learning (ML) infrastructure for a multi-brand consumer aggregator. Pipelines, recommendation systems, AI-driven automation across 11+ brands.",
       "highlights": [
-        "Designed L0–L2 ETL pipelines ingesting order and customer data from 4 marketplace APIs & Google Sheets to BigQuery for 11+ brands, with Flask-based token management on Cloud Run and PostgreSQL for API authentication, applying SCD handling on dimension tables, enabling unified analytics and reporting.",
-        "Optimized scalable product recommendation systems on Shopee Marketplace (NCF, Replenishment, and Baby Cloth) using TensorFlow/Keras, scikit-learn, and FastAPI on GCP (Vertex AI, Agent Platform), driving hundreds of millions IDR/month GMV.",
-        "Created an end-to-end pipeline for a smart voucher optimization system using K-Means clustering and linear programming for budget-constrained allocation, orchestrated via Vertex AI and Agent Platform Pipelines and Cloud Composer, achieving 200× average monthly ROI per brand.",
+        "Designed L0–L2 ETL pipelines ingesting order and customer data from 4 marketplace APIs and Google Sheets to BigQuery for 11+ brands, with Flask-based token management on Cloud Run and PostgreSQL for API authentication, applying SCD handling on dimension tables, enabling unified analytics and reporting.",
+        "Built and tuned product recommendation systems on Shopee (neural collaborative filtering, replenishment, and baby-clothing category models) using TensorFlow/Keras, scikit-learn, and FastAPI on GCP (Vertex AI, Agent Platform), driving hundreds of millions of IDR per month in GMV.",
+        "Created an end-to-end pipeline for a smart voucher optimization system using K-Means clustering and linear programming for budget-constrained allocation, orchestrated via Vertex AI and Agent Platform Pipelines and Cloud Composer, achieving a 200× average monthly return on voucher budget per brand.",
         "Automated financial workflows for 3 brands by integrating Jubelio (omnichannel OMS) with Mekari Jurnal (Jurnal.id) via API, reducing invoice processing from days to <5 minutes for hundreds of daily invoices, and accelerating cash flow through faster AR recognition.",
         "Engineered an AI-based OCR system using GCP Document AI (evaluated against Mistral AI), automating invoice and receipt processing, reducing extraction time from 8 hours to 5 minutes (96× faster) with 90%+ accuracy.",
         "Delivered Metabase dashboards for Finance, Data Science, and Business Operations teams to monitor catalog performance, advertising AI, and customer data platform."
@@ -361,7 +354,7 @@
       "highlights": [
         "Developed an end-to-end telco user behavior & credit scoring platform using a Medallion Architecture (Bronze/Silver/Gold) on Snowflake; built PySpark ETL pipelines on AWS (S3, EC2, Lambda) processing 1B+ daily records with schema evolution, partition pruning, and data quality gates enforced at each layer, plus slowly changing dimension (SCD) management across Types 0-6.",
         "Built a monthly PySpark-based lead generation pipeline to process and enrich millions of XL Axiata subscriber profiles for targeted bank product acquisition.",
-        "Designed a dashboard to monitor XL's API Economy performance for external partners, improving API response times by 30%, success rates by 15%, and driving 10% revenue growth from API transactions."
+        "Built a dashboard monitoring XL's API Economy performance for external partners; its insights drove fixes that improved API response times by 30%, lifted success rates by 15%, and grew API transaction revenue by 10%."
       ],
       "stack": [
         "AWS",
@@ -387,12 +380,12 @@
       "location": "Jakarta, Indonesia",
       "summary": "Supported exploratory data analysis and product modeling for digital products including T-Money and KALISA blockchain waqf platform.",
       "highlights": [
-        "Support data cleansing, analyzed an exploratory dataset, reported, and interpreted the results to drive insights and data-driven decision-making on T-Money within 1 month.",
-        "Developed a business model for new digital products, KALISA, a waqf blockchain system, and the result was implemented into the new KALISA business model within three months."
+        "Performed data cleansing and exploratory data analysis on T-Money data within 1 month, reporting and interpreting results to support data-driven decisions.",
+        "Developed the business model for KALISA, a blockchain waqf platform; management adopted it as the product's new business model within 3 months."
       ],
       "stack": [
         "Python",
-        "Pandas",
+        "pandas",
         "Business Modeling"
       ]
     },
@@ -407,8 +400,8 @@
       "location": "Bogor Regency, Indonesia",
       "summary": "Production operations analysis and scheduling optimization for manufacturing operations.",
       "highlights": [
-        "Analyzed data and identified root causes of potential problems to recommend improvements in production operations.",
-        "Recommended solution ideas to minimize total time on production scheduling optimization by heuristic algorithm based on analysis data to management, reducing total time by 10.84% (996 minutes) using the NEH Nawaz, Enscore, and Ham algorithm."
+        "Analyzed production data to identify root causes of operational problems and recommend improvements to management.",
+        "Recommended a production scheduling optimization to management using the NEH (Nawaz-Enscore-Ham) heuristic, reducing total makespan by 10.84% (996 minutes)."
       ],
       "stack": [
         "Production Scheduling",
@@ -431,7 +424,7 @@
         "Proposed a new business model of GETBIKE B2B and B2B2G ride sharing using 3 tools (Business Model Canvas, Value Proposition Canvas, Lean Canvas). Management implemented the ideas for the product within 1 month.",
         "Ideated solutions using How Might We Question method for every element in the Business Model Canvas in 2 weeks.",
         "Designed the partnership model scheme with PT Telkom Indonesia in 2 weeks.",
-        "Devised application of agile methods in 2 critical business processes related to the Covid-19 pandemic situation in 1 month."
+        "Applied agile methods to 2 critical business processes affected by the Covid-19 pandemic within 1 month."
       ],
       "stack": [
         "Business Model Canvas",
@@ -443,16 +436,16 @@
   ],
   "about": {
     "bio": [
-      "I'm a Data Engineer, AI Engineer, and ML Engineer with ~4 years of expertise in building end-to-end data pipelines and scalable MLOps frameworks. I focus on the evolution of data infrastructure into intelligent automation, specializing in the deployment and optimization of ML models that accelerate workflows.",
-      "I've spent the last several years inside Telco and consumer brand environments, where the systems I designed had to run reliably at scale, with proven impact: processing 1B+ daily records, driving hundreds of millions IDR/month GMV via recommendation systems, achieving 200× average monthly ROI per brand through optimization, and cutting OCR extraction time from 8 hours to 5 minutes (96x faster).",
-      "Beyond my core engineering role, I deliver project highlights spanning data analysis, dashboard visualization, pitch decks, and AI engineering. The work I take on lets me ship end-to-end, from raw data to a deliverable a stakeholder can act on."
+      "I'm a Data &amp; AI Engineer with ~4 years of experience building end-to-end data pipelines and scalable MLOps frameworks. I turn raw data infrastructure into automated systems: recommendation models in production, LLM-powered document processing, and pipelines that run unattended.",
+      "I've spent the last several years inside Telco and consumer brand environments, where the systems I designed had to run reliably at scale, with proven impact: processing 1B+ daily records, driving hundreds of millions of IDR per month in GMV via recommendation systems, achieving a 200x average monthly return on voucher budget per brand, and cutting OCR extraction time from 8 hours to 5 minutes (96x faster).",
+      "Beyond my core engineering role, I take on freelance projects spanning AI engineering, data analysis, dashboards, and pitch decks. The work I take on lets me ship end-to-end, from raw data to a deliverable a stakeholder can act on."
     ],
     "education": [
       {
         "institution": "Bandung Institute of Technology (ITB), Indonesia",
         "degree": "Bachelor's Degree",
         "faculty": "Faculty of Industrial Technology, Industrial Engineering",
-        "detail": "Contributed at paid assistant at Production System Laboratory (LSP), Faculty of Industrial Technology",
+        "detail": "Worked as a paid assistant at the Production Systems Laboratory (LSP), Faculty of Industrial Technology",
         "period": "August 2017 - July 2021",
         "thesis": {
           "title": "A Proposed Improvement to Flow Shop Production Scheduling for Makespan Minimization",
@@ -503,7 +496,7 @@
           "Tool Calling",
           "Prompt Engineering",
           "Prompt Evaluation",
-          "SentenceTransformer",
+          "Sentence Transformers",
           "OpenCV"
         ]
       },
@@ -587,7 +580,7 @@
           "Jira",
           "Confluence",
           "Apps Script",
-          "N8N",
+          "n8n",
           "dbt",
           "Jubelio (Omnichannel OMS)",
           "Mekari Jurnal"
@@ -608,7 +601,7 @@
       {
         "organization": "INFINITY ITB",
         "context": "ITB Dance and Performance Art Community",
-        "role": "Vice President and Head of the General Secretary Department",
+        "role": "Vice President and Head of the General Secretariat Department",
         "highlights": [
           "Oversaw all organizational activities, set vision, mission, and OKRs, drove budget allocation decisions, and represented the organization in external partnerships. Achieved 95% program execution success across all divisions.",
           "Led the General Secretariat Department, managing three divisions: Treasury, Administration, and Secretary Management."
@@ -620,7 +613,7 @@
         "role": "Head of Staff, People Management & Measurement",
         "highlights": [
           "Performed the Social Mapping project for MTI 2018 students to identify the 10 best group combinations.",
-          "Produced appreciation cards for every member at the end of the management period, with 100% staff coverage."
+          "Produced appreciation cards for every member at the end of the management period."
         ]
       }
     ],
