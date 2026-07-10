@@ -7,17 +7,17 @@ const METRICS = [
     detail: "PySpark medallion architecture on Snowflake",
   },
   {
-    value: "200x",
+    value: "200×",
     label: "ROI per brand",
     detail: "Smart voucher optimization via K-Means + Linear Programming",
   },
   {
-    value: "96x",
+    value: "96×",
     label: "Faster invoice extraction",
     detail: "From 8 hours to 5 minutes with Document AI",
   },
   {
-    value: "IDR XXX M",
+    value: "IDR 200 M+",
     label: "Monthly GMV driven",
     detail: "Marketplace recommendation systems",
   },
@@ -34,7 +34,7 @@ export default function Snapshot() {
           </p>
         </div>
         <h2 className="mt-6 max-w-2xl font-satoshi text-3xl md:text-4xl text-ink tracking-tighter">
-          Engineered for Production Impact.
+          Engineered for production impact.
         </h2>
 
         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
