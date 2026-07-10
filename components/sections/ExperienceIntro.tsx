@@ -12,14 +12,19 @@ export default function ExperienceIntro() {
         </div>
 
         <h1 className="mt-6 max-w-4xl font-satoshi text-5xl md:text-7xl font-extrabold tracking-tightest text-ink leading-[1.05]">
-          Real Production
+          Production experience,
           <br />
-          Professional Work Experience.
+          end to end.
         </h1>
 
         <p className="mt-8 max-w-prose font-sans text-lg text-ink-muted leading-[1.75]">
-          From telco-scale ETL pipelines processing 1B+ daily records, build automation services, MLOps platforms, to end-to-end machine learning pipelines and
-          recommendation systems driving real GMV.
+          From telco-scale ETL pipelines processing 1B+ daily records to MLOps
+          platforms, ML pipelines, and recommendation systems driving real GMV.
+          My LLM and RAG work lives in the{" "}
+          <a href="/projects" className="text-sage underline underline-offset-4 hover:text-ink">
+            AI projects
+          </a>
+          .
         </p>
 
         {/* Quick jump nav */}
@@ -41,7 +46,7 @@ export default function ExperienceIntro() {
                 </span>
               )}
               {!r.internship && (
-                <span className="text-ink-muted group-hover:text-beige-card/80">· Full Time</span>
+                <span className="text-ink-muted group-hover:text-beige-card/80">· Full-time</span>
               )}
               {r.internship && (
                 <span className="text-ink-muted group-hover:text-beige-card/80">· Internship</span>
