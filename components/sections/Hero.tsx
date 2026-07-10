@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { CV_URL, CV_URL_JA, SOCIAL_LINKS } from "@/data/nav";
+import { SOCIAL_LINKS } from "@/data/nav";
 import { PROJECTS } from "@/data/projects";
+import CvMenuItems from "@/components/ui/CvMenuItems";
 
 export default function Hero() {
   const [cvOpen, setCvOpen] = useState(false);
@@ -128,45 +129,7 @@ export default function Hero() {
 
                 {cvOpen && (
                   <div className="absolute left-0 top-full pt-2 min-w-[220px] z-10">
-                    <div className="rounded-lg border border-ink/20 bg-beige-card shadow-lg shadow-ink/10 p-2">
-                      <a
-                        href={CV_URL}
-                        download
-                        onClick={() => setCvOpen(false)}
-                        className="flex items-center justify-between rounded-md px-3 py-2 transition-colors hover:bg-beige"
-                      >
-                        <div>
-                          <span className="block font-sans text-sm font-medium text-ink">
-                            English
-                          </span>
-                          <span className="block font-sans text-xs text-ink-muted mt-0.5">
-                            PDF
-                          </span>
-                        </div>
-                        <span className="font-sans text-[10px] uppercase tracking-widest text-sage">
-                          EN
-                        </span>
-                      </a>
-                      <div className="my-1 h-px bg-ink/10" />
-                      <a
-                        href={CV_URL_JA}
-                        download
-                        onClick={() => setCvOpen(false)}
-                        className="flex items-center justify-between rounded-md px-3 py-2 transition-colors hover:bg-beige"
-                      >
-                        <div>
-                          <span className="block font-sans text-sm font-medium text-ink">
-                            日本語 (履歴書)
-                          </span>
-                          <span className="block font-sans text-xs text-ink-muted mt-0.5">
-                            Excel
-                          </span>
-                        </div>
-                        <span className="font-sans text-[10px] uppercase tracking-widest text-sage">
-                          JP
-                        </span>
-                      </a>
-                    </div>
+                    <CvMenuItems onSelect={() => setCvOpen(false)} />
                   </div>
                 )}
               </div>
@@ -241,7 +204,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className="mt-32 flex items-center gap-3 font-sans text-xs uppercase tracking-widest text-ink-muted"
+              className="mt-16 md:mt-32 flex items-center gap-3 font-sans text-xs uppercase tracking-widest text-ink-muted"
             >
               <span>Scroll</span>
               <span className="h-px w-12 bg-ink-muted/40" />
@@ -279,7 +242,7 @@ function Arrow() {
   );
 }
 
-const EMAIL = "firzasandjaya@gmail.com";
+const EMAIL = SOCIAL_LINKS.email;
 
 function SocialIcon({
   label,
