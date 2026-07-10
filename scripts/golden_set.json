@@ -171,7 +171,8 @@
       "id": "off-opinion",
       "category": "off-topic",
       "question": "What do you think about the future of AI?",
-      "any_match": ["Firza", "only", "can'?t"],
+      "any_match": ["Firza", "only", "can'?t", "don'?t provide", "opinion"],
+      "must_not_match": ["\\bmy (own )?(work|projects?|experience)\\b", "I (focus on my|built|worked on)"],
       "max_chars": 600
     },
     {
