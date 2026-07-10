@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { NAV_ITEMS, CV_URL, CV_URL_JA } from "@/data/nav";
+import { NAV_ITEMS } from "@/data/nav";
 import { cn } from "@/lib/utils";
 import MobileMenu from "./MobileMenu";
+import CvMenuItems from "@/components/ui/CvMenuItems";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -208,43 +209,7 @@ export default function Nav() {
 
               {openDropdown === "__cv__" && (
                 <div className="absolute right-0 top-full pt-2 min-w-[220px]">
-                  <div className="rounded-lg border border-ink/20 bg-beige-card shadow-lg shadow-ink/5 p-2">
-                    <a
-                      href={CV_URL}
-                      download
-                      className="flex items-center justify-between rounded-md px-3 py-2 transition-colors hover:bg-beige"
-                    >
-                      <div>
-                        <span className="block font-sans text-sm font-medium text-ink">
-                          English
-                        </span>
-                        <span className="block font-sans text-xs text-ink-muted mt-0.5">
-                          PDF
-                        </span>
-                      </div>
-                      <span className="font-sans text-[10px] uppercase tracking-widest text-sage">
-                        EN
-                      </span>
-                    </a>
-                    <div className="my-1 h-px bg-ink/10" />
-                    <a
-                      href={CV_URL_JA}
-                      download
-                      className="flex items-center justify-between rounded-md px-3 py-2 transition-colors hover:bg-beige"
-                    >
-                      <div>
-                        <span className="block font-sans text-sm font-medium text-ink">
-                          日本語 (履歴書)
-                        </span>
-                        <span className="block font-sans text-xs text-ink-muted mt-0.5">
-                          Excel
-                        </span>
-                      </div>
-                      <span className="font-sans text-[10px] uppercase tracking-widest text-sage">
-                        JP
-                      </span>
-                    </a>
-                  </div>
+                  <CvMenuItems onSelect={() => setOpenDropdown(null)} />
                 </div>
               )}
             </div>
