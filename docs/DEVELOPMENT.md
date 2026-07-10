@@ -23,13 +23,24 @@ npm --version
    npm install
    ```
 
-2. **Run the Development Server**
+2. **Set Up Environment Variables**
+   Copy the example file and fill in your own keys:
+   ```bash
+   cp .env.local.example .env.local
+   ```
+   - `GEMINI_API_KEY`: powers the RAG chat and embedding builds. Free at [aistudio.google.com/api-keys](https://aistudio.google.com/api-keys).
+   - `RESEND_API_KEY`: powers the contact form. Get one at [resend.com/api-keys](https://resend.com/api-keys).
+   - `NEXT_PUBLIC_SITE_URL`: keep `http://localhost:3000` for local dev.
+
+   `.env.local` is gitignored. Never commit real keys.
+
+3. **Run the Development Server**
    Start a local Next.js development server:
    ```bash
    npm run dev
    ```
 
-3. **Open the Application**
+4. **Open the Application**
    Navigate to [http://localhost:3000](http://localhost:3000) in your web browser. The application supports Hot Module Replacement (HMR), so changes to your code will reflect instantly in the browser.
 
 ---
@@ -44,7 +55,20 @@ The following NPM scripts are configured in this project:
 | `npm run build` | Compiles and optimizes the application for production deployment. |
 | `npm run start` | Starts the production server. Requires a prior production build (`npm run build`). |
 | `npm run lint` | Runs ESLint to check for code issues, style errors, and best practices. |
-| `npm run embeddings` | Rebuilds the RAG chat vector index at `data/embeddings.json`. Run after editing portfolio content, then commit the updated file. Requires `GEMINI_API_KEY` in `.env.local`. |
+| `npm run build-rag` | The one to use after editing portfolio content in `data/*.ts`. Runs `export-portfolio` then `embeddings`, keeping both generated files in sync. Commit the updated `data/portfolio.json` and `data/embeddings.json`. Requires `GEMINI_API_KEY` in `.env.local`. |
+| `npm run export-portfolio` | Exports `data/*.ts` content into `data/portfolio.json` (read by the Python tool handlers). Rarely run alone; prefer `build-rag`. |
+| `npm run embeddings` | Rebuilds the RAG vector index at `data/embeddings.json` from the exported portfolio. Rarely run alone; prefer `build-rag`. |
+
+Running only `embeddings` after a content edit leaves `portfolio.json` stale, so the chat tools would answer from old data. Always use `build-rag`.
+
+### Python helper scripts
+
+The chat backend is Python (`api/chat.py` + `rag/`). Two manual scripts help when working on it (both need `GEMINI_API_KEY` in `.env.local` and `numpy` installed, e.g. `python3 -m venv .venv && .venv/bin/pip install numpy`):
+
+| Command | Description |
+| :--- | :--- |
+| `python3 scripts/test_chat.py "your question"` | Smoke test: runs the full chat pipeline (retrieval + tools + Gemini) without HTTP and prints the streamed reply. |
+| `python3 scripts/debug_chat.py` | Prints the raw Gemini SSE response body. Only for diagnosing low-level API errors. |
 
 ---
 
