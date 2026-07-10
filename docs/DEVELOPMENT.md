@@ -68,6 +68,7 @@ The chat backend is Python (`api/chat.py` + `rag/`). Two manual scripts help whe
 | Command | Description |
 | :--- | :--- |
 | `python3 scripts/test_chat.py "your question"` | Smoke test: runs the full chat pipeline (retrieval + tools + Gemini) without HTTP and prints the streamed reply. |
+| `python3 scripts/eval_chat.py` | Golden-set eval: runs ~30 assertion-checked cases (grounding, injection, sensitive questions, Bahasa Indonesia) through the pipeline. Run after changing the prompt, tools, or model. See [RAG.md](./RAG.md#golden-set-eval). |
 | `python3 scripts/debug_chat.py` | Prints the raw Gemini SSE response body. Only for diagnosing low-level API errors. |
 
 ---
