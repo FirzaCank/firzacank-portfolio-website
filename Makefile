@@ -1,7 +1,7 @@
 # Simple Makefile for local development and workflow automation
 # Project: Firza Chandra Sandjaya Putra - Personal Portfolio
 
-.PHONY: dev build start lint clean push help
+.PHONY: dev build start lint clean rag push help
 
 # Default command shows help
 help:
@@ -13,7 +13,8 @@ help:
 	@echo "  make start        : Run the locally compiled production build"
 	@echo "  make lint         : Run ESLint check for style & best practices"
 	@echo "  make clean        : Wipe Next.js and npm caches, then reinstall deps"
-	@echo "  make push msg=\"\"  : Stage all changes, commit, and push to GitHub"
+	@echo "  make rag          : Rebuild data/portfolio.json + data/embeddings.json"
+	@echo "  make push         : Push committed work to GitHub (commit per file first)"
 	@echo "======================================================================"
 
 dev:
@@ -35,11 +36,14 @@ clean:
 	npm install
 	@echo "Clean and reinstall complete!"
 
+rag:
+	npm run build-rag
+
+# Deliberately no `git add .` here: files are staged and committed one by one
+# so unrelated or private files never slip into a commit.
 push:
-	@if [ -z "$(msg)" ]; then \
-		echo "ERROR: Please provide a commit message. Example: make push msg='add new project'"; \
+	@if ! git diff --cached --quiet; then \
+		echo "ERROR: You have staged but uncommitted changes. Commit them first."; \
 		exit 1; \
 	fi
-	git add .
-	git commit -m "$(msg)"
 	git push
