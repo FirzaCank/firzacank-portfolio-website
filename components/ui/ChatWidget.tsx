@@ -83,7 +83,9 @@ export default function ChatWidget() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next }),
+        // only the last 12 turns reach the model anyway (server MAX_HISTORY);
+        // slicing here keeps long sessions under the server's 40-message cap
+        body: JSON.stringify({ messages: next.slice(-12) }),
         signal: ctrl.signal,
       });
       if (!res.ok || !res.body) {
