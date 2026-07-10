@@ -15,7 +15,7 @@ export type ProjectCategory =
 export const CATEGORY_LABEL: Record<ProjectCategory, string> = {
   "data-analyst": "Data Analyst",
   "data-engineer": "Data Engineer",
-  "data-science": "Data Science",
+  "data-science": "Data Scientist",
   "ml-engineer": "ML Engineer",
   "ai-engineer": "AI Engineer",
   "financial-analyst": "Financial Analyst",
@@ -159,7 +159,7 @@ export const PROJECTS: Project[] = [
       "Reference catalog and ingestion layer mapping all 549 BPS office domains for a coordinating ministry.",
     client: "Indonesian coordinating ministry",
     categories: ["data-engineer"],
-    stack: ["Python", "BPS Web API", "Javascript", "CSV", "JSON"],
+    stack: ["Python", "BPS Web API", "JavaScript", "CSV", "JSON"],
     year: "2025",
   },
   {
@@ -179,7 +179,7 @@ export const PROJECTS: Project[] = [
       "A personal portfolio with an agentic RAG chat assistant powered by Gemini, combining semantic retrieval, tool calling, and guardrails to answer grounded questions about my projects, experience, and skills.",
     client: "Self-initiated",
     categories: ["ai-engineer", "data-engineer"],
-    stack: ["Agentic RAG", "RAG", "GenAI", "Agentic AI", "LLM", "Chatbot", "Gemini API", "Vector Embeddings", "Semantic Search", "Tool Calling", "AI Agent", "Prompt Engineering", "Guardrails", "Hallucination Mitigation", "Python", "Next.js", "Vercel"],
+    stack: ["Gemini API", "Agentic RAG", "Vector Embeddings", "Semantic Search", "Tool Calling", "Prompt Engineering", "Guardrails", "Python", "Next.js", "Vercel"],
     year: "2026",
     featured: true,
   },
