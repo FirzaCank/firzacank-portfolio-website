@@ -28,7 +28,8 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <section className="relative overflow-hidden">        <div className="mx-auto max-w-container px-6 md:px-10 pt-12 md:pt-20 pb-12 md:pb-16">
+      <section className="relative overflow-hidden">
+        <div className="mx-auto max-w-container px-6 md:px-10 pt-12 md:pt-20 pb-12 md:pb-16">
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-sage" />
             <p className="font-sans text-xs uppercase tracking-[0.2em] text-sage">
@@ -47,7 +48,7 @@ export default function ContactPage() {
 
           <p className="mt-8 max-w-prose font-sans text-lg text-ink-muted leading-[1.7]">
             Taking on projects in <span className="font-semibold text-ink">data engineering</span>, <span className="font-semibold text-ink">AI engineering</span>, <span className="font-semibold text-ink">machine learning</span>, <span className="font-semibold text-ink">data analysis</span>, <span className="font-semibold text-ink">dashboards</span>, and <span className="font-semibold text-ink">pitch decks</span>.
-            Drop a message below or reach me directly on the channels on the right.
+            Drop a message below or reach me directly on the channels in the side panel.
           </p>
 
           <a href="#contact-form" className="mt-8 inline-flex items-center gap-3 rounded-full border border-sage bg-sage/10 px-5 py-2.5 shadow-sm transition-colors hover:bg-sage/20">
