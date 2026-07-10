@@ -82,9 +82,9 @@ export default function ProjectsGrid() {
         className="mb-6 max-w-md"
       />
 
-      {/* Filter chips */}
+      {/* Filter chips: toggle buttons, not tabs — there is no tabpanel to control */}
       <div
-        role="tablist"
+        role="group"
         aria-label="Filter projects by category"
         className="flex flex-wrap gap-2 border-b border-ink/20 pb-8"
       >
@@ -107,7 +107,7 @@ export default function ProjectsGrid() {
       </div>
 
       {/* Results count */}
-      <p className="mt-8 font-sans text-xs uppercase tracking-[0.2em] text-ink-muted">
+      <p aria-live="polite" className="mt-8 font-sans text-xs uppercase tracking-[0.2em] text-ink-muted">
         Showing {filtered.length} of {PROJECTS.length} projects
       </p>
 
@@ -198,8 +198,7 @@ function FilterChip({
   return (
     <button
       type="button"
-      role="tab"
-      aria-selected={active}
+      aria-pressed={active}
       onClick={onClick}
       disabled={disabled}
       className={cn(
