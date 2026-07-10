@@ -59,6 +59,8 @@ Request time:
 | `scripts/export-portfolio.ts` | Exports `data/*.ts` into `data/portfolio.json` for Python tools |
 | `scripts/build-embeddings.ts` | Embeds all chunks and writes `data/embeddings.json` |
 | `scripts/test_chat.py` | Local test script: calls `_run_chat()` directly without HTTP |
+| `scripts/eval_chat.py` | Golden-set eval runner: asserts answers against `scripts/golden_set.json` |
+| `scripts/golden_set.json` | ~30 eval cases: factual, capability, sensitive, injection, off-topic, Bahasa Indonesia, multi-turn |
 | `data/embeddings.json` | Pre-built vector index (committed to repo, read at request time) |
 | `data/portfolio.json` | Structured portfolio data for tool handlers (committed to repo) |
 | `components/ui/ChatWidget.tsx` | Browser-side floating chat panel, streams tokens as they arrive |
@@ -204,6 +206,22 @@ Run tool and retriever self-checks:
 python -m rag.tools       # verifies portfolio.json loads, all tools run
 python -m rag.retriever   # verifies embeddings.json loads, vectors are unit-normalized
 ```
+
+## Golden-Set Eval
+
+The prompt carries a lot of behavioral rules (grounding, injection resistance, sensitive-question handling, the freelance guard, language matching). `scripts/eval_chat.py` checks that they actually hold by running every case in `scripts/golden_set.json` through the real pipeline and asserting on the answer with regexes:
+
+```bash
+python3 scripts/eval_chat.py                      # full run (~30 cases)
+python3 scripts/eval_chat.py --category injection  # one category
+python3 scripts/eval_chat.py --only sens-salary    # one case
+```
+
+Categories: `factual`, `capability`, `sensitive`, `injection`, `off-topic`, `bahasa`, `style`, `multi-turn`. Each case supports `must_match` (all regexes must hit), `any_match` (at least one), `must_not_match` (none may hit), and `max_chars`.
+
+Run it after any change to `rag/prompt.py`, `rag/tools.py`, `api/chat.py`, or a model switch. Mind the quota: a full run costs ~30 embeds + up to 90 generate calls against the 500 RPD free tier. The model is not fully deterministic (temperature 0.4, no seed), so patterns are deliberately loose; re-run a failing case with `--only` before treating it as a regression.
+
+When you add a new prompt rule, add a case that would fail without it.
 
 ---
 
