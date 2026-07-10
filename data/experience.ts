@@ -25,9 +25,9 @@ export const ROLES: Role[] = [
     summary:
       "Building data and Machine Learning (ML) infrastructure for a multi-brand consumer aggregator. Pipelines, recommendation systems, AI-driven automation across 11+ brands.",
     highlights: [
-      "Designed L0–L2 ETL pipelines ingesting order and customer data from 4 marketplace APIs & Google Sheets to BigQuery for 11+ brands, with Flask-based token management on Cloud Run and PostgreSQL for API authentication, applying SCD handling on dimension tables, enabling unified analytics and reporting.",
-      "Optimized scalable product recommendation systems on Shopee Marketplace (NCF, Replenishment, and Baby Cloth) using TensorFlow/Keras, scikit-learn, and FastAPI on GCP (Vertex AI, Agent Platform), driving hundreds of millions IDR/month GMV.",
-      "Created an end-to-end pipeline for a smart voucher optimization system using K-Means clustering and linear programming for budget-constrained allocation, orchestrated via Vertex AI and Agent Platform Pipelines and Cloud Composer, achieving 200× average monthly ROI per brand.",
+      "Designed L0–L2 ETL pipelines ingesting order and customer data from 4 marketplace APIs and Google Sheets to BigQuery for 11+ brands, with Flask-based token management on Cloud Run and PostgreSQL for API authentication, applying SCD handling on dimension tables, enabling unified analytics and reporting.",
+      "Built and tuned product recommendation systems on Shopee (neural collaborative filtering, replenishment, and baby-clothing category models) using TensorFlow/Keras, scikit-learn, and FastAPI on GCP (Vertex AI, Agent Platform), driving hundreds of millions of IDR per month in GMV.",
+      "Created an end-to-end pipeline for a smart voucher optimization system using K-Means clustering and linear programming for budget-constrained allocation, orchestrated via Vertex AI and Agent Platform Pipelines and Cloud Composer, achieving a 200× average monthly return on voucher budget per brand.",
       "Automated financial workflows for 3 brands by integrating Jubelio (omnichannel OMS) with Mekari Jurnal (Jurnal.id) via API, reducing invoice processing from days to <5 minutes for hundreds of daily invoices, and accelerating cash flow through faster AR recognition.",
       "Engineered an AI-based OCR system using GCP Document AI (evaluated against Mistral AI), automating invoice and receipt processing, reducing extraction time from 8 hours to 5 minutes (96× faster) with 90%+ accuracy.",
       "Delivered Metabase dashboards for Finance, Data Science, and Business Operations teams to monitor catalog performance, advertising AI, and customer data platform.",
@@ -66,7 +66,7 @@ export const ROLES: Role[] = [
     highlights: [
       "Developed an end-to-end telco user behavior & credit scoring platform using a Medallion Architecture (Bronze/Silver/Gold) on Snowflake; built PySpark ETL pipelines on AWS (S3, EC2, Lambda) processing 1B+ daily records with schema evolution, partition pruning, and data quality gates enforced at each layer, plus slowly changing dimension (SCD) management across Types 0-6.",
       "Built a monthly PySpark-based lead generation pipeline to process and enrich millions of XL Axiata subscriber profiles for targeted bank product acquisition.",
-      "Designed a dashboard to monitor XL's API Economy performance for external partners, improving API response times by 30%, success rates by 15%, and driving 10% revenue growth from API transactions.",
+      "Built a dashboard monitoring XL's API Economy performance for external partners; its insights drove fixes that improved API response times by 30%, lifted success rates by 15%, and grew API transaction revenue by 10%.",
     ],
     stack: [
       "AWS",
@@ -91,10 +91,10 @@ export const ROLES: Role[] = [
     summary:
       "Supported exploratory data analysis and product modeling for digital products including T-Money and KALISA blockchain waqf platform.",
     highlights: [
-      "Support data cleansing, analyzed an exploratory dataset, reported, and interpreted the results to drive insights and data-driven decision-making on T-Money within 1 month.",
-      "Developed a business model for new digital products, KALISA, a waqf blockchain system, and the result was implemented into the new KALISA business model within three months.",
+      "Performed data cleansing and exploratory data analysis on T-Money data within 1 month, reporting and interpreting results to support data-driven decisions.",
+      "Developed the business model for KALISA, a blockchain waqf platform; management adopted it as the product's new business model within 3 months.",
     ],
-    stack: ["Python", "Pandas", "Business Modeling"],
+    stack: ["Python", "pandas", "Business Modeling"],
   },
   {
     id: "arindo",
@@ -106,8 +106,8 @@ export const ROLES: Role[] = [
     summary:
       "Production operations analysis and scheduling optimization for manufacturing operations.",
     highlights: [
-      "Analyzed data and identified root causes of potential problems to recommend improvements in production operations.",
-      "Recommended solution ideas to minimize total time on production scheduling optimization by heuristic algorithm based on analysis data to management, reducing total time by 10.84% (996 minutes) using the NEH Nawaz, Enscore, and Ham algorithm.",
+      "Analyzed production data to identify root causes of operational problems and recommend improvements to management.",
+      "Recommended a production scheduling optimization to management using the NEH (Nawaz-Enscore-Ham) heuristic, reducing total makespan by 10.84% (996 minutes).",
     ],
     stack: ["Production Scheduling", "Heuristic Algorithm", "Manufacturing", "Data Analysis"],
   },
@@ -124,7 +124,7 @@ export const ROLES: Role[] = [
       "Proposed a new business model of GETBIKE B2B and B2B2G ride sharing using 3 tools (Business Model Canvas, Value Proposition Canvas, Lean Canvas). Management implemented the ideas for the product within 1 month.",
       "Ideated solutions using How Might We Question method for every element in the Business Model Canvas in 2 weeks.",
       "Designed the partnership model scheme with PT Telkom Indonesia in 2 weeks.",
-      "Devised application of agile methods in 2 critical business processes related to the Covid-19 pandemic situation in 1 month.",
+      "Applied agile methods to 2 critical business processes affected by the Covid-19 pandemic within 1 month.",
     ],
     stack: ["Business Model Canvas", "Value Proposition Canvas", "Lean Canvas", "Agile"],
   },
