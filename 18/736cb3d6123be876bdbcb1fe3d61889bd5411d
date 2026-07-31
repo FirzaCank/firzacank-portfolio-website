@@ -1,0 +1,22 @@
+rag/prompt.py
+  s_6098300610fa75::t_910ce2f984c91f 22-25,27,30-31
+  s_6098300610fa75::t_fdd5792b6266ef 28-29
+  s_6098300610fa75::t_149520274360d2 51
+  s_6098300610fa75::t_a298d9a801cfbd 26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "18736cb3d6123be876bdbcb1fe3d61889bd5411d",
+  "prompts": {},
+  "sessions": {
+    "s_6098300610fa75": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fc61b4b0-db64-4395-8600-7667b2ac1790",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Firza Chandra Sandjaya Putra <firzasandjaya@gmail.com>"
+    }
+  }
+}
