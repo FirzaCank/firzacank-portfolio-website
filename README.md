@@ -7,7 +7,7 @@ Live: https://firzacank.vercel.app
 ## Highlights
 
 - **Next.js 15** (App Router) + TypeScript + Tailwind CSS, deployed on Vercel
-- **RAG chat assistant**: a floating "Ask me" widget that answers questions about Firza's work, grounded on actual site content so it cannot make up facts
+- **Agentic RAG chat assistant**: a floating "Ask me" widget that answers questions about Firza's work grounded on actual site content, and can pass a visitor's message straight to him without leaving the chat
 - MDX-based project case studies with dynamic OG images
 - SEO: JSON-LD structured data, sitemap, per-page metadata
 
@@ -20,6 +20,7 @@ Key engineering decisions:
 - **Hybrid RAG + tool calling**: semantic search alone cannot guarantee exact ordering or filtering ("first job?", "projects in 2026?"), so the model calls structured tools for those.
 - **Asymmetric embedding task types** (`RETRIEVAL_QUERY` vs `RETRIEVAL_DOCUMENT`) measurably improved retrieval relevance.
 - **Static system prompt** with context appended to the user turn, so Gemini's implicit prefix caching can reuse the prompt across requests.
+- **One tool with a side effect, guarded accordingly**: five tools are read-only lookups; a sixth emails a visitor's message to Firza. Because a wrong answer is correctable next turn and a wrong send is not, that one requires visitor-supplied contact details, an explicit confirmation, and a code-level cap of one delivery per request rather than trusting the prompt alone. It reuses the existing contact-form route instead of adding a second mail path, and the eval harness stubs it so test runs can never send real email.
 
 See [docs/RAG.md](./docs/RAG.md) for the full architecture.
 
