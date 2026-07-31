@@ -593,6 +593,20 @@
         "you can also (reach|contact)",
         "/contact"
       ]
+    },
+    {
+      "id": "send-suggestion-chip-opens-flow",
+      "category": "send-message",
+      "question": "I'd like to hire Firza",
+      "any_match": [
+        "name",
+        "email"
+      ],
+      "must_not_match": [
+        "alternatively",
+        "if you prefer",
+        "(message|it) (has been|was) (sent|delivered)"
+      ]
     }
   ]
 }
