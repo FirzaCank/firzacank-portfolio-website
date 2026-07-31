@@ -69,3 +69,7 @@ embeddings_readable.json
 portfolio-source.md
 job-applications/
 self_learning_mandatory/
+
+.claude/settings.local.json
+
+.claude/settings.local.json
