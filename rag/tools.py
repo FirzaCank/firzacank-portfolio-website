@@ -4,10 +4,17 @@ Each tool has a Gemini function declaration (schema) and a Python handler that
 reads the structured data in data/portfolio.json. The model decides which tool
 to call from the user's question; app.py runs the handler and feeds the result
 back. This is the function/tool-calling layer on top of RAG retrieval.
+
+Most tools here are read-only lookups. send_message_to_firza is the exception:
+it has a real side effect (sends an email), so it carries extra guards the
+read-only tools don't need. See the comments on that handler.
 """
 
 import json
 import os
+import re
+import urllib.error
+import urllib.request
 from functools import lru_cache
 
 _PORTFOLIO_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "portfolio.json")
@@ -118,12 +125,92 @@ def get_skills(domain=""):
     return {"skills": groups}
 
 
+# ---- write tool ------------------------------------------------------------
+
+# One email per request, enforced in code. The model is told to confirm before
+# calling, but a prompt rule is not a guarantee: a confused model that calls the
+# tool twice in one conversation would otherwise send Firza two emails. This set
+# is reset per request by reset_send_guard(), called from api/chat.py.
+_sent_this_request = set()
+
+_EMAIL_RE = re.compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
+
+# The Next.js route already does rate limiting, sanitizing, the Resend call, and
+# the HTML template. Calling it instead of re-implementing any of that keeps one
+# code path for outbound mail.
+_CONTACT_URL = os.environ.get("CONTACT_API_URL", "https://firzacank.vercel.app/api/contact")
+
+
+def reset_send_guard():
+    """Clear the per-request send guard. Called once per chat request."""
+    _sent_this_request.clear()
+
+
+def _post_contact(payload: bytes):
+    """POST the message to the contact route. Raises on any HTTP or transport error.
+
+    Split out as its own function so test harnesses can replace just the
+    network hop. Patching urllib.request.urlopen instead would also intercept
+    rag/gemini.py, which shares the module and would lose its embedding calls.
+    """
+    req = urllib.request.Request(
+        _CONTACT_URL,
+        data=payload,
+        headers={"Content-Type": "application/json", "Origin": "https://firzacank.vercel.app"},
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=10) as resp:
+        json.loads(resp.read().decode() or "{}")
+
+
+def send_message_to_firza(name="", email="", message="", topic="Chat assistant"):
+    """Forward a visitor's message to Firza by email. Has a real side effect."""
+    name = str(name or "").strip()
+    email = str(email or "").strip()
+    message = str(message or "").strip()
+
+    # Validate before the guard: a rejected call is not a send, so the model
+    # should be free to retry with corrected arguments.
+    missing = [f for f, v in (("name", name), ("email", email), ("message", message)) if not v]
+    if missing:
+        return {"sent": False, "error": f"Missing required field(s): {', '.join(missing)}. Ask the visitor for them."}
+    if not _EMAIL_RE.match(email):
+        return {"sent": False, "error": f"'{email}' is not a valid email address. Ask the visitor to confirm it."}
+
+    if _sent_this_request:
+        return {
+            "sent": False,
+            "error": "A message was already sent for this visitor. Tell them it is on its way; do not send another.",
+        }
+
+    payload = json.dumps({
+        "name": name[:100],
+        "email": email[:254],
+        "topic": f"Chat: {str(topic or 'Chat assistant').strip()[:80]}",
+        "message": message[:5000],
+    }).encode()
+
+    try:
+        _post_contact(payload)
+    except urllib.error.HTTPError as e:
+        # 429 from the contact route means the shared abuse limit tripped.
+        detail = "too many messages have been sent recently" if e.code == 429 else f"HTTP {e.code}"
+        return {"sent": False, "error": f"Could not send ({detail}). Point the visitor to the Contact page instead."}
+    except Exception as e:
+        print(json.dumps({"evt": "send_message_error", "error": str(e)[:200]}))
+        return {"sent": False, "error": "Could not send the message. Point the visitor to the Contact page instead."}
+
+    _sent_this_request.add(email.lower())
+    return {"sent": True, "note": f"Message from {name} delivered to Firza. He replies fastest on LinkedIn."}
+
+
 HANDLERS = {
     "search_projects": search_projects,
     "get_project_detail": get_project_detail,
     "search_experience": search_experience,
     "get_career_timeline": get_career_timeline,
     "get_skills": get_skills,
+    "send_message_to_firza": send_message_to_firza,
 }
 
 
@@ -178,6 +265,27 @@ DECLARATIONS = [
             "properties": {"domain": {"type": "string", "description": "Optional domain keyword to filter skill groups."}},
         },
     },
+    {
+        "name": "send_message_to_firza",
+        "description": (
+            "Send the visitor's message to Firza by email. This actually delivers a message, so only call it "
+            "when ALL of these are true: (1) the visitor has hiring, collaboration, or project inquiry intent, "
+            "(2) they have given you their name, their email address, and what they want to say, and "
+            "(3) they have explicitly agreed to send it after you asked for confirmation. "
+            "Never call this to answer a question, never call it with details you inferred or made up, and never "
+            "call it more than once in a conversation. If any detail is missing, ask the visitor for it instead of calling."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {"type": "string", "description": "The visitor's name, exactly as they gave it."},
+                "email": {"type": "string", "description": "The visitor's email address, exactly as they gave it."},
+                "message": {"type": "string", "description": "What the visitor wants to tell Firza, in their own words."},
+                "topic": {"type": "string", "description": "Short subject line, e.g. 'Hiring inquiry' or 'Project collaboration'."},
+            },
+            "required": ["name", "email", "message"],
+        },
+    },
 ]
 
 
@@ -206,4 +314,19 @@ if __name__ == "__main__":
     assert search_experience(stack="cobol")["count"] == 0, "stack filter should exclude unknown tech"
     assert get_skills(domain="data engineering")["skills"], "skill miss should fall back to full list"
     assert get_skills(domain="cloud")["skills"] != get_skills()["skills"], "matched domain should filter"
+
+    # send_message_to_firza: only the paths that reject before any network call.
+    # These must never reach _CONTACT_URL, so a passing self-check sends no email.
+    assert not send_message_to_firza()["sent"], "empty args must not send"
+    assert "name" in send_message_to_firza(email="a@b.co", message="hi")["error"], "should name the missing field"
+    assert not send_message_to_firza(name="A", email="not-an-email", message="hi")["sent"], "bad email must not send"
+    assert "valid email" in send_message_to_firza(name="A", email="a@b", message="hi")["error"], "should flag bad email"
+
+    # the one-send guard blocks a second call even with perfectly valid args
+    _sent_this_request.add("someone@example.com")
+    blocked = send_message_to_firza(name="B", email="b@c.co", message="second attempt")
+    assert not blocked["sent"] and "already sent" in blocked["error"], "guard must block a second send"
+    reset_send_guard()
+    assert not _sent_this_request, "reset_send_guard should clear the guard"
+
     print(f"OK: {len(HANDLERS)} tools, {len(_data()['projects'])} projects, {len(tl)} roles.")
