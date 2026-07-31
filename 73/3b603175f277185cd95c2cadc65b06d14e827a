@@ -1,0 +1,19 @@
+docs/RAG.md
+  s_6098300610fa75::t_1bde102c25bd37 134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "733b603175f277185cd95c2cadc65b06d14e827a",
+  "prompts": {},
+  "sessions": {
+    "s_6098300610fa75": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fc61b4b0-db64-4395-8600-7667b2ac1790",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Firza Chandra Sandjaya Putra <firzasandjaya@gmail.com>"
+    }
+  }
+}
