@@ -32,8 +32,35 @@ import time
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from api.chat import _run_chat
+import rag.tools
 
 GOLDEN_PATH = os.path.join(os.path.dirname(__file__), "golden_set.json")
+
+# The send-message cases feed the model real-looking names and addresses. If it
+# skips the confirmation step, send_message_to_firza would POST to production
+# and put a fake recruiter email in Firza's inbox. Stub the outbound call so an
+# eval run can never send mail: the tool still validates and still reports
+# sent: true, so the assertions exercise the same paths.
+_sends = []
+
+_real_send = rag.tools.send_message_to_firza
+
+
+def _stub_post(payload_bytes):
+    """Stand in for the POST to the contact route. Records instead of sending."""
+    _sends.append(json.loads(payload_bytes.decode()))
+
+
+# Replace only the outbound POST, never the validation. A stub that
+# reimplements the checks drifts from the real handler and then lies about what
+# production would do: an earlier version skipped the email-format regex and
+# reported sent: true for addresses the real handler rejects.
+#
+# Patching rag.tools._post_contact (not urllib.request.urlopen) keeps the reach
+# narrow. urlopen is shared with rag/gemini.py, so patching it there breaks
+# embedding and every case errors out.
+rag.tools._post_contact = _stub_post
+rag.tools.HANDLERS["send_message_to_firza"] = _real_send
 
 
 def load_api_key():
