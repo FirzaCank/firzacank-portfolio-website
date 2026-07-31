@@ -98,7 +98,10 @@ export default function ChatWidget() {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 60_000);
     try {
-      const res = await fetch("/api/chat", {
+      // Same-origin in production. `next dev` cannot serve api/chat.py (it is a
+      // Vercel Python function), so local UI testing points this at
+      // scripts/serve_chat.py via NEXT_PUBLIC_CHAT_API_URL.
+      const res = await fetch(process.env.NEXT_PUBLIC_CHAT_API_URL || "/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // only the last 12 turns reach the model anyway (server MAX_HISTORY);
