@@ -113,6 +113,8 @@ A wrong *answer* shows the visitor bad information and can be corrected in the n
 
 The handler POSTs to `app/api/contact/route.ts` rather than calling Resend directly. That route already owns rate limiting, input sanitizing, email validation, the Resend call, and the HTML template. Duplicating any of that in Python would create a second, divergent mail path.
 
+That route escapes each value into the email template with `escapeHtml()` and strips control characters in `sanitize()`. The message field keeps newlines (the template uses `white-space: pre-wrap`); header fields do not, so a topic or name can never inject a CRLF into the subject.
+
 Consequences worth knowing:
 - Changing the destination address or email template is a one-place edit that covers both the form and the chat.
 - The form and the chat **share** the contact route's abuse limits (5/IP/min, 50/hour global). A burst through one throttles the other.
