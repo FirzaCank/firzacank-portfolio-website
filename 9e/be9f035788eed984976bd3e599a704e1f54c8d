@@ -1,0 +1,19 @@
+scripts/serve_chat.py
+  s_6098300610fa75::t_c51782fc03cb90 1-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "9ebe9f035788eed984976bd3e599a704e1f54c8d",
+  "prompts": {},
+  "sessions": {
+    "s_6098300610fa75": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fc61b4b0-db64-4395-8600-7667b2ac1790",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Firza Chandra Sandjaya Putra <firzasandjaya@gmail.com>"
+    }
+  }
+}
