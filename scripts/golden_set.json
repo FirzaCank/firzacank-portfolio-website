@@ -578,6 +578,21 @@
         "valid",
         "confirm"
       ]
+    },
+    {
+      "id": "send-no-contact-page-while-collecting",
+      "category": "send-message",
+      "question": "Hi, I'm a recruiter at Gojek. We have a Senior Data Engineer opening and I'd like to talk to Firza about it.",
+      "any_match": [
+        "name",
+        "email"
+      ],
+      "must_not_match": [
+        "alternatively",
+        "if you prefer",
+        "you can also (reach|contact)",
+        "/contact"
+      ]
     }
   ]
 }
