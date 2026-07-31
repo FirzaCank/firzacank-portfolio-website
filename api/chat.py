@@ -16,7 +16,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from rag.gemini import stream_generate
 from rag.retriever import retrieve, format_context
 from rag.prompt import system_prompt
-from rag.tools import DECLARATIONS, run_tool
+from rag.tools import DECLARATIONS, reset_send_guard, run_tool
 
 MODEL = "gemini-3.1-flash-lite"
 MAX_HISTORY = 12
@@ -178,6 +178,9 @@ def _run_chat(messages, api_key, stats=None):
     """
     stats = stats if stats is not None else {}
     t0 = time.time()
+    # warm Vercel instances are reused across visitors, so the one-send guard
+    # must start clean or visitor B inherits visitor A's "already sent" state
+    reset_send_guard()
     try:
         hits = retrieve(_retrieval_query(messages), api_key)
         context = format_context(hits)
@@ -221,6 +224,9 @@ def _run_chat(messages, api_key, stats=None):
         for fc, _ in pending_calls:
             stats["tools"].append(fc.get("name", ""))
             result = run_tool(fc.get("name", ""), fc.get("args", {}))
+            # surface the one tool with a side effect in the request log
+            if fc.get("name") == "send_message_to_firza":
+                stats["sent"] = bool(isinstance(result, dict) and result.get("sent"))
             contents.append(
                 {
                     "role": "user",
@@ -349,6 +355,7 @@ class handler(BaseHTTPRequestHandler):
             "top_score": stats.get("top_score"),
             "rounds": stats.get("rounds"),
             "tools": stats.get("tools"),
+            "sent": stats.get("sent"),
             "finish": stats.get("finish"),
             "error": error,
         }))
