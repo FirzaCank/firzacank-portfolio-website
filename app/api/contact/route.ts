@@ -29,8 +29,30 @@ function globalLimited(): boolean {
   return false;
 }
 
-function sanitize(val: unknown, maxLen: number): string {
-  return String(val ?? "").replace(/[<>&"']/g, "").trim().slice(0, maxLen);
+// Strips control characters and trims. Does NOT strip markup characters:
+// escapeHtml below neutralizes those at the point they enter the template, so
+// apostrophes and ampersands survive in the delivered email. Removing them here
+// mangled legitimate text ("O'Brien" became "OBrien", "I'd" became "Id").
+function sanitize(val: unknown, maxLen: number, keepNewlines = false): string {
+  // Newlines are control characters, so the message body has to opt back in:
+  // the email template renders it with white-space: pre-wrap and a stripped
+  // body would arrive as one run-on paragraph. Header fields must not keep
+  // them (CRLF injection), which is why the default is off.
+  const controls = keepNewlines
+    // eslint-disable-next-line no-control-regex
+    ? /[\x00-\x09\x0b\x0c\x0e-\x1f\x7f]/g
+    // eslint-disable-next-line no-control-regex
+    : /[\x00-\x1f\x7f]/g;
+  return String(val ?? "").replace(controls, "").trim().slice(0, maxLen);
+}
+
+function escapeHtml(val: string): string {
+  return val
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function isValidEmail(val: string): boolean {
@@ -58,7 +80,7 @@ export async function POST(request: Request) {
     const name = sanitize(body.name, 100);
     const email = sanitize(body.email, 254).replace(/[\r\n]/g, "");
     const topic = sanitize(body.topic, 100);
-    const message = sanitize(body.message, 5000);
+    const message = sanitize(body.message, 5000, true);
 
     if (!name || !email || !message) {
       return NextResponse.json(
@@ -73,6 +95,12 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+
+    // The chat assistant prefixes its topic with "Chat:", so the heading can
+    // say where the message came from without a separate flag in the payload.
+    const heading = topic.startsWith("Chat:")
+      ? "New Message via Chat Assistant"
+      : "New Contact Form Message";
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
@@ -94,17 +122,20 @@ export async function POST(request: Request) {
         to: "firzasandjaya@gmail.com",
         subject: `[${topic}] from ${name}`,
         reply_to: email,
+        // Every interpolated value is escaped here, at the point it enters the
+        // markup. sanitize() deliberately leaves apostrophes and ampersands
+        // intact so the delivered text reads correctly.
         html: `
           <div style="font-family: sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 8px; background-color: #fdfdfd;">
-            <h2 style="color: #4a5d4a; border-bottom: 2px solid #eef2ee; padding-bottom: 10px; margin-top: 0;">New Contact Form Message</h2>
-            <p style="margin: 10px 0;"><strong>Name:</strong> ${name}</p>
-            <p style="margin: 10px 0;"><strong>Email:</strong> <a href="mailto:${email}" style="color: #607360; text-decoration: none;">${email}</a></p>
-            <p style="margin: 10px 0;"><strong>Topic:</strong> ${topic}</p>
-            
+            <h2 style="color: #4a5d4a; border-bottom: 2px solid #eef2ee; padding-bottom: 10px; margin-top: 0;">${escapeHtml(heading)}</h2>
+            <p style="margin: 10px 0;"><strong>Name:</strong> ${escapeHtml(name)}</p>
+            <p style="margin: 10px 0;"><strong>Email:</strong> <a href="mailto:${encodeURIComponent(email)}" style="color: #607360; text-decoration: none;">${escapeHtml(email)}</a></p>
+            <p style="margin: 10px 0;"><strong>Topic:</strong> ${escapeHtml(topic)}</p>
+
             <div style="background-color: #f4f6f4; padding: 15px; border-left: 4px solid #607360; margin-top: 20px; border-radius: 4px;">
-              <p style="margin: 0; white-space: pre-wrap; font-size: 14px; color: #2c352c;">${message}</p>
+              <p style="margin: 0; white-space: pre-wrap; font-size: 14px; color: #2c352c;">${escapeHtml(message)}</p>
             </div>
-            
+
             <p style="font-size: 11px; color: #888; margin-top: 25px; border-t: 1px solid #eee; padding-top: 10px;">Sent automatically from your portfolio website.</p>
           </div>
         `,
