@@ -21,81 +21,50 @@ export default function Hero() {
         className="pointer-events-none absolute top-1/3 -left-20 h-[280px] w-[280px] rounded-full bg-terracotta/10 blur-3xl"
       />
 
-      <div className="mx-auto max-w-container px-6 md:px-10 pt-12 md:pt-20">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="mx-auto max-w-container px-6 md:px-10 pt-12 md:pt-20"
+      >
         {/* Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center gap-3"
-        >
+        <div className="flex items-center gap-3">
           <span className="h-px w-10 bg-sage" />
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-sage">
             Data &amp; AI Engineering
           </p>
-        </motion.div>
+        </div>
 
         <div className="mt-8">
           {/* Left: Display heading + intro */}
           <div className="relative pb-16 md:pb-24">
             {/* Stats above heading like the reference */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex flex-wrap gap-8"
-            >
+            <div className="flex flex-wrap gap-8">
               <StatBadge value="4+ yrs" label="Engineering experience" />
               <StatBadge value={`${PROJECTS.length}+`} label="Projects delivered" />
-              <StatBadge value="IDR 200M+" label="Monthly GMV driven" />
-            </motion.div>
+            </div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.12 }}
-              className="mt-10 font-display text-2xl md:text-3xl font-light text-ink-muted tracking-tight"
-            >
+            <p className="mt-10 font-display text-2xl md:text-3xl font-light text-ink-muted tracking-tight">
               Hello, it&rsquo;s
-            </motion.p>
+            </p>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className="mt-2 font-display font-extrabold tracking-tightest text-ink text-7xl sm:text-8xl md:text-[9rem] leading-[0.9]"
-            >
+            <h1 className="mt-2 font-display font-extrabold tracking-tightest text-ink text-7xl sm:text-8xl md:text-[9rem] leading-[0.9]">
               FIRZA
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="mt-6 max-w-prose font-sans text-lg text-ink-muted"
-            >
+            <p className="mt-6 max-w-prose font-sans text-lg text-ink-muted">
               <span className="text-ink font-medium">Data &amp; AI Engineer</span> building production-grade pipelines, ML systems, LLM applications, and data-driven analytics.
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.38 }}
-              className="mt-4 inline-flex items-center gap-2"
-            >
+            <div className="mt-4 inline-flex items-center gap-2">
               <svg className="h-3.5 w-3.5 text-ink-muted shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
               <span className="font-sans text-sm text-ink-muted">Jakarta, Indonesia · GMT+7</span>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.45 }}
-              className="mt-8 flex flex-wrap gap-3"
-            >
+            <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/projects"
                 className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-sans text-sm font-medium text-beige-card transition-colors hover:bg-sage"
@@ -134,15 +103,10 @@ export default function Hero() {
                   </div>
                 )}
               </div>
-            </motion.div>
+            </div>
 
             {/* Social media logos row */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="mt-10 flex flex-wrap items-center gap-6"
-            >
+            <div className="mt-10 flex flex-wrap items-center gap-6">
               <SocialIcon label="LinkedIn" href={SOCIAL_LINKS.linkedin}>
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
@@ -198,22 +162,17 @@ export default function Hero() {
                   <path d="M9.5 13.5h3.5" />
                 </svg>
               </SocialIcon>
-            </motion.div>
+            </div>
 
             {/* Scroll cue */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="mt-16 md:mt-32 flex items-center gap-3 font-sans text-xs uppercase tracking-widest text-ink-muted"
-            >
+            <div className="mt-16 md:mt-32 flex items-center gap-3 font-sans text-xs uppercase tracking-widest text-ink-muted">
               <span>Scroll</span>
               <span className="h-px w-12 bg-ink-muted/40" />
-            </motion.div>
+            </div>
           </div>
 
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
