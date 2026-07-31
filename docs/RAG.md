@@ -131,6 +131,7 @@ Consequences worth knowing:
 | Guard reset per request | `reset_send_guard()` at the top of `_run_chat()` | Vercel reuses warm instances across visitors. Without the reset, visitor B inherits visitor A's "already sent" state and cannot send at all. |
 | Errors never retried | Tool returns `sent: false` plus a reason; prompt forbids retrying | Retrying a 429 or a transport failure risks duplicate delivery. |
 | Confirmation before sending | `PASSING A MESSAGE TO FIRZA` in `rag/prompt.py` | The model must repeat the message back and get an explicit yes. |
+| No Contact page mid-flow | Same prompt block | Offering an alternative while collecting name/email hands the visitor an exit at peak intent. The Contact page is mentioned only on decline, failure, or an already-sent message. |
 
 ### Known limitations
 
