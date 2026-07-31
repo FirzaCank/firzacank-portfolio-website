@@ -1,0 +1,19 @@
+scripts/golden_set.json
+  s_6098300610fa75::t_c42e3046695ee1 545-548,552-553
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "3c36b0df8ad73d747551d4673dca22261508248e",
+  "prompts": {},
+  "sessions": {
+    "s_6098300610fa75": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fc61b4b0-db64-4395-8600-7667b2ac1790",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Firza Chandra Sandjaya Putra <firzasandjaya@gmail.com>"
+    }
+  }
+}
