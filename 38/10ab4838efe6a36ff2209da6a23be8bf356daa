@@ -1,0 +1,19 @@
+rag/prompt.py
+  s_6098300610fa75::t_38e8bb09dd37f5 25,27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "3810ab4838efe6a36ff2209da6a23be8bf356daa",
+  "prompts": {},
+  "sessions": {
+    "s_6098300610fa75": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fc61b4b0-db64-4395-8600-7667b2ac1790",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Firza Chandra Sandjaya Putra <firzasandjaya@gmail.com>"
+    }
+  }
+}
