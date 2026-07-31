@@ -14,7 +14,10 @@ function now() {
 const SUGGESTIONS = [
   "What does Firza do?",
   "Tell me about his Data Engineering projects",
-  "What's his experience at Hypefast?",
+  // Phrased as a statement of intent, not a question: the assistant only opens
+  // the send-a-message flow on real hiring or collaboration intent, and "can I
+  // message him?" would just get answered rather than acted on.
+  "I'd like to hire Firza",
 ];
 
 const THROTTLE_SECS = 10;
