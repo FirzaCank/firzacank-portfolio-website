@@ -542,12 +542,15 @@
         "should i send",
         "send this (updated |amended )?message",
         "i have updated the message",
-        "i can add that"
+        "i can add that",
+        "as i mentioned",
+        "i cannot send",
+        "i am (only )?(able|allowed)"
       ],
       "any_match": [
         "already",
-        "contact",
-        "can'?t|cannot|unable"
+        "on its way",
+        "contact"
       ]
     },
     {
